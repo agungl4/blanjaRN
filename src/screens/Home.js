@@ -7,12 +7,17 @@ import {
   TouchableHighlight,
   Dimensions,
   Image,
-  ImageBackground, SafeAreaView, ScrollView,
+  ImageBackground, SafeAreaView, ScrollView, StyleSheet
 } from 'react-native';
-import { Container, Card, CardItem } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
+import { Container } from 'native-base';
+import { Row, Grid } from 'react-native-easy-grid';
+import CardProduct from '../components/CardProduct'
+import BottomNavigator from '../components/BottomNav'
 
 class Home extends React.Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
       <Container>
@@ -27,106 +32,36 @@ class Home extends React.Component {
         <Grid>
           <SafeAreaView>
             <ScrollView vertical={true}>
-              <Text style={{ fontWeight: 'bold', fontSize: 35 }}> New </Text>
+              <View>
+                <Text style={styles.title}>New</Text>
+                <Text style={styles.view}>View all</Text>
+                <Text style={styles.text}>You’ve never seen it before!</Text>
+              </View>
               <Row size={4}>
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image2.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image3.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image4.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
                   </ScrollView>
                 </SafeAreaView>
               </Row>
 
-              <Text style={{ fontWeight: 'bold', fontSize: 35 }}> Popular </Text>
+              <View>
+                <Text style={styles.title}>Popular</Text>
+                <Text style={styles.view}>View all</Text>
+                <Text style={styles.text}>You’ve never seen it before!</Text>
+              </View>
               <Row size={4}>
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image2.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image3.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
-                    <Card style={{ height: 300, marginRight: 10 }}>
-                      <CardItem cardBody>
-                        <View >
-                          <Image source={require('./../assets/images/image4.png')} />
-                          <Image source={require('./../assets/icons/rating.png')} style={{ marginTop: 5 }} />
-                          <Text style={{ color: 'gray', marginTop: 5 }}> OVS </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Product Name </Text>
-                          <Text style={{ fontWeight: 'bold', fontSize: 15 }}> 30$ </Text>
-                        </View>
-                      </CardItem>
-                    </Card>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
+                    <CardProduct navigation={this.props.navigation}/>
                   </ScrollView>
                 </SafeAreaView>
               </Row>
@@ -134,16 +69,44 @@ class Home extends React.Component {
           </SafeAreaView>
         </Grid>
 
-        <View style={{flexDirection:'row', justifyContent: 'space-around', height:50, marginTop:10}}>
+        {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 50, marginTop: 10 }}>
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/home.png')} />
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/shop.png')} />
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/bag.png')} />
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/fav.png')} />
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/account.png')} />
-        </View>
+        </View> */}
+        <BottomNavigator avigation={this.props.navigation} home={true}/>
       </Container>
     );
   }
 }
 
 export default Home;
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: windowWidth * 0.04,
+  },
+  title: {
+    fontSize: 34,
+    marginTop: 20,
+    fontFamily: 'Metropolis',
+    fontWeight: '700'
+  },
+  view: {
+    alignSelf: 'flex-end',
+    fontFamily: 'Metropolis',
+  },
+  text: {
+    fontFamily: 'Metropolis',
+    color: '#9B9B9B',
+  },
+  header: {
+    width: windowWidth,
+    height: windowHeight * 0.24,
+  }
+});
