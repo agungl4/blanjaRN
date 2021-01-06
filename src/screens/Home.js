@@ -13,12 +13,46 @@ import { Container } from 'native-base';
 import { Row, Grid } from 'react-native-easy-grid';
 import CardProduct from '../components/CardProduct'
 import BottomNavigator from '../components/BottomNav'
-
+import axios from 'axios'
+const getUrl = "https://186c58de6dfb.ngrok.io/products"
 class Home extends React.Component {
   constructor(props) {
     super(props)
   }
+
+  state = {
+    products: [],
+    productNew: [],
+  }
+  getNewProducts = () => {
+    axios.get(getUrl + '?sortBy=updated_at&orderBy=desc')
+      .then(({ data }) => {
+        console.log(data.data.products)
+        this.setState({
+          productNew: data.data.products,
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+  }
+
+  getPopularProducts = () => {
+    axios.get(getUrl + '?sortBy=created_at').then(({ data }) => {
+      console.log(data)
+      this.setState({
+        products: data.data.products,
+      })
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  componentDidMount = () => {
+    this.getNewProducts()
+    this.getPopularProducts()
+  }
   render() {
+    const { products, productNew, pageInfo } = this.state;
     return (
       <Container>
         <View style={{ height: 180 }}>
@@ -40,11 +74,16 @@ class Home extends React.Component {
               <Row size={4}>
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
+                    {
+                      productNew && productNew.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                        let img = product_img.split(',')[0];
+                        console.log(img);
+                        return (
+                          <CardProduct id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                        )
+                      })
+                    }
+                    {/* <CardProduct navigation={this.props.navigation} /> */}
                   </ScrollView>
                 </SafeAreaView>
               </Row>
@@ -57,11 +96,15 @@ class Home extends React.Component {
               <Row size={4}>
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
-                    <CardProduct navigation={this.props.navigation}/>
+                    {
+                      products && products.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                        let img = product_img.split(',')[0];
+                        return (
+                          <CardProduct id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                        )
+                      })
+                    }
+                    {/* <CardProduct navigation={this.props.navigation}  /> */}
                   </ScrollView>
                 </SafeAreaView>
               </Row>
@@ -69,14 +112,7 @@ class Home extends React.Component {
           </SafeAreaView>
         </Grid>
 
-        {/* <View style={{ flexDirection: 'row', justifyContent: 'space-around', height: 50, marginTop: 10 }}>
-          <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/home.png')} />
-          <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/shop.png')} />
-          <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/bag.png')} />
-          <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/fav.png')} />
-          <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/account.png')} />
-        </View> */}
-        <BottomNavigator navigation={this.props.navigation} home={true}/>
+        <BottomNavigator navigation={this.props.navigation} home={true} />
       </Container>
     );
   }

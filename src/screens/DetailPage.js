@@ -1,19 +1,61 @@
 import React, { Component } from 'react'
-import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native';
-import { IconFavorite } from '../assets/index'
-import IconStar from '../assets/icons/rating.png'
+import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker } from 'react-native';
 import CardProduct from '../components/CardProduct'
 import Review from '../components/Review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
-import { Col, Row, Grid } from 'react-native-easy-grid'
-import { Picker } from '@react-native-picker/picker';
+import { Row, Grid } from 'react-native-easy-grid'
+import axios from 'axios'
+
+const getUrl = "https://186c58de6dfb.ngrok.io/product/"
+
+// const url = getUrl + this.props.route.params.itemId
+// console.log(url)
 
 class DetailPage extends Component {
+    constructor(props){
+        super(props)
+    }
     state = {
         sizeSelected: 0,
         colorSelected: 0,
+        product: [],
     };
+
+    getSingleProduct = () => {
+        axios
+            .get(getUrl+this.props.route.params.itemId)
+            .then(({ data }) => {
+                console.log(data.data)
+                this.setState({
+                    product: data.data,
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            });
+    }
+
+    // getRecommendation = () => {
+    //     axios.get(getUrl + `/search?category=` + this.props.category_id)
+    //         .then(({ data }) => {
+    //             console.log(data.data.products)
+    //             this.setState({
+    //                 recommend: data.data.products
+    //             })
+    //         }).catch((error) => {
+    //             console.log(error)
+    //         })
+    // }
+
+    componentDidMount = () => {
+        this.getSingleProduct();
+    }
+
     render() {
+        // const { itemId } = this.props.route.params;
+        console.log('a'+this.props)
+        const { product } = this.state
+        console.log('b'+this.state)
         return (
             <>
                 <Header transparent>
@@ -34,102 +76,121 @@ class DetailPage extends Component {
                     </Right>
                 </Header>
 
-                <Container>
-                    <Grid>
-                        <SafeAreaView>
-                            <ScrollView>
-                                <Row size={50}>
-                                    <View style={styles.imgwrap}>
-                                        <SafeAreaView>
-                                            <ScrollView horizontal={true}>
-                                                <Image source={require('./../assets/images/image.png')} style={styles.image} />
-                                                <Image source={require('./../assets/images/image2.png')} style={styles.image} />
-                                            </ScrollView>
-                                        </SafeAreaView>
-                                    </View>
-                                </Row>
+                {
+                    product && product.map(({ product_id, product_name, product_price, product_desc, category_name, product_img }) => {
+                        return (
+                            <Container>
+                                <Grid>
+                                    <SafeAreaView>
+                                        <ScrollView>
+                                            <Row size={50}>
+                                                <View style={styles.imgwrap}>
+                                                    <SafeAreaView>
+                                                        <ScrollView horizontal={true}>
+                                                            {
+                                                                product_img && product_img.split(',').map((img) => {
+                                                                    return (
+                                                                        <Image source={{ uri: 'https://186c58de6dfb.ngrok.io' + img }} style={styles.image} />
+                                                                    )
+                                                                })
+                                                            }
 
-                                <Row size={50}>
-                                    <View style={styles.container}>
-                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <TouchableOpacity>
-                                                <View style={styles.size}>
-                                                    <Picker
-                                                        selectedValue={this.state.sizeSelected}
-                                                        onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
-                                                    >
-                                                        <Picker.Item label="Select Size" value="0" />
-                                                        <Picker.Item label="S" value="1" />
-                                                        <Picker.Item label="M" value="2" />
-                                                        <Picker.Item label="L" value="3" />
-                                                    </Picker>
+                                                        </ScrollView>
+                                                    </SafeAreaView>
                                                 </View>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity>
-                                                <View style={styles.size}>
-                                                    <Text>Color</Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity>
-                                                <View style={styles.love}>
-                                                    <Image source={require('./../assets/icons/fav.png')} />
-                                                </View>
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View style={styles.wraptitle}>
-                                            <Text style={styles.title}>HM</Text>
-                                            <Text style={styles.title}>$19.99</Text>
-                                        </View>
-                                        <Text style={styles.PrdName}>Short black dress</Text>
-                                        <View>
-                                            <Image source={require('./../assets/icons/rating.png')} />
-                                            <Text style={styles.PrdName}> (10)</Text>
-                                        </View>
-                                        <Text style={styles.desc}>
-                                            Short dress in soft cotton jersey with decorative buttons down the
-                                            front and a wide, frill-trimmed square neckline with concealed
-                                            elastication. Elasticated seam under the bust and short puff sleeves
-                                            with a small frill trim.
-                                    </Text>
+                                            </Row>
 
-                                        {/* <ListBar nav={navigation} /> */}
-                                        <View style={styles.text}>
-                                            <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
-                                                You can also like this
-                                        </Text>
-                                            <Text
-                                                style={{
-                                                    fontFamily: 'Metropolis-Light',
-                                                    fontSize: 11,
-                                                    color: '#9B9B9B',
-                                                }}>
-                                                3 items
-                                        </Text>
-                                        </View>
-                                        <SafeAreaView>
-                                            <ScrollView horizontal={true}>
-                                                <View style={styles.card}>
-                                                    <CardProduct navigation={this.props.navigation} />
-                                                    <CardProduct navigation={this.props.navigation} />
-                                                    <CardProduct navigation={this.props.navigation} />
-                                                </View>
-                                            </ScrollView>
-                                        </SafeAreaView>
-                                        <Review />
-                                    </View>
-                                </Row>
-                            </ScrollView>
-                        </SafeAreaView>
-                    </Grid>
+                                            <Row size={50}>
+                                                <View style={styles.container}>
+                                                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                        <TouchableOpacity>
+                                                            <View style={styles.size}>
+                                                                <Picker
+                                                                    selectedValue={this.state.sizeSelected}
+                                                                    onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
+                                                                >
+                                                                    <Picker.Item label="Size" value="0" />
+                                                                    <Picker.Item label="S" value="1" />
+                                                                    <Picker.Item label="M" value="2" />
+                                                                    <Picker.Item label="L" value="3" />
+                                                                </Picker>
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity>
+                                                            <View style={styles.size}>
+                                                                <Picker
+                                                                    selectedValue={this.state.colorSelected}
+                                                                    onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
+                                                                >
+                                                                    <Picker.Item label="Color" value="0" />
+                                                                    <Picker.Item label="Red" value="1" />
+                                                                    <Picker.Item label="Green" value="2" />
+                                                                    <Picker.Item label="Blue" value="3" />
+                                                                    <Picker.Item label="Black" value="4" />
+                                                                </Picker>
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity>
+                                                            <View style={styles.love}>
+                                                                <Image source={require('./../assets/icons/fav.png')} />
+                                                            </View>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                    <View style={styles.wraptitle}>
+                                                        <Text style={styles.title}>{product_name}</Text>
+                                                        <Text style={styles.title}>{product_price}</Text>
+                                                    </View>
+                                                    <Text style={styles.PrdName}>{category_name}</Text>
+                                                    <View>
+                                                        <Image source={require('./../assets/icons/rating.png')} />
+                                                        <Text style={styles.PrdName}> (10)</Text>
+                                                    </View>
+                                                    <Text style={styles.desc}>
+                                                        {product_desc}
+                                                    </Text>
 
-                    <Button danger full rounded style={{ marginTop: 15 }}>
-                        <TouchableOpacity
-                            onPress={() => { this.props.navigation.navigate('MyBag') }}
-                        >
-                            <Text style={{ color: '#fff' }}> Add to Cart </Text>
-                        </TouchableOpacity>
-                    </Button>
-                </Container>
+                                                    {/* <ListBar nav={navigation} /> */}
+                                                    <View style={styles.text}>
+                                                        <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
+                                                            You can also like this
+                                                        </Text>
+                                                        <Text
+                                                            style={{
+                                                                fontFamily: 'Metropolis-Light',
+                                                                fontSize: 11,
+                                                                color: '#9B9B9B',
+                                                            }}>
+                                                            3 items
+                                                        </Text>
+                                                    </View>
+                                                    <SafeAreaView>
+                                                        <ScrollView horizontal={true}>
+                                                            <View style={styles.card}>
+                                                                <CardProduct navigation={this.props.navigation} />
+                                                                <CardProduct navigation={this.props.navigation} />
+                                                                <CardProduct navigation={this.props.navigation} />
+                                                            </View>
+                                                        </ScrollView>
+                                                    </SafeAreaView>
+                                                    <Review />
+                                                </View>
+                                            </Row>
+                                        </ScrollView>
+                                    </SafeAreaView>
+                                </Grid>
+
+                                <TouchableOpacity
+                                    onPress={() => { this.props.navigation.navigate('MyBag') }}
+                                >
+                                    <Button danger full rounded style={{ marginTop: 15 }}>
+
+                                        <Text style={{ color: '#fff' }}> Add to Cart </Text>
+                                    </Button>
+                                </TouchableOpacity>
+                            </Container>
+                        )
+                    })
+                }
             </>
         );
     }
@@ -149,7 +210,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     image: {
-        width: 275,
+        width: 350,
         height: 413,
     },
     addcart: {
@@ -209,7 +270,7 @@ const styles = StyleSheet.create({
     size: {
         width: 160,
         height: 40,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         backgroundColor: '#fff',
         borderRadius: 8,
         borderWidth: 1,
