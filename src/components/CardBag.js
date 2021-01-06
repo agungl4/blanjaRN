@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 class CardBag extends Component {
+    state = {
+        counter: 0,
+    }
+
+    Minus = () => {
+        if(this.state.counter>0) {
+            this.setState({
+                counter: this.state.counter-1
+            })
+        }
+    }
+
+    Plus = () => {
+        if(this.state.counter<10) {
+            this.setState({
+                counter: this.state.counter+1
+            })
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -13,13 +32,17 @@ class CardBag extends Component {
                         <Text>Size: L</Text>
                     </View>
                     <View style={{ flexDirection: 'row', marginTop: 14 }}>
-                        <View style={styles.btn}>
-                            <Image source={require('../assets/icons/min.png')} style={{marginTop:13}}/>
-                        </View>
-                        <Text style={{ marginTop: 7, marginHorizontal: 10 }}>1</Text>
-                        <View style={styles.btn}>
-                            <Image source={require('../assets/icons/plus.png')} style={{marginTop:6}}/>
-                        </View>
+                        <TouchableOpacity onPress={this.Minus}>
+                            <View style={styles.btn}>
+                                <Image source={require('../assets/icons/min.png')} style={{ marginTop: 13 }} />
+                            </View>
+                        </TouchableOpacity>
+                        <Text style={{ marginTop: 7, marginHorizontal: 10 }}>{this.state.counter}</Text>
+                        <TouchableOpacity onPress={this.Plus}>
+                            <View style={styles.btn}>
+                                <Image source={require('../assets/icons/plus.png')} style={{ marginTop: 6 }} />
+                            </View>
+                        </TouchableOpacity>
                         <View style={styles.price}>
                             <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>30$</Text>
                         </View>

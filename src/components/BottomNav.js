@@ -20,19 +20,6 @@ export default class navBottom extends React.Component {
                     <Text style={{ color: 'gray', marginLeft: -4 }}>Home</Text>
                 </>
         }
-        if (this.props.profile) {
-            profileBtn =
-                <>
-                    <Image source={require('./../assets/icons/accountAct.png')} style={{ width: 24, height: 24 }} />
-                    <Text style={{ color: 'red', marginLeft: -6 }}>Profile</Text>
-                </>
-        } else {
-            profileBtn =
-                <>
-                    <Image source={require('./../assets/icons/account.png')} style={{ width: 24, height: 24 }} />
-                    <Text style={{ color: 'gray', marginLeft: -6 }}>Profile</Text>
-                </>
-        }
         if (this.props.mybag) {
             bagBtn =
                 <>
@@ -58,6 +45,19 @@ export default class navBottom extends React.Component {
                     <Image source={require('./../assets/icons/shop.png')} style={{ width: 24, height: 24 }} />
                     <Text style={{ color: 'gray', marginLeft: -6 }}>Shop</Text>
                 </>
+        }
+        if(this.props.profile){
+            profileBtn = 
+            <>
+            <Image source={require('./../assets/icons/accountAct.png')} style={{ width: 24, height: 24 }} />
+                            <Text style={{ color: 'red', marginLeft: -6 }}>Profile</Text>
+             </>
+        }else{
+            profileBtn = 
+            <>
+            <Image source={require('./../assets/icons/account.png')} style={{ width: 24, height: 24 }} />
+                            <Text style={{ color: 'gray', marginLeft: -6 }}>Profile</Text>
+            </>
         }
         return (
             <>
@@ -91,7 +91,7 @@ export default class navBottom extends React.Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }}
                         onPress={() => {
-                            this.props.navigation.navigate('Notification')
+                            this.props.navigation.navigate('Login')
                         }}
                     >
                         <View style={{ marginLeft: 20 }}>

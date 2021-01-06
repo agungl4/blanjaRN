@@ -28,7 +28,7 @@ class ShopCategory extends Component {
                     <View style={styles.filter}>
                         <Grid>
                             <Col>
-                                <TouchableOpacity>
+                                <TouchableOpacity onPress={() => { this.props.navigation.navigate('Filter') }}>
                                     <Text style={styles.txtFilter}> Filter </Text>
                                 </TouchableOpacity>
                             </Col>
