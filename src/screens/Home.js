@@ -76,7 +76,7 @@ class Home extends React.Component {
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/fav.png')} />
           <Image style={{ width: 24, height: 24 }} source={require('../assets/icons/account.png')} />
         </View> */}
-        <BottomNavigator avigation={this.props.navigation} home={true}/>
+        <BottomNavigator navigation={this.props.navigation} home={true}/>
       </Container>
     );
   }

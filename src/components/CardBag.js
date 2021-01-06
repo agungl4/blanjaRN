@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { IconMin, IconPlus } from '../assets/index.js';
 
 class CardBag extends Component {
     render() {

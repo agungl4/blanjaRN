@@ -5,6 +5,8 @@ export default class navBottom extends React.Component {
     render() {
         let homeBtn;
         let profileBtn;
+        let bagBtn;
+        let shopBtn;
         if (this.props.home) {
             homeBtn =
                 <>
@@ -18,18 +20,44 @@ export default class navBottom extends React.Component {
                     <Text style={{ color: 'gray', marginLeft: -4 }}>Home</Text>
                 </>
         }
-        if(this.props.profile){
-            profileBtn = 
-            <>
-            <Image source={require('./../assets/icons/accountAct.png')} style={{ width: 24, height: 24 }} />
-                            <Text style={{ color: 'red', marginLeft: -6 }}>Profile</Text>
-             </>
-        }else{
-            profileBtn = 
-            <>
-            <Image source={require('./../assets/icons/account.png')} style={{ width: 24, height: 24 }} />
-                            <Text style={{ color: 'gray', marginLeft: -6 }}>Profile</Text>
-            </>
+        if (this.props.profile) {
+            profileBtn =
+                <>
+                    <Image source={require('./../assets/icons/accountAct.png')} style={{ width: 24, height: 24 }} />
+                    <Text style={{ color: 'red', marginLeft: -6 }}>Profile</Text>
+                </>
+        } else {
+            profileBtn =
+                <>
+                    <Image source={require('./../assets/icons/account.png')} style={{ width: 24, height: 24 }} />
+                    <Text style={{ color: 'gray', marginLeft: -6 }}>Profile</Text>
+                </>
+        }
+        if (this.props.mybag) {
+            bagBtn =
+                <>
+                    <Image source={require('./../assets/icons/bagAct.png')} style={{ width: 24, height: 24 }} />
+                    <Text style={{ color: 'red', marginLeft: -6 }}>Bag</Text>
+                </>
+        } else {
+            bagBtn =
+                <>
+                    <Image source={require('./../assets/icons/bag.png')} style={{ width: 24, height: 24 }} />
+                    <Text style={{ color: 'gray', marginLeft: -6 }}>Bag</Text>
+                </>
+        }
+        if (this.props.shop) {
+            shopBtn =
+                <>
+                    <Image source={require('./../assets/icons/shopAct.png')} style={{ width: 24, height: 24 }} />
+                    <Text style={{ color: 'red', marginLeft: -6 }}>Shop</Text>
+                </>
+        } else {
+            shopBtn =
+                <>
+                    <Image source={require('./../assets/icons/shop.png')} style={{ width: 24, height: 24 }} />
+                    <Text style={{ color: 'gray', marginLeft: -6 }}>Shop</Text>
+                </>
         }
         return (
             <>
@@ -45,22 +73,20 @@ export default class navBottom extends React.Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }}
                         onPress={() => {
-                            this.props.navigation.navigate('Login')
+                            this.props.navigation.navigate('Shop')
                         }}
                     >
                         <View style={{ marginLeft: 20 }}>
-                            <Image source={require('./../assets/icons/shop.png')} style={{ width: 24, height: 24 }} />
-                            <Text style={{ color: 'gray', marginLeft: -3 }}>Shop</Text>
+                            {shopBtn}
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }}
                         onPress={() => {
-                            this.props.navigation.navigate('Login')
+                            this.props.navigation.navigate('MyBag')
                         }}
                     >
                         <View style={{ marginLeft: 20 }}>
-                            <Image source={require('./../assets/icons/bag.png')} style={{ width: 24, height: 24 }} />
-                            <Text style={{ color: 'gray', }}>Bag</Text>
+                            {bagBtn}
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }}

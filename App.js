@@ -9,6 +9,8 @@ import MyBag from './src/screens/MyBag'
 import Login from './src/screens/auth/login';
 import Signup from './src/screens/auth/signup';
 import Forgot from './src/screens/auth/forgot'
+import Shop from './src/screens/Shop'
+import Categories from './src/screens/ShopCategory'
 const Stack = createStackNavigator();
 
 const appRouter = () => {
@@ -21,6 +23,8 @@ const appRouter = () => {
         {/* <Stack.Screen name='Splash' component={Splash} options={{ headerShown: false }} /> */}
         <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
         <Stack.Screen name="DetailPage" component={DetailPage} options={{ headerShown: false }} />
+        <Stack.Screen name="Shop" component={Shop} options={{ headerShown: false }} />
+        <Stack.Screen name="Categories" component={Categories} options={{ headerShown: false }} />
         <Stack.Screen name="MyBag" component={MyBag} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />

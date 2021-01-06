@@ -1,7 +1,9 @@
-import React from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, { Component } from 'react';
+import { Dimensions, StyleSheet, Text, View, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import CardBag from '../components/CardBag';
+import BottomNavigator from '../components/BottomNav'
+import { Container, Header, Title, Content, Button, Left, Body, Right } from "native-base";
 // import {
 //   COLOR_DISABLE,
 //   COLOR_MAIN,
@@ -9,46 +11,74 @@ import CardBag from '../components/CardBag';
 //   FONT_LIGHT,
 // } from '../../utils/constans';
 
-const Bag = () => {
-  return (
-    <>
-      <View style={styles.container}>
-        <Text
-          style={{
-            fontFamily: 'Metropolis-Bold',
-            fontSize: 34,
-            marginTop: 90,
-            marginBottom: 24,
-          }}>
-          My Bag
-        </Text>
-        <CardBag />
-      </View>
-      <View style={styles.addcart}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            backgroundColor: '#fff',
-            marginHorizontal: 10,
-            marginVertical: 20,
-          }}>
-          <Text style={{fontFamily:'Metropolis-Light', color: '#9B9B9B'}}>
-            Total amount:
-          </Text>
-          <Text style={{fontFamily: 'Metropolis-Bold'}}>112$</Text>
-        </View>
-        <TouchableOpacity>
-          <View style={styles.btn}>
-            <Text style={{color: '#fff'}}>CHECK OUT</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </>
-  );
-};
+// import React, { Component } from 'react';
 
-export default Bag;
+class Mybag extends Component {
+  constructor(props) {
+    super(props)
+  }
+  render() {
+    return (
+      <>
+        <Header transparent>
+          <Left>
+            <Button transparent
+              onPress={() => { this.props.navigation.goBack() }}
+            >
+              <Image source={require('../assets/icons/back.png')} />
+            </Button>
+          </Left>
+          {/* <Body >
+            <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>CheckOut</Title>
+          </Body> */}
+          <Right>
+            <Button transparent>
+              <Image source={require('../assets/icons/Search.png')} />
+            </Button>
+          </Right>
+        </Header>
+        <Container>
+          <View style={styles.container}>
+            <Text
+              style={{
+                fontFamily: 'Metropolis-Bold',
+                fontSize: 34,
+                fontWeight: '700',
+                marginTop: 15,
+                marginBottom: 24,
+              }}>
+              My Bag
+        </Text>
+            <CardBag />
+          </View>
+          <View style={styles.addcart}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: '#fff',
+                marginHorizontal: 10,
+                marginVertical: 20,
+              }}>
+              <Text style={{ fontFamily: 'Metropolis-Light', color: '#9B9B9B' }}>
+                Total amount:
+            </Text>
+              <Text style={{ fontFamily: 'Metropolis-Bold' }}>112$</Text>
+            </View>
+            <TouchableOpacity>
+              <View style={styles.btn}>
+                <Text style={{ color: '#fff' }}>CHECK OUT</Text>
+              </View>
+            </TouchableOpacity>
+            <BottomNavigator mybag={true} navigation={this.props.navigation} />
+          </View>
+        </Container>
+      </>
+    );
+  }
+}
+
+export default Mybag;
 
 const windowWidth = Dimensions.get('window').width;
 

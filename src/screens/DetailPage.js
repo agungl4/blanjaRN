@@ -4,7 +4,7 @@ import { IconFavorite } from '../assets/index'
 import IconStar from '../assets/icons/rating.png'
 import CardProduct from '../components/CardProduct'
 import Review from '../components/Review'
-import { Button, Container } from 'native-base'
+import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
 class DetailPage extends Component {
@@ -14,6 +14,25 @@ class DetailPage extends Component {
     render() {
         return (
             <>
+                <Header transparent>
+                    <Left>
+                        <Button transparent
+                            onPress={() => { this.props.navigation.goBack() }}
+                        >
+                            <Image source={require('../assets/icons/back.png')} />
+                        </Button>
+                    </Left>
+                    <Body >
+                        <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>Detail Product</Title>
+                    </Body>
+                    <Right>
+                        <Button transparent>
+                            <Image source={require('../assets/icons/Search.png')} />
+                        </Button>
+                    </Right>
+                </Header>
+
+                <Container>
                 <Grid>
                     <SafeAreaView>
                         <ScrollView>
@@ -80,9 +99,9 @@ class DetailPage extends Component {
                                     <SafeAreaView>
                                         <ScrollView horizontal={true}>
                                             <View style={styles.card}>
-                                                <CardProduct />
-                                                <CardProduct />
-                                                <CardProduct />
+                                                <CardProduct navigation={this.props.navigation} />
+                                                <CardProduct navigation={this.props.navigation} />
+                                                <CardProduct navigation={this.props.navigation} />
                                             </View>
                                         </ScrollView>
                                     </SafeAreaView>
@@ -100,6 +119,7 @@ class DetailPage extends Component {
                         <Text style={{ color: '#fff' }}> Add to Cart </Text>
                     </TouchableOpacity>
                 </Button>
+                </Container>
             </>
         );
     }
