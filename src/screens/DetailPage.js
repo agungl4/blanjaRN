@@ -3,6 +3,7 @@ import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity
 import { IconFavorite } from '../assets/index'
 import IconStar from '../assets/icons/rating.png'
 import CardProduct from '../components/CardProduct'
+import Review from '../components/Review'
 import { Button, Container } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
@@ -64,9 +65,9 @@ class DetailPage extends Component {
 
                                     {/* <ListBar nav={navigation} /> */}
                                     <View style={styles.text}>
-                                        <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 18 }}>
+                                        <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
                                             You can also like this
-                                    </Text>
+                                        </Text>
                                         <Text
                                             style={{
                                                 fontFamily: 'Metropolis-Light',
@@ -85,16 +86,20 @@ class DetailPage extends Component {
                                             </View>
                                         </ScrollView>
                                     </SafeAreaView>
-                                    <View style={{ height: 75 }}></View>
+                                    <Review />
                                 </View>
                             </Row>
                         </ScrollView>
                     </SafeAreaView>
                 </Grid>
 
-
-                <Button danger full rounded style={{ marginTop: 15 }}><Text style={{ color: '#fff' }}> Add to Cart </Text></Button>
-
+                <Button danger full rounded style={{ marginTop: 15 }}>
+                    <TouchableOpacity
+                        onPress={() => { this.props.navigation.navigate('MyBag') }}
+                    >
+                        <Text style={{ color: '#fff' }}> Add to Cart </Text>
+                    </TouchableOpacity>
+                </Button>
             </>
         );
     }
@@ -131,7 +136,7 @@ const styles = StyleSheet.create({
         borderRadius: 24,
     },
     title: {
-        fontFamily: 'Metropolis-Bold',
+        fontFamily: 'Metropolis-Light',
         fontSize: 24,
     },
     wraptitle: {
