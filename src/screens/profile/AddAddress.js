@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Left, Body, Text, View, Item, Label, Input } from "native-base";
 import { Image, StyleSheet } from 'react-native'
-import Nav from './../../components/BottomNav'
+import Nav from '../../components/BottomNav'
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class HeaderTransparent extends Component {

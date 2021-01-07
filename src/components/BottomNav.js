@@ -91,7 +91,7 @@ export default class navBottom extends React.Component {
                     </TouchableOpacity>
                     <TouchableOpacity style={{ flex: 1 }}
                         onPress={() => {
-                            this.props.navigation.navigate('Login')
+                            this.props.navigation.navigate('Signup')
                         }}
                     >
                         <View style={{ marginLeft: 20 }}>

@@ -14,6 +14,8 @@ import { Row, Grid } from 'react-native-easy-grid';
 import CardProduct from '../components/CardProduct'
 import BottomNavigator from '../components/BottomNav'
 import axios from 'axios'
+import {REACT_APP_BASE_URL} from "@env"
+
 const getUrl = "https://186c58de6dfb.ngrok.io/products"
 class Home extends React.Component {
   constructor(props) {
@@ -25,7 +27,7 @@ class Home extends React.Component {
     productNew: [],
   }
   getNewProducts = () => {
-    axios.get(getUrl + '?sortBy=updated_at&orderBy=desc')
+    axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
       .then(({ data }) => {
         console.log(data.data.products)
         this.setState({
@@ -37,7 +39,7 @@ class Home extends React.Component {
   }
 
   getPopularProducts = () => {
-    axios.get(getUrl + '?sortBy=created_at').then(({ data }) => {
+    axios.get(REACT_APP_BASE_URL + '/products?sortBy=created_at').then(({ data }) => {
       console.log(data)
       this.setState({
         products: data.data.products,

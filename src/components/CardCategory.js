@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Card, CardItem } from "native-base";
+import {REACT_APP_BASE_URL} from "@env"
 
 class CardCategory extends Component {
     render() {

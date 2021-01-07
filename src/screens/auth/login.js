@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { IconBack } from '../../../src/assets'
+import { IconBack } from '../../assets'
 
 const styles = StyleSheet.create({
     container: {

@@ -5,6 +5,7 @@ import Review from '../components/Review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
+import {REACT_APP_BASE_URL} from "@env"
 
 const getUrl = "https://186c58de6dfb.ngrok.io/product/"
 
@@ -23,7 +24,7 @@ class DetailPage extends Component {
 
     getSingleProduct = () => {
         axios
-            .get(getUrl+this.props.route.params.itemId)
+            .get(REACT_APP_BASE_URL+'/product/'+this.props.route.params.itemId)
             .then(({ data }) => {
                 console.log(data.data)
                 this.setState({
@@ -90,7 +91,7 @@ class DetailPage extends Component {
                                                             {
                                                                 product_img && product_img.split(',').map((img) => {
                                                                     return (
-                                                                        <Image source={{ uri: 'https://186c58de6dfb.ngrok.io' + img }} style={styles.image} />
+                                                                        <Image source={{ uri: REACT_APP_BASE_URL + img }} style={styles.image} />
                                                                     )
                                                                 })
                                                             }

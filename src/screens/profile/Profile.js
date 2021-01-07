@@ -3,7 +3,7 @@ import { Container, Header, Title, Content, Button, Left, Body, Text, Right } fr
 import { Image, View, TouchableOpacity } from 'react-native'
 
 
-import Nav from './../../components/BottomNav'
+import Nav from '../../components/BottomNav'
 
 export default class Profile extends React.Component {
     constructor(props) {

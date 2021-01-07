@@ -3,8 +3,8 @@ import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Inpu
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 // import { Picker } from '@react-native-picker/picker';
 
-import Nav from './../../components/BottomNav'
-import CardAdress from './../../components/CardAdress'
+import Nav from '../../components/BottomNav'
+import CardAdress from '../../components/CardAdress'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 

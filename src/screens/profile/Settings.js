@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Label, Input, CheckBox, ListItem } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 
-import Nav from './../../components/BottomNav'
-import CardOrder from './../../components/CardOrders'
+import Nav from '../../components/BottomNav'
+import CardOrder from '../../components/CardOrders'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 
