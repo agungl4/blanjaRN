@@ -4,6 +4,7 @@ import { Container, Header, Content, Form, Item, Input, Button, Label } from 'na
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { IconBack } from '../../assets'
 import { REACT_APP_BASE_URL } from "@env"
+import axios from 'axios'
 
 class Signup extends React.Component {
     state = {
@@ -32,7 +33,7 @@ class Signup extends React.Component {
     }
 
     render() {
-        let { username, fullname, password } = this.state
+        let { username,email, fullname, password } = this.state
         console.log(this.state)
         return (
             <Container style={styles.container}>
