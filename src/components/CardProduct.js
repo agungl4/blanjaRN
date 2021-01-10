@@ -22,7 +22,7 @@ class CardProduct extends Component {
                     })
                 }}
             >
-                <Card style={{ height: 280, marginRight: 10, maxWidth: 148 }}>
+                <Card style={{ height: 280, marginRight: 10, width: 148 }}>
                     <CardItem cardBody>
                         <View >
                             <Image source={{ uri: REACT_APP_BASE_URL + image, maxWidth: 150, height: 180 }} />

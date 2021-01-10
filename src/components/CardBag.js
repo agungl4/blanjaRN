@@ -58,6 +58,7 @@ export default CardBag;
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        marginBottom: 10
     },
     price: {
         marginTop: 7,

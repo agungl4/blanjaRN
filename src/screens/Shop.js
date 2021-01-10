@@ -134,7 +134,7 @@ class Shop extends Component {
 
                     </ScrollView>
                 </Container>
-                <BottomNavigator shop={true} navigation={this.props.navigation} />
+                {/* <BottomNavigator shop={true} navigation={this.props.navigation} /> */}
             </>
         );
     }

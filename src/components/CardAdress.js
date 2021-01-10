@@ -8,7 +8,7 @@ export default class cardOrder extends React.Component {
                 <TouchableOpacity style={styles.order}>
                     <View style={{ margin: 10, }}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                            <Text style={{ fontWeight: '200', fontSize: 18 }}>
                                 Jane Doe
                             </Text>
                             <TouchableOpacity
@@ -17,10 +17,10 @@ export default class cardOrder extends React.Component {
                                 <Text style={{ marginLeft: 180, fontWeight: 'bold', color: 'red' }}>Change</Text>
                             </TouchableOpacity>
                         </View>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
                             3 Newbridge Curt
                         </Text>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
                             Chino Hills, CA 91709, United States
                         </Text>
                     </View>
@@ -35,9 +35,9 @@ const styles = StyleSheet.create({
     order: {
         borderRadius: 10, height: 105,
         width: 328, backgroundColor: 'white',
-        marginTop: 10,
+        marginTop: 7,
         marginLeft: 5, marginRight: 10,
-        marginBottom: 10,
+        marginBottom: 7,
         shadowColor: 'rgba(0, 0, 0, 0.1)',
         shadowOpacity: 0.5,
         elevation: 6,

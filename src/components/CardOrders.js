@@ -10,25 +10,25 @@ export default class cardOrder extends React.Component {
                 >
                     <View style={{ margin: 10, }}>
                         <View style={{ flexDirection: 'row' }}>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>
                                 Order No :
                                         <Text style={{ color: 'gray', }}> BAP305114181</Text>
                             </Text>
-                            <Text style={{ marginLeft: 40, color: 'green' }}>05-11-2020</Text>
+                            <Text style={{ marginLeft: 55, color: '#2AA952' }}>05-11-2020</Text>
                         </View>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
                             Tracking Number :
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> JP4008547567</Text>
                         </Text>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
                             Quantity :
                                         <Text style={{ color: 'black', fontWeight: 'bold' }} > 3</Text>
                         </Text>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 18 }}>
+                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
                             Total Amount :
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> 112$</Text>
                         </Text>
-                        <Text style={{ color: 'green', fontSize: 18, fontWeight: 'bold', marginLeft: 250 }}>Delivered</Text>
+                        <Text style={{ color: '#2AA952', fontSize: 14, fontWeight: 'bold', marginLeft: 250 }}>Delivered</Text>
                     </View>
                 </TouchableOpacity>
 

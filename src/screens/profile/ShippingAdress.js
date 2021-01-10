@@ -25,11 +25,11 @@ export default class Shipping extends React.Component {
                         </Body>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
-                        <Item rounded style={{ marginTop: 20, backgroundColor: 'white' }}>
+                        <Item rounded style={{ marginTop: 10, backgroundColor: 'white' }}>
                             <Input placeholder="Search Here" />
                         </Item>
                         <View>
-                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                            <Text style={{ marginTop: 10, marginLeft: 5, fontWeight: '700', fontSize: 18 }}>Shipping Address</Text>
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 380, marginBottom: 20, marginTop: -20 }}>

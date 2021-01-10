@@ -63,7 +63,7 @@ export default class Profile extends React.Component {
                             </View>
                         </TouchableOpacity>
                     </Content>
-                    <Nav navigation={this.props.navigation} profile={true} />
+                    {/* <Nav navigation={this.props.navigation} profile={true} /> */}
                 </Container>
             </>
         )

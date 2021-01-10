@@ -14,7 +14,7 @@ import { Row, Grid } from 'react-native-easy-grid';
 import CardProduct from '../components/CardProduct'
 import BottomNavigator from '../components/BottomNav'
 import axios from 'axios'
-import {REACT_APP_BASE_URL} from "@env"
+import { REACT_APP_BASE_URL } from "@env"
 
 const getUrl = "https://186c58de6dfb.ngrok.io/products"
 class Home extends React.Component {
@@ -62,6 +62,17 @@ class Home extends React.Component {
             <View style={{ position: 'absolute', left: 0, bottom: 0, marginBottom: 15, marginLeft: 10 }}>
               <Text style={{ fontSize: 35, fontWeight: 'bold', color: '#fff' }}> Street Clothes</Text>
             </View>
+
+            <TouchableOpacity
+                onPress={() => {
+                    this.props.navigation.navigate('Notification')
+                }}
+                style={{ position: 'absolute', right: 20, top: 20 }}
+            >
+                    <Image source={require('../assets/icons/bell.png')} />
+            </TouchableOpacity>
+
+
           </ImageBackground>
         </View>
 
@@ -70,7 +81,15 @@ class Home extends React.Component {
             <ScrollView vertical={true}>
               <View>
                 <Text style={styles.title}>New</Text>
-                <Text style={styles.view}>View all</Text>
+                <TouchableOpacity onPress={() => {
+                  this.props.navigation.navigate('Categories', {
+                    ctgId: 'new',
+                    ctgName: 'New Products'
+                  })
+                }}>
+                  <Text style={styles.view}>View all</Text>
+                </TouchableOpacity>
+
                 <Text style={styles.text}>You’ve never seen it before!</Text>
               </View>
               <Row size={4}>
@@ -114,7 +133,7 @@ class Home extends React.Component {
           </SafeAreaView>
         </Grid>
 
-        <BottomNavigator navigation={this.props.navigation} home={true} />
+        {/* <BottomNavigator navigation={this.props.navigation} home={true} /> */}
       </Container>
     );
   }

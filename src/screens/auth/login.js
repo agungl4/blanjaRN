@@ -45,7 +45,7 @@ class Login extends React.Component {
                     }}>
                         <Text> Forgot your password?</Text>
                     </TouchableOpacity>
-                    <Button danger full rounded style={{ marginTop: 15 }}><Text style={{ color: '#fff' }}> Login </Text></Button>
+                    <Button danger full rounded style={{ marginTop: 15 }}><Text style={{ color: '#fff' }}> LOGIN </Text></Button>
                 </View>
             </Container>
         )

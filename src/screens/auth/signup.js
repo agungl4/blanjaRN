@@ -66,7 +66,7 @@ class Signup extends React.Component {
 
                     <TouchableOpacity onPress={this.signup}>
                         <Button danger full rounded style={{ marginTop: 15 }}>
-                            <Text style={{ color: '#fff' }}> Submit </Text>
+                            <Text style={{ color: '#fff' }}> SIGN UP </Text>
                         </Button>
                     </TouchableOpacity>
                 </View>

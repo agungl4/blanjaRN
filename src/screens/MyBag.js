@@ -44,11 +44,13 @@ class Mybag extends Component {
                 fontFamily: 'Metropolis-Bold',
                 fontSize: 34,
                 fontWeight: '700',
-                marginTop: 15,
-                marginBottom: 24,
+                marginTop: 10,
+                marginBottom: 10,
               }}>
               My Bag
         </Text>
+            <CardBag />
+            <CardBag />
             <CardBag />
           </View>
           <View style={styles.addcart}>
@@ -58,7 +60,7 @@ class Mybag extends Component {
                 justifyContent: 'space-between',
                 backgroundColor: '#fff',
                 marginHorizontal: 10,
-                marginVertical: 20,
+                marginVertical: 10,
               }}>
               <Text style={{ fontFamily: 'Metropolis-Light', color: '#9B9B9B' }}>
                 Total amount:
@@ -70,7 +72,7 @@ class Mybag extends Component {
                 <Text style={{ color: '#fff' }}>CHECK OUT</Text>
               </View>
             </TouchableOpacity>
-            <BottomNavigator mybag={true} navigation={this.props.navigation} />
+            {/* <BottomNavigator mybag={true} navigation={this.props.navigation} /> */}
           </View>
         </Container>
       </>

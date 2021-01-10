@@ -20,14 +20,15 @@ export default class Orders extends React.Component {
                                 <Image source={require('./../../assets/icons/back.png')} />
                             </Button>
                         </Left>
-                        <Body >
-                            <Title style={{ color: 'black', marginLeft: 30, fontWeight: 'bold' }}>My Orders</Title>
-                        </Body>
-
+                        <Right>
+                            <Button transparent>
+                                <Image source={require('../../assets/icons/Search.png')} />
+                            </Button>
+                        </Right>
                     </Header>
-                    <Content style={{ backgroundColor:'#f0f0f0' }}>
+                    <Content style={{ backgroundColor: '#f0f0f0' }}>
                         <View>
-                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginLeft: 15, marginRight: 10, marginTop: 20, marginBottom: 10 }}>My Orders</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 42, marginLeft: 15, marginRight: 10, marginTop: 10 }}>My Orders</Text>
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 480 }}>

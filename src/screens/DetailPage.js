@@ -5,7 +5,8 @@ import Review from '../components/Review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
-import {REACT_APP_BASE_URL} from "@env"
+import { REACT_APP_BASE_URL } from "@env"
+import { SizeColorPicker } from "../components/SizeColorPicker";
 
 const getUrl = "https://186c58de6dfb.ngrok.io/product/"
 
@@ -13,18 +14,22 @@ const getUrl = "https://186c58de6dfb.ngrok.io/product/"
 // console.log(url)
 
 class DetailPage extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
     }
     state = {
         sizeSelected: 0,
         colorSelected: 0,
         product: [],
+        // pickSize:0,
+        // setPickSize:0,
+        // pickColor: 'color',
+        // setPickColor: 'color'
     };
 
     getSingleProduct = () => {
         axios
-            .get(REACT_APP_BASE_URL+'/product/'+this.props.route.params.itemId)
+            .get(REACT_APP_BASE_URL + '/product/' + this.props.route.params.itemId)
             .then(({ data }) => {
                 console.log(data.data)
                 this.setState({
@@ -54,9 +59,9 @@ class DetailPage extends Component {
 
     render() {
         // const { itemId } = this.props.route.params;
-        console.log('a'+this.props)
+        console.log('a' + this.props)
         const { product } = this.state
-        console.log('b'+this.state)
+        console.log('b' + this.state)
         return (
             <>
                 <Header transparent>
@@ -115,6 +120,13 @@ class DetailPage extends Component {
                                                                     <Picker.Item label="M" value="2" />
                                                                     <Picker.Item label="L" value="3" />
                                                                 </Picker>
+                                                                {/* <SizeColorPicker
+                                                                    id={itemId}
+                                                                    changeSize={(pickSize) => setPickSize(pickSize)}
+                                                                    pickSize={pickSize}
+                                                                    changeColor={(pickColor) => setPickColor(pickColor)}
+                                                                    pickColor={pickColor}
+                                                                /> */}
                                                             </View>
                                                         </TouchableOpacity>
                                                         <TouchableOpacity>

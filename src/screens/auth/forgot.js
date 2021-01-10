@@ -40,7 +40,7 @@ class Forgot extends React.Component {
                         <Label >Email</Label>
                         <Input placeholder='Regular Textbox' />
                     </Item>
-                    <Button danger full rounded style={{ marginTop: 15 }}><Text style={{ color: '#fff' }}> Login </Text></Button>
+                    <Button danger full rounded style={{ marginTop: 15 }}><Text style={{ color: '#fff' }}> SEND </Text></Button>
                 </View>
             </Container>
         )
