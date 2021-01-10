@@ -39,7 +39,7 @@ export default class Orders extends React.Component {
                             </ScrollView>
                         </SafeAreaView>
                     </Content>
-                    <Nav profile={true} navigation={this.props.navigation} />
+                   
                 </Container>
             </>
         )

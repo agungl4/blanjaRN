@@ -50,7 +50,7 @@ export default class Shipping extends React.Component {
                         </Button>
 
                     </Content>
-                    <Nav profile={true} navigation={this.props.navigation} />
+                    
                 </Container>
             </>
         )

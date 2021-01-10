@@ -63,7 +63,7 @@ export default class Orders extends React.Component {
                             </View>
                         </View>
                     </Content>
-                    <Nav profile={true} navigation={this.props.navigation} />
+                    
                 </Container>
             </>
         )

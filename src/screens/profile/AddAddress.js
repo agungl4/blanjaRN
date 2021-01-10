@@ -60,7 +60,7 @@ export default class HeaderTransparent extends Component {
                         </TouchableOpacity>
                     </Button>
                 </Content>
-                <Nav profile={true} navigation={this.props.navigation} />
+               
             </Container>
         );
     }

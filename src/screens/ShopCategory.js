@@ -91,8 +91,6 @@ class ShopCategory extends Component {
                         </View>
                     </ScrollView>
                 </Container>
-
-                <BottomNavigator shop={true} navigation={this.props.navigation} />
             </>
         );
     }

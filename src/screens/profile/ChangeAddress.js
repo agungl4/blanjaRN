@@ -75,7 +75,7 @@ export default class ChangeAddress extends React.Component {
                         </Button>
 
                     </Content>
-                    <Nav profile={true} navigation={this.props.navigation} />
+                   
                 </Container>
             </>
         )
