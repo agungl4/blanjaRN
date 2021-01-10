@@ -101,7 +101,7 @@ function MyTabs() {
         component={Home}
         options={{
           tabBarIcon: ({ color }) => {
-            return <Icon name="home" size={30} color={color} />;
+            return <Icon name="home" size={25} color={color} />;
           },
         }}
       />
@@ -110,7 +110,7 @@ function MyTabs() {
         component={Shop}
         options={{
           tabBarIcon: ({ color }) => {
-            return <Icon name="shopping-cart" size={30} color={color} />;
+            return <Icon name="shopping-cart" size={25} color={color} />;
           },
         }}
       />
@@ -119,7 +119,7 @@ function MyTabs() {
         component={Bag}
         options={{
           tabBarIcon: ({ color }) => {
-            return <Icon name="shopping-bag" size={30} color={color} />;
+            return <Icon name="shopping-bag" size={25} color={color} />;
           },
         }}
       />
@@ -128,7 +128,7 @@ function MyTabs() {
         component={Login}
         options={{
           tabBarIcon: ({ color }) => {
-            return <Icon name="heart" size={30} color={color} />;
+            return <Icon name="heart" size={25} color={color} />;
           },
         }}
       />
@@ -137,7 +137,7 @@ function MyTabs() {
         component={Profile}
         options={{
           tabBarIcon: ({ color }) => {
-            return <Icon name="user-circle-o" size={30} color={color} />;
+            return <Icon name="user-circle-o" size={25} color={color} />;
           },
         }}
       />
