@@ -1,12 +1,35 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
 import { Image, View, TouchableOpacity } from 'react-native'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
+import { REACT_APP_BASE_URL } from "@env"
 
 class Profile extends React.Component {
     constructor(props) {
         super(props)
     }
+
+    Logout = () => {
+        this.props.dispatch(setLoginfalse())
+        this.props.dispatch(removeEmail())
+        this.props.dispatch(removeName())
+        this.props.dispatch(removeId())
+        this.props.navigation.navigate('Login')
+    }
+
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            if (!this.props.auth.isLogin) {
+                this.props.navigation.navigate('Login')
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+    }
+
     render() {
         console.log(this.props.auth)
         return (
@@ -62,7 +85,11 @@ class Profile extends React.Component {
                             </View>
                         </TouchableOpacity>
                     </Content>
-                    {/* <Nav navigation={this.props.navigation} profile={true} /> */}
+                    <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
+                        onPress={this.Logout}
+                    >
+                        <Text>Logout</Text>
+                    </Button>
                 </Container>
             </>
         )

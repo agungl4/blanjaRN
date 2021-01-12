@@ -3,8 +3,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Modal,
-  TouchableHighlight,
   Dimensions,
   Image,
   ImageBackground, SafeAreaView, ScrollView, StyleSheet
@@ -12,7 +10,6 @@ import {
 import { Container } from 'native-base';
 import { Row, Grid } from 'react-native-easy-grid';
 import CardProduct from '../components/CardProduct'
-import BottomNavigator from '../components/BottomNav'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
 

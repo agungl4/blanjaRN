@@ -1,14 +1,43 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-
-import Nav from '../../components/BottomNav'
-import CardAdress from '../../components/CardAdress'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from 'react-redux'
+import axios from 'axios'
+import { REACT_APP_BASE_URL } from "@env"
 
-export default class Shipping extends React.Component {
+import CardAdress from '../../components/CardAdress'
+
+class Shipping extends React.Component {
+    state = {
+        shippingAddress: [],
+    }
+
+    getAddress = () => {
+        axios.get(REACT_APP_BASE_URL + `/address/${this.props.auth.id}`)
+            .then(({ data }) => {
+                this.setState({
+                    shippingAddress: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response)
+            })
+    }
+
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.getAddress()
+          });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+      }
+
     render() {
+        console.log(this.props.auth)
+        const { shippingAddress } = this.state
         return (
             <>
                 <Container>
@@ -17,7 +46,7 @@ export default class Shipping extends React.Component {
                             <Button transparent
                                 onPress={() => { this.props.navigation.goBack() }}
                             >
-                                <Image source={require('./../../assets/icons/back.png')} />
+                                <Image source={require('../../assets/icons/back.png')} />
                             </Button>
                         </Left>
                         <Body >
@@ -25,23 +54,29 @@ export default class Shipping extends React.Component {
                         </Body>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
-                        <Item rounded style={{ marginTop: 10, backgroundColor: 'white' }}>
+                        <Item rounded style={{ marginTop: 20, backgroundColor: 'white' }}>
                             <Input placeholder="Search Here" />
                         </Item>
                         <View>
-                            <Text style={{ marginTop: 10, marginLeft: 5, fontWeight: '700', fontSize: 18 }}>Shipping Address</Text>
+                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 380, marginBottom: 20, marginTop: -20 }}>
-                                <CardAdress navigation={this.props.navigation}/>
-                                <CardAdress navigation={this.props.navigation}/>
-                                <CardAdress navigation={this.props.navigation}/>
+                                {
+                                    shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
+                                        return (
+                                            <>
+                                                <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                            </>
+                                        )
+                                    })
+                                }
                             </ScrollView>
                         </SafeAreaView>
 
                         <Button full rounded bordered dark>
                             <TouchableOpacity
-                                onPress={() => {this.props.navigation.navigate('AddAddress')}}
+                                onPress={() => { this.props.navigation.navigate('AddAddress') }}
                             >
                                 <Text>
                                     Add New Address
@@ -50,9 +85,16 @@ export default class Shipping extends React.Component {
                         </Button>
 
                     </Content>
-                    
                 </Container>
             </>
         )
     }
 }
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(Shipping);

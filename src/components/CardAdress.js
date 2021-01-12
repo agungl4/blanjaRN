@@ -5,23 +5,27 @@ export default class cardOrder extends React.Component {
     render() {
         return (
             <>
-                <TouchableOpacity style={styles.order}>
+                <TouchableOpacity style={styles.order} key={this.props.addressId}>
                     <View style={{ margin: 10, }}>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: '200', fontSize: 18 }}>
-                                Jane Doe
+                                {this.props.name}
                             </Text>
                             <TouchableOpacity
-                                onPress={() => this.props.navigation.navigate('ChangeAddress')}
+                                onPress={() => {
+                                    this.props.navigation.navigate('ChangeAddress', {
+                                        addressId: this.props.addressId,
+                                    })
+                                }}
                             >
-                                <Text style={{ marginLeft: 180, fontWeight: 'bold', color: 'red' }}>Change</Text>
+                                <Text style={{ marginRight: 10, fontWeight: 'bold', color: 'red' }}>Change</Text>
                             </TouchableOpacity>
                         </View>
                         <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
-                            3 Newbridge Curt
+                            {this.props.city + ', '}<Text style={{ color: 'green', fontWeight: 'bold' }}>{this.props.postal}</Text>
                         </Text>
                         <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
-                            Chino Hills, CA 91709, United States
+                            {this.props.phone}
                         </Text>
                     </View>
                 </TouchableOpacity>
