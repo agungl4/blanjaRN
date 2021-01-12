@@ -29,6 +29,10 @@ export default class HeaderTransparent extends Component {
                     >
                     </View>
                     <Item floatingLabel style={styles.floatingLabel}>
+                        <Label style={{ marginLeft: 10 }}>Address type</Label>
+                        <Input />
+                    </Item>
+                    <Item floatingLabel style={styles.floatingLabel}>
                         <Label style={{ marginLeft: 10 }}>Fullname</Label>
                         <Input />
                     </Item>
@@ -37,19 +41,15 @@ export default class HeaderTransparent extends Component {
                         <Input />
                     </Item>
                     <Item floatingLabel style={styles.floatingLabel}>
-                        <Label style={{ marginLeft: 10 }}>City</Label>
+                        <Label style={{ marginLeft: 10 }}>City or Subdistrict</Label>
                         <Input />
                     </Item>
                     <Item floatingLabel style={styles.floatingLabel}>
-                        <Label style={{ marginLeft: 10 }}>State/Province/Region</Label>
+                        <Label style={{ marginLeft: 10 }}>Postal/Zip Code</Label>
                         <Input />
                     </Item>
                     <Item floatingLabel style={styles.floatingLabel}>
-                        <Label style={{ marginLeft: 10 }}>ZipCode</Label>
-                        <Input />
-                    </Item>
-                    <Item floatingLabel style={styles.floatingLabel}>
-                        <Label style={{ marginLeft: 10 }}>Country</Label>
+                        <Label style={{ marginLeft: 10 }}>Phone Number</Label>
                         <Input />
                     </Item>
                     <Button full rounded danger style={{ marginTop: 20 }}>

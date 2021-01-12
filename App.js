@@ -5,15 +5,15 @@ import {NavigationContainer} from '@react-navigation/native';
 import Router from './src/router';
 
 // Redux
-// import {Provider} from 'react-redux';
-// import store from './utils/redux/store';
+import {Provider} from 'react-redux';
+import store from './src/utils/redux/store';
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <Provider store={store}> */}
+      <Provider store={store}>
         <Router />
-      {/* </Provider> */}
+      </Provider>
     </NavigationContainer>
   );
 };

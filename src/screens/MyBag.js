@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import CardBag from '../components/CardBag';
-import BottomNavigator from '../components/BottomNav'
+import Checkout from './Checkout'
 import { Container, Header, Title, Content, Button, Left, Body, Right } from "native-base";
 // import {
 //   COLOR_DISABLE,
@@ -67,7 +67,7 @@ class Mybag extends Component {
             </Text>
               <Text style={{ fontFamily: 'Metropolis-Bold' }}>112$</Text>
             </View>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => { this.props.navigation.navigate('Checkout') }}>
               <View style={styles.btn}>
                 <Text style={{ color: '#fff' }}>CHECK OUT</Text>
               </View>

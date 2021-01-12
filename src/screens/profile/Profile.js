@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
 import { Image, View, TouchableOpacity } from 'react-native'
+import {connect} from 'react-redux'
 
-
-import Nav from '../../components/BottomNav'
-
-export default class Profile extends React.Component {
+class Profile extends React.Component {
     constructor(props) {
         super(props)
     }
     render() {
+        console.log(this.props.auth)
         return (
             <>
                 <Container>
@@ -33,8 +32,8 @@ export default class Profile extends React.Component {
                         <View style={{ flexDirection: 'row', marginTop: 10 }}>
                             <Image source={require('./../../assets/images/profile.jpg')} style={{ width: 80, height: 80, borderRadius: 40, marginLeft: 10, marginRight: 10, marginBottom: 50 }} />
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Matilda Brown</Text>
-                                <Text style={{ color: 'gray' }}>MatildaBrown@mail.com</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{this.props.auth.name}</Text>
+                                <Text style={{ color: 'gray' }}>{this.props.auth.email}</Text>
                             </View>
                         </View>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
@@ -69,3 +68,11 @@ export default class Profile extends React.Component {
         )
     }
 }
+
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(Profile);

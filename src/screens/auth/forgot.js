@@ -1,26 +1,49 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { IconBack } from '../../assets'
+import { connect } from 'react-redux'
+import axios from 'axios';
+import { REACT_APP_BASE_URL } from '@env'
+import { setEmail } from '../../utils/redux/ActionCreators/auth'
 
-const styles = StyleSheet.create({
-    container: {
-        paddingHorizontal: 15,
-        paddingTop: 25
-    },
-    rowTitle: {
-        marginTop: 34
-    },
-    textTitle: {
-        fontSize: 34,
-        fontWeight: 'bold'
-    },
-})
 
 class Forgot extends React.Component {
 
+    state = {
+        email: '',
+        errorForm: '',
+    }
+
+    ForgotPassword = () => {
+        if (this.state.email !== '') {
+            const emailData = {
+                email: this.state.email
+            }
+            axios.post(REACT_APP_BASE_URL + '/auth/forgot', emailData)
+                .then(({ data }) => {
+                    this.setState({
+                        errorForm: ''
+                    })
+
+                    alert(data.message)
+
+                    this.props.dispatch(setEmail(this.state.email))
+                    this.props.navigation.navigate('Otp')
+                }).catch(({ response }) => {
+                    console.log(response.data)
+                    alert(response.data.message)
+                })
+        } else {
+            this.setState({
+                errorForm: 'Kolom email harus diisi!'
+            })
+        }
+    }
     render() {
+        const { email } = this.state
+        console.log(this.state)
+        console.log('email :' + this.props.auth.email)
         return (
             <Container style={styles.container}>
                 <TouchableOpacity onPress={() => {
@@ -38,13 +61,35 @@ class Forgot extends React.Component {
                     </View>
                     <Item floatingLabel>
                         <Label >Email</Label>
-                        <Input placeholder='Regular Textbox' />
+                        <Input placeholder='Regular Textbox' name="email" value={email} onChangeText={(text) => { this.setState({ email: text }) }} />
                     </Item>
-                    <Button danger full rounded style={{ marginTop: 15 }}><Text style={{ color: '#fff' }}> SEND </Text></Button>
+                    <Button danger full rounded style={{ marginTop: 15 }} onPress={this.ForgotPassword}>
+                        <Text style={{ color: '#fff' }}> SEND </Text>
+                    </Button>
+                    <Text style={{color:'red', textAlign:'center', fontWeight:'bold'}}>{this.state.errorForm}</Text>
                 </View>
             </Container>
         )
     }
 }
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
 
-export default Forgot;
+export default connect(mapStateToProps)(Forgot)
+
+const styles = StyleSheet.create({
+    container: {
+        paddingHorizontal: 15,
+        paddingTop: 25
+    },
+    rowTitle: {
+        marginTop: 34
+    },
+    textTitle: {
+        fontSize: 34,
+        fontWeight: 'bold'
+    },
+})

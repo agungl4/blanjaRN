@@ -9,12 +9,17 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Home from './screens/Home';
 import Profile from './screens/Profile/Profile';
 import Login from './screens/Auth/login';
-import Shop from './screens/Shop';
-import Bag from './screens/MyBag';
-import DetailPage from './screens/DetailPage'
 import Signup from './screens/Auth/signup';
+import Activation from './screens/Auth/activate'
 import Forgot from './screens/Auth/forgot'
+import Otp from './screens/Auth/otp'
+import ResetPassword from './screens/Auth/reset_password'
+import Shop from './screens/Shop';
 import Categories from './screens/ShopCategory'
+import DetailPage from './screens/DetailPage'
+import Bag from './screens/MyBag';
+import Checkout from './screens/Checkout'
+import Success from './screens/Success'
 import Order from './screens/Profile/MyOrder'
 import Shipping from './screens/Profile/ShippingAdress'
 import Setting from './screens/Profile/Settings'
@@ -60,7 +65,7 @@ const MyTabs = () => {
       />
       <Tab.Screen
         name="MyBag"
-        component={Bag}
+        component={MyBag}
         options={{
           tabBarIcon: ({ color }) => {
             return <Icon name="shopping-bag" size={25} color={color} />;
@@ -89,12 +94,23 @@ const MyTabs = () => {
   );
 }
 
+
 const ShopPage = () => {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Shop" component={Shop} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="Filter" component={Filter} />
+    </Stack.Navigator>
+  );
+};
+
+const MyBag = () => {
+  return (
+    <Stack.Navigator headerMode="none">
+      <Stack.Screen name="MyBag" component={Bag} />
+      <Stack.Screen name="Checkout" component={Checkout} />
+      <Stack.Screen name="Success" component={Success} />
     </Stack.Navigator>
   );
 };
@@ -120,16 +136,19 @@ const appRouter = () => {
 
   return (
     <>
-      
-        <Stack.Navigator headerMode="none">
-          <Stack.Screen name="Tab" component={MyTabs} />
-          <Stack.Screen name="Notification" component={Notification} />
-          <Stack.Screen name="DetailPage" component={DetailPage} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Signup" component={Signup} />
-          <Stack.Screen name="Forgot" component={Forgot} />
-        </Stack.Navigator>
-      
+      {/* <NavigationContainer> */}
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name="Tab" component={MyTabs} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Forgot" component={Forgot} />
+        <Stack.Screen name="Activation" component={Activation} />
+        <Stack.Screen name="ResetPassword" component={ResetPassword} />
+        <Stack.Screen name="Otp" component={Otp} />
+        <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="DetailPage" component={DetailPage} />
+      </Stack.Navigator>
+      {/* </NavigationContainer> */}
     </>
   );
 };

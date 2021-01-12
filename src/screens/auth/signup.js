@@ -8,32 +8,43 @@ import axios from 'axios'
 
 class Signup extends React.Component {
     state = {
-        username: '',
-        email: '',
+        isRegister: false,
         fullname: '',
+        email: '',
         password: '',
+        errorForm: '',
     }
 
     signup = () => {
-        const data = {
-            username: this.state.email,
-            fullname: this.state.fullname,
-            password: this.state.password,
-            level_id: 1,
-            email: this.state.email
-        }
-        console.log(data)
-        axios.post(REACT_APP_BASE_URL + '/auth/signup', data)
-            .then(({ data }) => {
-                alert('Register Berhasil')
-                this.props.navigation.navigate('Login')
-            }).catch((error) => {
-                alert('gagal')
+        if (this.state.fullname === '' || this.state.email === '' || this.state.password === '') {
+            this.setState({
+                errorForm: 'Semua kolom harus diisi'
             })
+        } else {
+            const data = {
+                email: this.state.email,
+                fullname: this.state.fullname,
+                password: this.state.password,
+                level_id: 1,
+            }
+            console.log(data)
+            axios.post(REACT_APP_BASE_URL + '/auth/signup', data)
+                .then(({ data }) => {
+                    this.setState({
+                        errorForm: ''
+                    })
+                    console.log(data)
+                    alert('Register Berhasil')
+                    this.props.navigation.navigate('Activation')
+                }).catch((error) => {
+                    console.log(error.response.data.msg)
+                    alert(error.response.data.msg)
+                })
+        }
     }
 
     render() {
-        let { username,email, fullname, password } = this.state
+        let { email, fullname, password } = this.state
         console.log(this.state)
         return (
             <Container style={styles.container}>
@@ -69,6 +80,14 @@ class Signup extends React.Component {
                             <Text style={{ color: '#fff' }}> SIGN UP </Text>
                         </Button>
                     </TouchableOpacity>
+                    <TouchableOpacity style={{ flexDirection: 'row-reverse', marginTop: 10, marginBottom: 25 }}
+                        onPress={() => {
+                            this.props.navigation.navigate('Activation')
+                        }}
+                    >
+                        <Text style={{ fontWeight: 'bold' }}>Already register? Activate your account here -{'>'}</Text>
+                    </TouchableOpacity>
+                    <Text style={{ color: 'red', fontWeight: 'bold', textAlign: 'center' }}>{this.state.errorForm}</Text>
                 </View>
             </Container>
         )
