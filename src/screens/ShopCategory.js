@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native';
-import BottomNavigator from '../components/BottomNav'
 import CardCategory from '../components/CardProduct'
 import { Container, Header, Title, Content, Button, Left, Body, Right } from "native-base";
 import { Col, Row, Grid } from 'react-native-easy-grid'

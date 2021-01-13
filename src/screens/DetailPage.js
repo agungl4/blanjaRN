@@ -18,14 +18,22 @@ class DetailPage extends Component {
         super(props)
     }
     state = {
-        sizeSelected: 0,
-        colorSelected: 0,
+        selectedSize: 0,
+        selectedColor:0,
         product: [],
-        // pickSize:0,
-        // setPickSize:0,
-        // pickColor: 'color',
-        // setPickColor: 'color'
     };
+
+    setSize = (e) => {
+        this.setState({
+            selectedSize: e
+        })
+    }
+
+    setColor = (e) => {
+        this.setState({
+            selectedColor: e
+        })
+    }
 
     getSingleProduct = () => {
         axios
@@ -41,27 +49,12 @@ class DetailPage extends Component {
             });
     }
 
-    // getRecommendation = () => {
-    //     axios.get(getUrl + `/search?category=` + this.props.category_id)
-    //         .then(({ data }) => {
-    //             console.log(data.data.products)
-    //             this.setState({
-    //                 recommend: data.data.products
-    //             })
-    //         }).catch((error) => {
-    //             console.log(error)
-    //         })
-    // }
-
     componentDidMount = () => {
         this.getSingleProduct();
     }
 
     render() {
-        // const { itemId } = this.props.route.params;
-        // console.log('a' + this.props)
         const { product } = this.state
-        // console.log('b' + this.state)
         return (
             <>
                 <Header transparent>
@@ -112,28 +105,21 @@ class DetailPage extends Component {
                                                         <TouchableOpacity>
                                                             <View style={styles.size}>
                                                                 <Picker
-                                                                    selectedValue={this.state.sizeSelected}
-                                                                    onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
+                                                                    selectedValue={this.state.selectedSize}
+                                                                    onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                                                 >
-                                                                    <Picker.Item label="Size" value="0" />
+                                                                    <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
                                                                     <Picker.Item label="S" value="1" />
                                                                     <Picker.Item label="M" value="2" />
-                                                                    <Picker.Item label="L" value="3" />
+                                                                    <Picker.Item label="L" value="3" />  
                                                                 </Picker>
-                                                                {/* <SizeColorPicker
-                                                                    id={itemId}
-                                                                    changeSize={(pickSize) => setPickSize(pickSize)}
-                                                                    pickSize={pickSize}
-                                                                    changeColor={(pickColor) => setPickColor(pickColor)}
-                                                                    pickColor={pickColor}
-                                                                /> */}
                                                             </View>
                                                         </TouchableOpacity>
                                                         <TouchableOpacity>
                                                             <View style={styles.size}>
                                                                 <Picker
-                                                                    selectedValue={this.state.colorSelected}
-                                                                    onValueChange={(itemValue, itemIndex) => this.setSelectedValue(itemValue)}
+                                                                    selectedValue={this.state.selectedColor}
+                                                                    onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Color" value="0" />
                                                                     <Picker.Item label="Red" value="1" />
