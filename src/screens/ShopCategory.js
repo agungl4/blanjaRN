@@ -15,34 +15,53 @@ class ShopCategory extends Component {
     state = {
         products: [],
         productNew: [],
-      }
+    }
 
     componentDidMount = () => {
-        if (this.props.route.params.ctgId == 'new') {
-            axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
-                .then(({ data }) => {
-                    console.log(data.data.products)
-                    this.setState({
-                        productNew: data.data.products,
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            if (this.props.route.params.url) {
+                axios.get(REACT_APP_BASE_URL + '/search?' + this.props.route.params.url)
+                    .then(({ data }) => {
+                        console.log(data)
+                        this.setState({
+                            productNew: data.data.products,
+                        })
+                    }).catch(err => {
+                        console.log(err)
                     })
-                }).catch(err => {
-                    console.log(err)
-                })
-        } else {
-
-            axios.get(REACT_APP_BASE_URL + '/products?category=' + this.props.route.params.ctgId)
-                .then(({ data }) => {
-                    console.log(data.data.products)
-                    this.setState({
-                        productNew: data.data.products,
-                    })
-                }).catch(err => {
-                    console.log(err)
-                })
-        }
+            } else {
+                if (this.props.route.params.ctgId == 'new') {
+                    axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
+                        .then(({ data }) => {
+                            // console.log(data.data.products)
+                            this.setState({
+                                productNew: data.data.products,
+                            })
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                } else {
+                    axios.get(REACT_APP_BASE_URL + '/products?category=' + this.props.route.params.ctgId)
+                        .then(({ data }) => {
+                            // console.log(data.data.products)
+                            this.setState({
+                                productNew: data.data.products,
+                            })
+                        }).catch(err => {
+                            console.log(err)
+                        })
+                }
+            }
+        });
     }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+    }
+    
     render() {
         const { productNew } = this.state;
+        console.log(this.props.route.params)
         return (
             <>
                 <Header transparent>
@@ -81,13 +100,13 @@ class ShopCategory extends Component {
                             {
                                 productNew && productNew.map(({ product_id, product_name, product_price, category_name, product_img }) => {
                                     let img = product_img.split(',')[0];
-                                    console.log(img);
+                                    // console.log(img);
                                     return (
                                         <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
                                     )
                                 })
                             }
-                            {/* <CardCategory navigation={this.props.navigation} /> */}
+
                         </View>
                     </ScrollView>
                 </Container>

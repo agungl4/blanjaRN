@@ -26,7 +26,7 @@ class Home extends React.Component {
   getNewProducts = () => {
     axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
       .then(({ data }) => {
-        console.log(data.data.products)
+        // console.log(data.data.products)
         this.setState({
           productNew: data.data.products,
         })
@@ -37,7 +37,7 @@ class Home extends React.Component {
 
   getPopularProducts = () => {
     axios.get(REACT_APP_BASE_URL + '/products?sortBy=created_at').then(({ data }) => {
-      console.log(data)
+      // console.log(data)
       this.setState({
         products: data.data.products,
       })
@@ -52,7 +52,7 @@ class Home extends React.Component {
   }
   render() {
     const { products, productNew, pageInfo } = this.state;
-    console.log(REACT_APP_BASE_URL)
+    // console.log(REACT_APP_BASE_URL)
     return (
       <Container>
         <View style={{ height: 180 }}>
@@ -96,7 +96,7 @@ class Home extends React.Component {
                     {
                       productNew && productNew.map(({ product_id, product_name, product_price, category_name, product_img }) => {
                         let img = product_img.split(',')[0];
-                        console.log(img);
+                        // console.log(img);
                         return (
                           <CardProduct id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
                         )

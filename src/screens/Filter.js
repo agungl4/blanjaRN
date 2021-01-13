@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right, CheckBox } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet, Picker } from 'react-native'
-
-
+import axios from 'axios'
+import { REACT_APP_BASE_URL } from "@env"
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView, TouchableHighlight } from 'react-native-gesture-handler';
 
@@ -16,7 +16,8 @@ export default class Filters extends React.Component {
         sizeSelected: 0,
         catSelected: 0,
         selectedBrand: 0,
-        axiosData: ''
+        axiosData: '',
+        products: []
     }
 
     checkedRed = () => {
@@ -124,24 +125,23 @@ export default class Filters extends React.Component {
         this.setState({
             axiosData: axiosData
         })
+        this.props.navigation.navigate('Categories', {
+            url: axiosData
+        })
 
     }
+
     render() {
-        let sizeXS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 1 }) }}><Text>XS</Text></Button>
-        let sizeS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 2 }) }}><Text>S</Text></Button>
-        let sizeM = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 3 }) }}><Text>M</Text></Button>
-        let sizeL = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 4 }) }}><Text>L</Text></Button>
-        let sizeXL = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 5 }) }}><Text>XL</Text></Button>
+        const { products } = this.state;
+        let sizeS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 1 }) }}><Text>S</Text></Button>
+        let sizeM = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 2 }) }}><Text>M</Text></Button>
+        let sizeL = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 3 }) }}><Text>L</Text></Button>
         if (this.state.sizeSelected == 1) {
-            sizeXS = <Button danger small onPress={() => { this.setState({ sizeSelected: 1 }) }}><Text>XS</Text></Button>
+            sizeS = <Button danger small onPress={() => { this.setState({ sizeSelected: 1 }) }}><Text>S</Text></Button>
         } else if (this.state.sizeSelected == 2) {
-            sizeS = <Button danger small onPress={() => { this.setState({ sizeSelected: 2 }) }}><Text>S</Text></Button>
+            sizeM = <Button danger small onPress={() => { this.setState({ sizeSelected: 2 }) }}><Text>M</Text></Button>
         } else if (this.state.sizeSelected == 3) {
-            sizeM = <Button danger small onPress={() => { this.setState({ sizeSelected: 3 }) }}><Text>M</Text></Button>
-        } else if (this.state.sizeSelected == 4) {
-            sizeL = <Button danger small onPress={() => { this.setState({ sizeSelected: 4 }) }}><Text>L</Text></Button>
-        } else if (this.state.sizeSelected == 5) {
-            sizeXL = <Button danger small onPress={() => { this.setState({ sizeSelected: 5 }) }}><Text>XL</Text></Button>
+            sizeL = <Button danger small onPress={() => { this.setState({ sizeSelected: 3 }) }}><Text>L</Text></Button>
         }
         let all = <Button bordered danger small onPress={() => { this.setState({ catSelected: 0 }) }}><Text>All</Text></Button>
         let tshirt = <Button bordered danger small onPress={() => { this.setState({ catSelected: 1 }) }}><Text>T-shirt</Text></Button>
@@ -180,7 +180,7 @@ export default class Filters extends React.Component {
 
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0' }}>
-                        {/* <Text>Axios : {this.state.axiosData}</Text> */}
+                        <Text>Axios : {this.state.axiosData}</Text>
                         <Text style={{ fontWeight: 'bold', fontSize: 24, margin: 15 }}>Color</Text>
                         <View style={{ height: 80, backgroundColor: 'white' }}>
                             <View style={{ marginTop: 15, marginRight: 15, flexDirection: 'row', justifyContent: "space-around" }}>
@@ -192,11 +192,9 @@ export default class Filters extends React.Component {
                         </View>
                         <Text style={{ fontWeight: 'bold', fontSize: 24, margin: 15 }}>Sizes</Text>
                         <View style={{ height: 60, backgroundColor: 'white', paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 30, paddingRight: 30 }}>
-                            {sizeXS}
                             {sizeS}
                             {sizeM}
                             {sizeL}
-                            {sizeXL}
                         </View>
                         <Text style={{ fontWeight: 'bold', fontSize: 24, margin: 15 }}>Category</Text>
                         <View style={{ height: 60, backgroundColor: 'white', paddingTop: 10, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between', paddingLeft: 30, paddingRight: 30 }}>

@@ -31,7 +31,7 @@ class DetailPage extends Component {
         axios
             .get(REACT_APP_BASE_URL + '/product/' + this.props.route.params.itemId)
             .then(({ data }) => {
-                console.log(data.data)
+                // console.log(data.data)
                 this.setState({
                     product: data.data,
                 })
@@ -59,9 +59,9 @@ class DetailPage extends Component {
 
     render() {
         // const { itemId } = this.props.route.params;
-        console.log('a' + this.props)
+        // console.log('a' + this.props)
         const { product } = this.state
-        console.log('b' + this.state)
+        // console.log('b' + this.state)
         return (
             <>
                 <Header transparent>

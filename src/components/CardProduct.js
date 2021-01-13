@@ -13,7 +13,7 @@ class CardProduct extends Component {
     }
     render() {
         const { id, name, price, category, image } = this.props
-        console.log(this.props.id)
+        // console.log(this.props.id)
         return (
             <TouchableOpacity
                 onPress={() => {
