@@ -6,12 +6,13 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
-
+import { setAddress } from '../../utils/redux/ActionCreators/address'
 import CardAdress from '../../components/CardAdress'
 
 class Shipping extends React.Component {
     state = {
         shippingAddress: [],
+        selectedAddress: null,
     }
 
     getAddress = () => {
@@ -25,19 +26,31 @@ class Shipping extends React.Component {
             })
     }
 
+
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             this.getAddress()
-          });
+        });
     }
 
     componentWillUnmount() {
         this._unsubscribe()
-      }
+    }
+
+    setAddress = (id) => {
+        this.setState({
+            selectedAddress: id
+        })
+    }
+    setActiveAddress = () => {
+        alert('Adress ' + this.state.selectedAddress + ' terpilih')
+        this.props.dispatch(setAddress(this.state.selectedAddress))
+    }
 
     render() {
         console.log(this.props.auth)
         const { shippingAddress } = this.state
+
         return (
             <>
                 <Container>
@@ -57,29 +70,40 @@ class Shipping extends React.Component {
                         <Item rounded style={{ marginTop: 20, backgroundColor: 'white' }}>
                             <Input placeholder="Search Here" />
                         </Item>
-                        <View>
-                            <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+                            <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                            <TouchableOpacity onPress={() => { this.props.navigation.navigate('AddAddress') }}>
+                                <Text style={{ marginTop: 20, fontWeight: 'bold', fontSize: 18 }}>Add New</Text>
+                            </TouchableOpacity>
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 380, marginBottom: 20, marginTop: -20 }}>
-                                {
-                                    shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
-                                        return (
-                                            <>
-                                                <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
-                                            </>
-                                        )
-                                    })
-                                }
+                                <TouchableOpacity
+                                    onPress={() => { this.setAddress(id) }}
+                                >
+                                    {
+                                        shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
+                                            return (
+                                                <>
+                                                    <TouchableOpacity
+                                                        onPress={() => { this.setAddress(id) }}
+                                                    >
+                                                        <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                                    </TouchableOpacity>
+                                                </>
+                                            )
+                                        })
+                                    }
+                                </TouchableOpacity>
                             </ScrollView>
                         </SafeAreaView>
 
                         <Button full rounded bordered dark>
                             <TouchableOpacity
-                                onPress={() => { this.props.navigation.navigate('AddAddress') }}
+                                onPress={this.setActiveAddress}
                             >
                                 <Text>
-                                    Add New Address
+                                    Choose Address
                             </Text>
                             </TouchableOpacity>
                         </Button>
@@ -91,9 +115,10 @@ class Shipping extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth,address }) => {
     return {
-        auth
+        auth,
+        address
     };
 };
 

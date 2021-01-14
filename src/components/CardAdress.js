@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { connect } from 'react-redux'
 
-export default class cardOrder extends React.Component {
+class cardAddress extends React.Component {
     render() {
+        let isActive;
+        if (this.props.address.selectedAddress == this.props.addressId) {
+            isActive = <Text style={{ color: 'green', fontWeight: 'bold' }}>Active</Text>
+        }
         return (
             <>
-                <TouchableOpacity style={styles.order} key={this.props.addressId}>
+                <View style={styles.order} >
                     <View style={{ margin: 10, }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ fontWeight: '200', fontSize: 18 }}>
@@ -24,16 +29,30 @@ export default class cardOrder extends React.Component {
                         <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
                             {this.props.city + ', '}<Text style={{ color: 'green', fontWeight: 'bold' }}>{this.props.postal}</Text>
                         </Text>
-                        <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
-                            {this.props.phone}
-                        </Text>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ marginTop: 10, color: 'gray', fontSize: 14 }}>
+                                {this.props.phone}
+                            </Text>
+                            <View>
+                                {isActive}
+                            </View>
+                        </View>
                     </View>
-                </TouchableOpacity>
+                </View>
 
             </>
         )
     }
 }
+
+const mapStateToProps = ({ auth, address }) => {
+    return {
+        auth,
+        address
+    };
+};
+
+export default connect(mapStateToProps)(cardAddress);
 
 const styles = StyleSheet.create({
     order: {
