@@ -4,6 +4,7 @@ import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea 
 import { IconBack } from '../../assets'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
+import ImagePicker from 'react-native-image-picker'
 import { connect } from 'react-redux'
 
 class AddStock extends React.Component {
@@ -12,12 +13,12 @@ class AddStock extends React.Component {
 
         this.state = {
             product_name: [],
-            product_id: '',
-            size_id: 0,
-            color_id: 0,
-            condition_id: 0,
+            size_id: '',
+            color_id: '',
+            condition_id: '',
             qty: '',
-            selectedProduct: 0
+            selectedProduct: 0,
+            getDataUpdate: []
         }
     }
 
@@ -26,6 +27,22 @@ class AddStock extends React.Component {
             .then(({ data }) => {
                 this.setState({
                     product_name: data.data,
+                })
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+
+    getData = () => {
+        axios.get(REACT_APP_BASE_URL + `/product/pivotTb/` + this.props.route.params.itemId)
+            .then(({ data }) => {
+                console.log(data.data[0].product_id)
+                this.setState({
+                    selectedProduct: data.data[0].product_id,
+                    size_id: ''+data.data[0].size_id,
+                    color_id: ''+data.data[0].color_id,
+                    condition_id: ''+data.data[0].condition_id,
+                    qty: ''+data.data[0].qty
                 })
             }).catch((err) => {
                 console.log(err)
@@ -56,7 +73,7 @@ class AddStock extends React.Component {
         })
     }
 
-    addStock = () => {
+    submitChange = () => {
         const data = {
             product_id: this.state.selectedProduct,
             size_id: this.state.size_id,
@@ -74,9 +91,9 @@ class AddStock extends React.Component {
 
         console.log(data)
 
-        axios.post(REACT_APP_BASE_URL + '/product/add-stock', data, config)
+        axios.patch(REACT_APP_BASE_URL + '/product/update/' + this.props.route.params.itemId, data, config)
             .then(({ data }) => {
-                alert(data.data.msg)
+                alert('mpssh')
             })
             .catch(error => {
                 console.log(error)
@@ -85,12 +102,12 @@ class AddStock extends React.Component {
 
     componentDidMount = () => {
         this.getAlldata()
+        this.getData()
     }
 
 
     render() {
-        const { product_name, size_id, color_id, qty, selectedProduct, } = this.state
-        // console.log(product_name)
+        const { product_name, size_id, color_id, qty, condition_id, selectedProduct, } = this.state
         console.log(this.state)
         return (
             <Container style={styles.container}>
@@ -168,7 +185,7 @@ class AddStock extends React.Component {
                             <TouchableOpacity>
                                 <View style={styles.size}>
                                     <Picker
-                                        selectedValue={this.state.condition_id}
+                                        selectedValue={condition_id}
                                         onValueChange={(itemValue, itemIndex) => this.setCondition(itemValue)}
                                     >
                                         <Picker.Item label="Condition" value="0" />
@@ -183,7 +200,7 @@ class AddStock extends React.Component {
                             </Item>
                         </Form>
                         <Button danger full rounded style={{ marginTop: 15 }}
-                            onPress={this.addStock}
+                            onPress={this.submitChange}
                         >
                             <Text style={{ color: '#fff' }}> SUBMIT </Text>
                         </Button>

@@ -10,7 +10,6 @@ class UserStore extends React.Component {
         super(props)
     }
 
-
     render() {
         return (
             <>
@@ -43,7 +42,7 @@ class UserStore extends React.Component {
                             onPress={() => { this.props.navigation.navigate('ListProduct') }}
                         >
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>List Product</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My selling product</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
                             </View>
                         </TouchableOpacity>

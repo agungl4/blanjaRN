@@ -12,6 +12,8 @@ target 'blanja' do
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 
+  pod 'RNImageCropPicker', :path => '../node_modules/react-native-image-crop-picker'
+
   target 'blanjaTests' do
     inherit! :complete
     # Pods for testing

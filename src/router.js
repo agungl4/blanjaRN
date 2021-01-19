@@ -32,6 +32,7 @@ import UserStore from './screens/Profile/UserStore'
 import ListProduct from './screens/Profile/ListProduct'
 import AddProduct from './screens/Profile/AddProduct'
 import AddStock from './screens/Profile/AddStock'
+import EditStock from './screens/Profile/EditStock'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -128,6 +129,7 @@ const MainProfile = () => {
       <Stack.Screen name="ListProduct" component={ListProduct} />
       <Stack.Screen name="AddProduct" component={AddProduct} />
       <Stack.Screen name="AddStock" component={AddStock} />
+      <Stack.Screen name="EditStock" component={EditStock} />
       <Stack.Screen name="DetailsOrders" component={DetailOrders} />
       <Stack.Screen name="Shipping" component={Shipping} />
       <Stack.Screen name="ChangeAddress" component={ChangeAddress} />

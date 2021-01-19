@@ -4,16 +4,8 @@ import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea 
 import { IconBack } from '../../assets'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
-import ImagePicker from 'react-native-image-picker'
-
-const options = {
-    title: 'Select Avatar',
-    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-    storageOptions: {
-        skipBackup: true,
-        path: 'images',
-    },
-};
+import ImagePicker from 'react-native-image-crop-picker';
+import { connect } from 'react-redux'
 
 class AddProduct extends React.Component {
     constructor(props) {
@@ -24,13 +16,7 @@ class AddProduct extends React.Component {
             category_id: 0,
             product_price: '',
             product_desc: '',
-            product_img: {},
-            filepath: {
-                data: '',
-                uri: ''
-            },
-            fileData: '',
-            fileUri: ''
+            product_img: [],
         }
     }
 
@@ -40,56 +26,63 @@ class AddProduct extends React.Component {
         })
     }
 
-    handleChoosePhoto = () => {
-        const options = {
-            noData: true,
-        }
-        ImagePicker.launchImageLibrary(options, response => {
-            if (response.uri) {
-                this.setState({ product_img: response })
-            }
+    chooseFile = () => {
+        ImagePicker.openPicker({
+            multiple: true,
+            mediaType: 'photo',
         })
-    }
+            .then((images) => {
+                console.log(images.length);
+                this.setState({ product_img: images });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
-    chooseImage = () => {
-        let options = {
-            title: 'Select Image',
-            customButtons: [
-                { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-            ],
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
+    postProduct = () => {
+        const config = {
+            headers: {
+                'x-access-token': 'Bearer ' + this.props.auth.token,
+                'Content-type': 'multipart/form-data',
             },
         };
-        ImagePicker.showImagePicker(options, (response) => {
-            console.log('Response = ', response);
+        const data = new FormData();
+        data.append('product_name', this.state.product_name);
+        data.append('category_id', this.state.category_id);
+        data.append('product_price', this.state.product_price);
+        data.append('product_desc', this.state.product_desc);
+        data.append('user_id', this.props.auth.id);
+        // data.append('image', filePath);
+        for (let i = 0; i < this.state.product_img.length; i++) {
+            data.append('product_img',
+                  {
+                    name: this.state.product_img[i].path.split('/').pop(),
+                    type: this.state.product_img[i].mime,
+                    uri:
+                      Platform.OS === 'android'
+                        ? this.state.product_img[i].path
+                        : this.state.product_img[i].path.replace('file://', ''),
+                  }
+            );
+        }
 
-            if (response.didCancel) {
-                console.log('User cancelled image picker');
-            } else if (response.error) {
-                console.log('ImagePicker Error: ', response.error);
-            } else if (response.customButton) {
-                console.log('User tapped custom button: ', response.customButton);
-                alert(response.customButton);
-            } else {
-                const source = { uri: response.uri };
-
-                // You can also display the image using data:
-                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
-                // alert(JSON.stringify(response));s
-                console.log('response', JSON.stringify(response));
-                this.setState({
-                    filePath: response,
-                    fileData: response.data,
-                    fileUri: response.uri
-                });
-            }
-        });
+        console.log(data);
+        axios
+            .post(REACT_APP_BASE_URL + `/product/add-product`, data, config)
+            .then((data) => {
+                console.log(data.data);
+                alert('produk berhasil ditambahkan')
+            })
+            .catch((err) => {
+                console.log('error disini');
+                console.log(err);
+            });
     }
 
     render() {
         const { product_name, category_id, product_price, product_desc, product_img } = this.state
+        console.log(this.state)
         return (
             <Container style={styles.container}>
                 <TouchableOpacity onPress={() => {
@@ -109,7 +102,7 @@ class AddProduct extends React.Component {
                             </Item>
                             <View style={styles.size}>
                                 <Picker
-                                    selectedValue={this.state.category_id}
+                                    selectedValue={category_id}
                                     onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
                                 >
                                     <Picker.Item label="Category" value="0" style={{ backgroundColor: 'gray' }} />
@@ -122,31 +115,34 @@ class AddProduct extends React.Component {
                             </View>
                             <Item floatingLabel>
                                 <Label >Price</Label>
-                                <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} secureTextEntry={true} />
+                                <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
                             </Item>
-                            <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} secureTextEntry={true} />
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                {product_img && (
-                                    <Image
-                                        source={{ uri: product_img.uri }}
-                                        style={{ width: 300, height: 300 }}
-                                    />
-                                )}
-                                <Button onPress={this.handleChoosePhoto}>
-                                    <Text>Choose photo</Text>
-                                </Button>
+                            <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
+
+                            <View style={{ flexDirection: 'row' }}>
+                                {product_img && product_img.map((item) => {
+                                    return (
+                                        <Image
+                                            key={product_img.indexOf(item)}
+                                            source={{ uri: product_img.length !== 0 ? item.path : '' }}
+                                            style={styles.imageStyle}
+                                        />
+                                    );
+                                })}
                             </View>
 
-                            <TouchableOpacity onPress={this.chooseImage} style={styles.btnSection}  >
-                                <Text style={styles.btnText}>Choose File</Text>
+                            <TouchableOpacity
+                                activeOpacity={0.5}
+                                style={styles.btnSection}
+                                onPress={this.chooseFile}>
+                                <Text style={styles.btnText}>Choose Image</Text>
                             </TouchableOpacity>
                         </Form>
 
-                        <TouchableOpacity onPress={this.signup}>
-                            <Button danger full rounded style={{ marginTop: 15 }}>
-                                <Text style={{ color: '#fff' }}> SUBMIT </Text>
-                            </Button>
-                        </TouchableOpacity>
+
+                        <Button danger full rounded style={{ marginTop: 15 }} onPress={this.postProduct}>
+                            <Text style={{ color: '#fff' }}> SUBMIT </Text>
+                        </Button>
                     </View>
                 </ScrollView>
             </Container>
@@ -154,7 +150,13 @@ class AddProduct extends React.Component {
     }
 }
 
-export default AddProduct;
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(AddProduct);
 
 const styles = StyleSheet.create({
     container: {
@@ -192,5 +194,15 @@ const styles = StyleSheet.create({
         borderColor: '#9B9B9B',
         paddingHorizontal: 5,
         paddingBottom: 15
+    },
+    imageStyle: {
+        width: 200,
+        height: 200,
+        width: 100,
+        height: 100,
+        margin: 5,
+        borderColor: 'black',
+        borderRadius: 5,
+        borderWidth: 1,
     },
 })

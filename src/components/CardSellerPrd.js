@@ -1,20 +1,19 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Button } from 'native-base'
-import {REACT_APP_BASE_URL} from "@env"
+import { REACT_APP_BASE_URL } from "@env"
 
 class CardBag extends Component {
     constructor(props) {
         super(props)
     }
     render() {
-        const { id, name, price, category,size,color, image } = this.props
-        console.log(this.props.image)
+        const { id, name, price, category, size, color, image } = this.props
         return (
             <TouchableOpacity
                 onPress={() => {
                     this.props.navigation.navigate('DetailPage', {
-                        itemId: this.props.id,
+                        itemId: this.props.product_id,
                     })
                 }}
             >
@@ -26,12 +25,24 @@ class CardBag extends Component {
                                 style={{ fontSize: 18, fontWeight: 'bold', marginTop: 5, maxWidth: 175 }}
                             >
                                 {name}
-                        </Text>
+                            </Text>
+                            <Button full rounded success style={{ width: 50, height: 20, marginTop: 5 }}
+                                onPress={() => {
+                                    this.props.navigation.navigate('EditStock', {
+                                        itemId: this.props.id,
+                                    })
+                                }}
+                            >
+                                <Text style={{ fontWeight: '700', fontSize: 12, color: '#FFF' }}>Edit</Text>
+                            </Button>
+
+                        </View>
+                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ color: 'gray', marginBottom: 10 }}>{category}</Text>
                             <Button full rounded danger style={{ width: 50, height: 20, marginTop: 5 }}>
                                 <Text style={{ fontWeight: '700', fontSize: 12, color: '#FFF' }}>Delete</Text>
                             </Button>
                         </View>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>{category}</Text>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ marginRight: 16, color: 'gray' }}>Color:
                         <Text style={{ color: 'black' }}>{color}</Text>
