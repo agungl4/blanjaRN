@@ -30,9 +30,11 @@ import Filter from './screens/Filter'
 import Notification from './screens/Notification'
 import UserStore from './screens/Profile/UserStore'
 import ListProduct from './screens/Profile/ListProduct'
+import SellingProduct from './screens/Profile/SellingProduct'
 import AddProduct from './screens/Profile/AddProduct'
 import AddStock from './screens/Profile/AddStock'
 import EditStock from './screens/Profile/EditStock'
+import EditProduct from './screens/Profile/EditProduct'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -126,10 +128,12 @@ const MainProfile = () => {
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Orders" component={Order} />
       <Stack.Screen name="Store" component={UserStore} />
+      <Stack.Screen name="SellingProduct" component={SellingProduct} />
       <Stack.Screen name="ListProduct" component={ListProduct} />
       <Stack.Screen name="AddProduct" component={AddProduct} />
       <Stack.Screen name="AddStock" component={AddStock} />
       <Stack.Screen name="EditStock" component={EditStock} />
+      <Stack.Screen name="EditProduct" component={EditProduct} />
       <Stack.Screen name="DetailsOrders" component={DetailOrders} />
       <Stack.Screen name="Shipping" component={Shipping} />
       <Stack.Screen name="ChangeAddress" component={ChangeAddress} />

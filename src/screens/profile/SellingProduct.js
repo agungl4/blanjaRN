@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-import CardProduct from '../../components/CardListPrd'
+import CardProduct from '../../components/CardSellerPrd'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
 import { connect } from 'react-redux'
@@ -12,8 +12,9 @@ class ListProduct extends React.Component {
     };
 
     getAllProducts = () => {
+        console.log(REACT_APP_BASE_URL+ '/products/getByUser/' + this.props.auth.id)
         axios
-            .get(REACT_APP_BASE_URL + `/products/showAll/` + this.props.auth.id)
+            .get(REACT_APP_BASE_URL+ '/products/getByUser/' + this.props.auth.id)
             .then(({ data }) => {
                 this.setState({ products: data.data });
             })
@@ -38,16 +39,16 @@ class ListProduct extends React.Component {
                             </Button>
                         </Left>
                         <Body >
-                            <Title style={{ color: 'black', fontWeight: 'bold', marginLeft: 20 }}>My Product</Title>
+                            <Title style={{ color: 'black', fontWeight: 'bold', marginLeft: 20 }}>My Selling Product</Title>
                         </Body>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
                     {
-                      products && products.map(({ id, product_name, product_price, category_name,size_name,color_name, product_img }) => {
+                      products && products.map(({ id, product_id, product_name, product_price, category_name,size_name,color_name, product_img }) => {
                         let img = product_img.split(',')[0];
                         // console.log(img);
                         return (
-                          <CardProduct id={id} name={product_name} price={product_price} category={category_name} size={size_name} color={color_name} image={img} navigation={this.props.navigation} />
+                          <CardProduct id={id} product_id={product_id} name={product_name} price={product_price} category={category_name} size={size_name} color={color_name} image={img} navigation={this.props.navigation} />
                         )
                       })
                     }

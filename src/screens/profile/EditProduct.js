@@ -17,7 +17,8 @@ class AddProduct extends React.Component {
             product_price: '',
             product_desc: '',
             product_img: [],
-            taken_pic: {}
+            taken_pic: {},
+            thumbnailImg:''
         }
     }
 
@@ -57,7 +58,22 @@ class AddProduct extends React.Component {
             });
     };
 
-    postProduct = () => {
+    getData = () => {
+        axios.get(REACT_APP_BASE_URL + `/product/productId/` + this.props.route.params.itemId)
+            .then(({ data }) => {
+                this.setState({
+                    product_name: ''+data.data[0].product_name,
+                    category_id: ''+data.data[0].category_id,
+                    product_price: ''+data.data[0].product_price,
+                    product_desc: ''+data.data[0].product_desc,
+                    // thumbnailImg:''+data.data[0].product_img
+                })
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
+
+    editProduct = () => {
         const config = {
             headers: {
                 'x-access-token': 'Bearer ' + this.props.auth.token,
@@ -70,33 +86,38 @@ class AddProduct extends React.Component {
         data.append('product_price', this.state.product_price);
         data.append('product_desc', this.state.product_desc);
         data.append('user_id', this.props.auth.id);
-        data.append('product_img', {
-            name: this.state.taken_pic.path.split('/').pop(),
-            type: this.state.taken_pic.mime,
-            uri:
-                Platform.OS === 'android'
-                    ? this.state.taken_pic.path
-                    : this.state.taken_pic.path.replace('file://', ''),
-        })
-        for (let i = 0; i < this.state.product_img.length; i++) {
-            data.append('product_img',
-                {
-                    name: this.state.product_img[i].path.split('/').pop(),
-                    type: this.state.product_img[i].mime,
-                    uri:
-                        Platform.OS === 'android'
-                            ? this.state.product_img[i].path
-                            : this.state.product_img[i].path.replace('file://', ''),
-                }
-            );
+        if (this.state.product_img[0]) {
+            for (let i = 0; i < this.state.product_img.length; i++) {
+                data.append('product_img',
+                    {
+                        name: this.state.product_img[i].path.split('/').pop(),
+                        type: this.state.product_img[i].mime,
+                        uri:
+                            Platform.OS === 'android'
+                                ? this.state.product_img[i].path
+                                : this.state.product_img[i].path.replace('file://', ''),
+                    }
+                );
+            }
         }
+        if (Object.keys(this.state.taken_pic).length != 0) {
+            data.append('product_img', {
+                name: this.state.taken_pic.path.split('/').pop(),
+                type: this.state.taken_pic.mime,
+                uri:
+                    Platform.OS === 'android'
+                        ? this.state.taken_pic.path
+                        : this.state.taken_pic.path.replace('file://', ''),
+            })
+        }
+
 
         console.log(data);
         axios
-            .post(REACT_APP_BASE_URL + `/product/add-product`, data, config)
+            .patch(REACT_APP_BASE_URL + `/product/updatePrd/` + this.props.route.params.itemId, data, config)
             .then((data) => {
                 console.log(data.data);
-                alert('produk berhasil ditambahkan')
+                alert('produk berhasil dirubah')
             })
             .catch((err) => {
                 console.log('error disini');
@@ -104,8 +125,13 @@ class AddProduct extends React.Component {
             });
     }
 
+    componentDidMount=()=>{
+        this.getData()
+    }
+
     render() {
-        const { product_name, category_id, product_price, product_desc, product_img } = this.state
+        let { product_name, category_id, product_price, product_desc, product_img } = this.state
+        // thumbnailImg = thumbnailImg.split(',')
         console.log(this.state)
         return (
             <Container style={styles.container}>
@@ -115,7 +141,7 @@ class AddProduct extends React.Component {
                     <Image source={IconBack} />
                 </TouchableOpacity>
                 <View style={styles.rowTitle}>
-                    <Text style={styles.textTitle}>Add Product</Text>
+                    <Text style={styles.textTitle}>Edit Product</Text>
                 </View>
                 <ScrollView>
                     <View style={{ marginTop: 5 }}>
@@ -154,11 +180,21 @@ class AddProduct extends React.Component {
                                     );
                                 })}
                             </View>
+                            {/* <View style={{ flexDirection: 'row' }}>
+                                {thumbnailImg && thumbnailImg.map((item) => {
+                                    return (
+                                        <Image
+                                            // key={thumbnailImg.indexOf(item)}
+                                            source={{ uri: REACT_APP_BASE_URL+item}}
+                                            style={styles.imageStyle}
+                                        />
+                                    );
+                                })}
+                            </View> */}
 
                             <View style={{ flexDirection: 'row' }}>
 
                                 <Image
-
                                     source={{ uri: this.state.taken_pic.path }}
                                     style={styles.imageStyle}
                                 />
@@ -181,7 +217,7 @@ class AddProduct extends React.Component {
                         </Form>
 
 
-                        <Button danger full rounded style={{ marginTop: 15 }} onPress={this.postProduct}>
+                        <Button danger full rounded style={{ marginTop: 15 }} onPress={this.editProduct}>
                             <Text style={{ color: '#fff' }}> SUBMIT </Text>
                         </Button>
                     </View>
