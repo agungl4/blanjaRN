@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
 // import { TouchableOpacity } from 'react-native-gesture-handler'
 import { IconBack } from '../../assets'
-import { setLogintrue, setName, setEmail, setId } from './../../utils/redux/ActionCreators/auth'
+import { setLogintrue, setName, setEmail, setId, setToken } from './../../utils/redux/ActionCreators/auth'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from '@env'
@@ -39,6 +39,7 @@ class Login extends React.Component {
                     this.props.dispatch(setName(data.result.name))
                     this.props.dispatch(setEmail(data.result.email))
                     this.props.dispatch(setId(data.result.user_id))
+                    this.props.dispatch(setToken(data.result.token))
                     this.props.navigation.navigate('Home')
                 }).catch(({ response }) => {
                     console.log(response.data)

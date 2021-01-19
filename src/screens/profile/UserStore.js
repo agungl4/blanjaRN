@@ -5,33 +5,13 @@ import { connect } from 'react-redux'
 import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
 import { REACT_APP_BASE_URL } from "@env"
 
-class Profile extends React.Component {
+class UserStore extends React.Component {
     constructor(props) {
         super(props)
     }
 
-    Logout = () => {
-        this.props.dispatch(setLoginfalse())
-        this.props.dispatch(removeEmail())
-        this.props.dispatch(removeName())
-        this.props.dispatch(removeId())
-        this.props.navigation.navigate('Login')
-    }
-
-    componentDidMount = () => {
-        this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            if (!this.props.auth.isLogin) {
-                this.props.navigation.navigate('Login')
-            }
-        });
-    }
-
-    componentWillUnmount() {
-        this._unsubscribe()
-    }
 
     render() {
-        console.log(this.props.auth)
         return (
             <>
                 <Container>
@@ -51,63 +31,43 @@ class Profile extends React.Component {
                         </Right>
                     </Header>
                     <Content>
-                        <Text style={{ fontWeight: 'bold', fontSize: 42, marginLeft: 10, marginRight: 10 }}>My Profile</Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 42, marginLeft: 10, marginRight: 10 }}>My Store</Text>
                         <View style={{ flexDirection: 'row', marginTop: 10 }}>
                             <Image source={require('./../../assets/images/profile.jpg')} style={{ width: 80, height: 80, borderRadius: 40, marginLeft: 10, marginRight: 10, marginBottom: 50 }} />
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{this.props.auth.name}</Text>
-                                <Text style={{ color: 'gray' }}>{this.props.auth.email}</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Store Name</Text>
+                                <Text style={{ color: 'gray' }}>owner name</Text>
                             </View>
                         </View>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Store') }}
+                            onPress={() => { this.props.navigation.navigate('ListProduct') }}
                         >
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Store</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>List Product</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Orders') }}
+                            onPress={() => { this.props.navigation.navigate('AddProduct') }}
                         >
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add products</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Shipping') }}>
+                            onPress={() => { this.props.navigation.navigate('AddStock') }}>
                             <View style={{ paddingLeft: 10, marginTop: 5 }}
                             >
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add stock</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Setting') }}
-                        >
-
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Settings</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Notification, Password</Text>
-                            </View>
-                        </TouchableOpacity>
                     </Content>
-                    <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
-                        onPress={this.Logout}
-                    >
-                        <Text>Logout</Text>
-                    </Button>
                 </Container>
             </>
         )
     }
 }
 
-const mapStateToProps = ({ auth }) => {
-    return {
-        auth
-    };
-};
-
-export default connect(mapStateToProps)(Profile);
+export default UserStore;

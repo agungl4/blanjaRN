@@ -43,3 +43,14 @@ export const removeId = (data) => {
         type:"SET_ID_FALSE",
     }
 }
+export const setToken = (data) => {
+    return{
+        type:"SET_TOKEN_TRUE",
+        data
+    }
+}
+export const removeToken = (data) => {
+    return{
+        type:"SET_TOKEN_FALSE"
+    }
+}
