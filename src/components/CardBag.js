@@ -1,50 +1,62 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { addQty, minQty, removeItems } from '../utils/redux/ActionCreators/cart'
+import { connect } from 'react-redux'
+import { REACT_APP_BASE_URL } from '@env'
 
 class CardBag extends Component {
-    state = {
-        counter: 0,
-    }
 
     Minus = () => {
-        if(this.state.counter>0) {
-            this.setState({
-                counter: this.state.counter-1
-            })
+        const data = {
+            product_id: this.props.productId,
+            color: this.props.color,
+            size: this.props.size,
+            price: this.props.price
+        }
+        if (this.props.qty != 1) {
+            this.props.dispatch(minQty(data))
+        } else {
+            this.props.dispatch(removeItems(data))
         }
     }
 
     Plus = () => {
-        if(this.state.counter<10) {
-            this.setState({
-                counter: this.state.counter+1
-            })
+        const data = {
+            product_id: this.props.productId,
+            color: this.props.color,
+            size: this.props.size,
+            price: this.props.price
+        }
+        console.log(data)
+        if(this.props.qty !=10) {
+            this.props.dispatch(addQty(data))
         }
     }
     render() {
+        const { productId, name, color, size, qty, price, img } = this.props
         return (
             <View style={styles.container}>
-                <Image source={require('../assets/images/cardbag.png')} style={styles.img} />
+                <Image source={{ uri: REACT_APP_BASE_URL + img, width: 104, height: 104 }} style={styles.img} />
                 <View style={styles.infobag}>
-                    <Text>T-Shirt</Text>
+                    <Text>{name}</Text>
                     <View style={{ flexDirection: 'row' }}>
-                        <Text style={{ marginRight: 16 }}>Color: Gray</Text>
-                        <Text>Size: L</Text>
+                        <Text style={{ marginRight: 16 }}>Color: {color}</Text>
+                        <Text>Size: {size}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 14 }}>
+                    <View style={{ flexDirection: 'row',justifyContent:'space-around', marginTop: 14 }}>
                         <TouchableOpacity onPress={this.Minus}>
                             <View style={styles.btn}>
                                 <Image source={require('../assets/icons/min.png')} style={{ marginTop: 13 }} />
                             </View>
                         </TouchableOpacity>
-                        <Text style={{ marginTop: 7, marginHorizontal: 10 }}>{this.state.counter}</Text>
+                        <Text style={{ marginTop: 7, marginHorizontal: 10 }}>{qty}</Text>
                         <TouchableOpacity onPress={this.Plus}>
                             <View style={styles.btn}>
                                 <Image source={require('../assets/icons/plus.png')} style={{ marginTop: 6 }} />
                             </View>
                         </TouchableOpacity>
                         <View style={styles.price}>
-                            <Text style={{ fontFamily: 'Metropolis-Bold', fontSize: 20 }}>30$</Text>
+                            <Text style={{ fontWeight: '700', fontSize: 14 }}>Rp. {qty * price}</Text>
                         </View>
                     </View>
                 </View>
@@ -53,7 +65,14 @@ class CardBag extends Component {
     }
 }
 
-export default CardBag;
+const mapStateToProps = ({ auth, cart }) => {
+    return {
+        auth,
+        cart
+    };
+};
+
+export default connect(mapStateToProps)(CardBag);
 
 const styles = StyleSheet.create({
     container: {

@@ -1,20 +1,82 @@
-import * as actionTypes from '../actionTypes';
+const bagReducer = (
+  prevstate = {
+    mybag: [],
+    myOrder: [],
+    totalAmount: 0,
+    totalPayment: 0,
+    trxId: 0
+  }, action) => {
 
-const INITIAL_STATE = {
-  cart: [],
-};
-
-const cartReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actionTypes.ADD_TO_CART:
-      console.log(action.payload.id);
+    case "ADD_ITEMS":
+      console.log(action.data.product_id)
+      let newItem = action.data
+      const inCart = prevstate.mybag.find(({ product_id, color, size }) =>
+        product_id === newItem.product_id && color === newItem.color && size === newItem.size ? true : false
+      )
+      console.log(inCart)
       return {
-        ...state,
-        cart: [...state.cart, action.payload],
-      };
-    default:
-      return state;
-  }
-};
+        ...prevstate,
+        mybag: inCart ?
+          prevstate.mybag.map((items) =>
+            items.product_id === newItem.product_id && items.color === newItem.color && items.size === newItem.size ?
+              { ...items, qty: items.qty + 1 }
+              : items
+          )
+          : [...prevstate.mybag, { ...action.data }],
+        totalAmount: prevstate.totalAmount + (newItem.price)
 
-export default cartReducer;
+      }
+    case "INC_QTY":
+      const IncreaseQty = prevstate.mybag.map((items) =>
+        items.product_id == action.data.product_id && items.color === action.data.color && items.size === action.data.size ?
+          { ...items, qty: items.qty + 1 }
+          : items
+      )
+      return {
+        ...prevstate,
+        mybag: IncreaseQty,
+        totalAmount: prevstate.totalAmount + action.data.price
+      }
+
+    case "DEC_QTY":
+      const DecreaseQty = prevstate.mybag.map((items) =>
+        items.product_id == action.data.product_id && items.color === action.data.color && items.size === action.data.size ?
+          { ...items, qty: items.qty - 1 }
+          : items
+      )
+      return {
+        ...prevstate,
+        mybag: DecreaseQty,
+        totalAmount: prevstate.totalAmount - action.data.price
+      }
+
+    case 'ORDER_ITEMS':
+      return {
+        ...prevstate,
+        mybag:
+          prevstate.mybag.map((items) =>
+            true ?
+              { ...items, payment: action.data.payment, address: action.data.address, trxId: action.data.trxId }
+              : items
+          ),
+        trxId: prevstate.trxId + 1
+      }
+    case "DELETE_ITEM":
+      const itemAfterRemove = prevstate.mybag.filter((items) => {
+        return items.product_id != action.data.product_id || items.color != action.data.color || items.size != action.data.size
+      })
+      return {
+        ...prevstate,
+        mybag: itemAfterRemove,
+        totalAmount: prevstate.totalAmount - action.data.price
+      }
+    default:
+      return {
+        ...prevstate,
+      };
+  }
+
+}
+
+export default bagReducer;

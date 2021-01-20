@@ -1,13 +1,46 @@
-import * as actionTypes from '../actionTypes';
-
-export const addToCart = (itemID, image, price, name) => {
+export const addItems = (data) => {
   return {
-    type: actionTypes.ADD_TO_CART,
-    payload: {
-      id: itemID,
-      img: image,
-      prc: price,
-      name: name,
-    },
-  };
-};
+      type: "ADD_ITEMS",
+      data
+
+  }
+}
+
+export const addQty = (data) => {
+  return {
+      type: "INC_QTY",
+      data
+
+  }
+}
+
+export const minQty = (data) => {
+  return {
+      type: "DEC_QTY",
+      data
+
+  }
+}
+
+export const orderItems = (data) => {
+  return {
+      type: "ORDER_ITEMS",
+      data
+
+  }
+}
+
+export const removeItems = (data) => {
+  return {
+      type: "DELETE_ITEM",
+      data
+
+  }
+}
+
+export const setTotalPayment = (data) =>{
+  return {
+      type: "TOTAL_PAYMENT",
+      data
+  }
+}

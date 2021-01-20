@@ -6,12 +6,9 @@ import { Left, Body, Right, Title, Button, Container, Header } from 'native-base
 import { Row, Grid } from 'react-native-easy-grid'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
-import { SizeColorPicker } from "../components/SizeColorPicker";
+import { addItems } from '../utils/redux/ActionCreators/cart'
+import { connect } from 'react-redux'
 
-const getUrl = "https://186c58de6dfb.ngrok.io/product/"
-
-// const url = getUrl + this.props.route.params.itemId
-// console.log(url)
 
 class DetailPage extends Component {
     constructor(props) {
@@ -19,7 +16,7 @@ class DetailPage extends Component {
     }
     state = {
         selectedSize: 0,
-        selectedColor:0,
+        selectedColor: 0,
         product: [],
     };
 
@@ -51,6 +48,31 @@ class DetailPage extends Component {
 
     componentDidMount = () => {
         this.getSingleProduct();
+    }
+
+    addToCart = () => {
+        if (!this.props.auth.isLogin) {
+            alert('Anda harus login terlebih dahulu')
+        } else {
+            if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
+                alert('Harap pilih warna dan ukuran')
+            } else {
+                const Items = {
+                    user_id: this.props.auth.id,
+                    product_id: this.props.route.params.itemId,
+                    product_name: this.state.product[0].product_name,
+                    product_img: this.state.product[0].product_img.split(',')[0],
+                    color: this.state.selectedColor,
+                    size: this.state.selectedSize,
+                    price: this.state.product[0].product_price,
+                    qty: 1
+                }
+                console.log(Items)
+                this.props.dispatch(addItems(Items))
+                alert('Berhasil menambahkan ke keranjang')
+                this.props.navigation.navigate('MyBag')
+            }
+        }
     }
 
     render() {
@@ -109,9 +131,24 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
-                                                                    <Picker.Item label="S" value="1" />
-                                                                    <Picker.Item label="M" value="2" />
-                                                                    <Picker.Item label="L" value="3" />  
+                                                                    <Picker.Item label="S" value="S" />
+                                                                    <Picker.Item label="M" value="M" />
+                                                                    <Picker.Item label="L" value="L" />
+                                                                    <Picker.Item label="28" value="28" />
+                                                                    <Picker.Item label="29" value="29" />
+                                                                    <Picker.Item label="30" value="30" />
+                                                                    <Picker.Item label="31" value="31" />
+                                                                    <Picker.Item label="32" value="32" />
+                                                                    <Picker.Item label="33" value="33" />
+                                                                    <Picker.Item label="34" value="34" />
+                                                                    <Picker.Item label="35" value="35" />
+                                                                    <Picker.Item label="36" value="36" />
+                                                                    <Picker.Item label="37" value="37" />
+                                                                    <Picker.Item label="38" value="38" />
+                                                                    <Picker.Item label="39" value="39" />
+                                                                    <Picker.Item label="40" value="40" />
+                                                                    <Picker.Item label="41" value="41" />
+                                                                    <Picker.Item label="42" value="42" />
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
@@ -122,10 +159,10 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Color" value="0" />
-                                                                    <Picker.Item label="Red" value="1" />
-                                                                    <Picker.Item label="Green" value="2" />
-                                                                    <Picker.Item label="Blue" value="3" />
-                                                                    <Picker.Item label="Black" value="4" />
+                                                                    <Picker.Item label="Red" value="Red" />
+                                                                    <Picker.Item label="Green" value="Green" />
+                                                                    <Picker.Item label="Blue" value="Blue" />
+                                                                    <Picker.Item label="Black" value="Black" />
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
@@ -178,14 +215,10 @@ class DetailPage extends Component {
                                     </SafeAreaView>
                                 </Grid>
 
-                                <TouchableOpacity
-                                    onPress={() => { this.props.navigation.navigate('MyBag') }}
-                                >
-                                    <Button danger full rounded style={{ marginTop: 15 }}>
 
-                                        <Text style={{ color: '#fff' }}> Add to Cart </Text>
-                                    </Button>
-                                </TouchableOpacity>
+                                <Button danger full rounded style={{ marginTop: 15 }} onPress={this.addToCart}>
+                                    <Text style={{ color: '#fff' }}> Add to Cart </Text>
+                                </Button>
                             </Container>
                         )
                     })
@@ -195,7 +228,14 @@ class DetailPage extends Component {
     }
 }
 
-export default DetailPage;
+const mapStateToProps = ({ auth, bag }) => {
+    return {
+        auth,
+        bag
+    };
+};
+
+export default connect(mapStateToProps)(DetailPage);
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;

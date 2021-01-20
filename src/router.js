@@ -17,9 +17,9 @@ import ResetPassword from './screens/Auth/reset_password'
 import Shop from './screens/Shop';
 import Categories from './screens/ShopCategory'
 import DetailPage from './screens/DetailPage'
-import Bag from './screens/MyBag';
-import Checkout from './screens/Checkout'
-import Success from './screens/Success'
+import Bag from './screens/MyBag/MyBag';
+import Checkout from './screens/MyBag/Checkout'
+import Success from './screens/MyBag/Success'
 import Order from './screens/Profile/MyOrder'
 import Shipping from './screens/Profile/ShippingAdress'
 import Setting from './screens/Profile/Settings'
