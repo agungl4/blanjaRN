@@ -5,7 +5,6 @@ import { REACT_APP_BASE_URL } from '@env'
 import {connect} from 'react-redux'
 import axios from 'axios'
 
-
 class writeReview extends Component {
     state = {
         listProduct: [],

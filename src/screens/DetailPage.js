@@ -9,7 +9,6 @@ import { REACT_APP_BASE_URL } from "@env"
 import { addItems } from '../utils/redux/ActionCreators/cart'
 import { connect } from 'react-redux'
 
-
 class DetailPage extends Component {
     constructor(props) {
         super(props)
