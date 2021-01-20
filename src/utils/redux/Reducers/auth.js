@@ -3,7 +3,8 @@ const authReducer = (prevState = {
     email: '',
     name: '',
     id: '',
-    token: ''
+    token: '',
+    level: ''
 }, action) => {
     switch (action.type) {
         case "LOGIN_TRUE":
@@ -55,6 +56,16 @@ const authReducer = (prevState = {
             return {
                 ...prevState,
                 token: ''
+            }
+        case "SET_LEVEL_TRUE":
+            return {
+                ...prevState,
+                level: action.data
+            }
+        case "SET_LEVEL_FALSE":
+            return {
+                ...prevState,
+                level: ''
             }
         default:
             return {

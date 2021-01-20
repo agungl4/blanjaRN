@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
 import { Image, View, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
-import { setLoginfalse, removeEmail, removeId, removeName } from './../../utils/redux/ActionCreators/auth'
+import { setLoginfalse, removeEmail, removeId, removeName, removeToken } from './../../utils/redux/ActionCreators/auth'
 import { REACT_APP_BASE_URL } from "@env"
 
 class Profile extends React.Component {
@@ -15,6 +15,7 @@ class Profile extends React.Component {
         this.props.dispatch(removeEmail())
         this.props.dispatch(removeName())
         this.props.dispatch(removeId())
+        this.props.dispatch(removeToken())
         this.props.navigation.navigate('Login')
     }
 
@@ -31,7 +32,39 @@ class Profile extends React.Component {
     }
 
     render() {
-        console.log(this.props.auth)
+        const { auth } = this.props
+        let storePage;
+        if (auth.level == 2) {
+            storePage = <>
+                <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                    onPress={() => { this.props.navigation.navigate('Store') }}
+                >
+                    <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Store</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
+                    </View>
+                </TouchableOpacity>
+            </>
+        } else {
+            storePage = <>
+                <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                    onPress={() => { this.props.navigation.navigate('Orders') }}
+                >
+                    <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                    onPress={() => { this.props.navigation.navigate('Shipping') }}>
+                    <View style={{ paddingLeft: 10, marginTop: 5 }}
+                    >
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
+                    </View>
+                </TouchableOpacity>
+            </>
+        }
         return (
             <>
                 <Container>
@@ -59,30 +92,9 @@ class Profile extends React.Component {
                                 <Text style={{ color: 'gray' }}>{this.props.auth.email}</Text>
                             </View>
                         </View>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Store') }}
-                        >
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Store</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Orders') }}
-                        >
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
-                            </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
-                            onPress={() => { this.props.navigation.navigate('Shipping') }}>
-                            <View style={{ paddingLeft: 10, marginTop: 5 }}
-                            >
-                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
-                            </View>
-                        </TouchableOpacity>
+
+                        {storePage}
+
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('Setting') }}
                         >

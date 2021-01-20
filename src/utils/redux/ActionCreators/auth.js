@@ -1,10 +1,8 @@
 export const setLogintrue = () => {
     return {
         type: "LOGIN_TRUE",
-
     }
 }
-
 export const setLoginfalse = () => {
     return {
         type: "LOGIN_FALSE",
@@ -52,5 +50,16 @@ export const setToken = (data) => {
 export const removeToken = (data) => {
     return{
         type:"SET_TOKEN_FALSE"
+    }
+}
+export const setLevelUser = (data) => {
+    return{
+        type:"SET_LEVEL_TRUE",
+        data
+    }
+}
+export const removeLevelUser = (data) => {
+    return{
+        type:"SET_LEVEL_FALSE"
     }
 }

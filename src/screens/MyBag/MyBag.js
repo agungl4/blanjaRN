@@ -26,7 +26,6 @@ class Mybag extends Component {
     this._unsubscribe()
   }
 
-
   render() {
     const bagState = this.props.cart.mybag
     let thisBag;

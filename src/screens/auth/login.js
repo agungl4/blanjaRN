@@ -1,9 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
-// import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Container, Header, Content, Form, Item, Input, Button, Label, Title, Body, Right, Left } from 'native-base';
 import { IconBack } from '../../assets'
-import { setLogintrue, setName, setEmail, setId, setToken } from './../../utils/redux/ActionCreators/auth'
+import { setLogintrue, setName, setEmail, setId, setToken, setLevelUser } from './../../utils/redux/ActionCreators/auth'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from '@env'
@@ -40,6 +39,7 @@ class Login extends React.Component {
                     this.props.dispatch(setEmail(data.result.email))
                     this.props.dispatch(setId(data.result.user_id))
                     this.props.dispatch(setToken(data.result.token))
+                    this.props.dispatch(setLevelUser(data.result.level))
                     this.props.navigation.navigate('Home')
                 }).catch(({ response }) => {
                     console.log(response.data)
@@ -62,17 +62,22 @@ class Login extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         const { email, password } = this.state
         const { auth } = this.props
         // console.log(auth)
         return (
             <Container style={styles.container}>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.navigate('Home');
-                }}>
-                    <Image source={IconBack} />
-                </TouchableOpacity>
+                <Header transparent>
+                    <Left>
+                        <Button transparent
+                            onPress={() => { this.props.navigation.navigate('Home') }}
+                        >
+                            <Image source={IconBack} />
+                        </Button>
+                    </Left>
+                    <Body></Body>
+                    <Right></Right>
+                </Header>
                 <View style={styles.rowTitle}>
                     <Text style={styles.textTitle}>Login</Text>
                 </View>
@@ -118,10 +123,9 @@ export default connect(mapStateToProps)(Login);
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 15,
-        paddingTop: 25
     },
     rowTitle: {
-        marginTop: 34
+        marginTop: 5
     },
     textTitle: {
         fontSize: 34,
