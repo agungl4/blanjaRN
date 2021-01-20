@@ -131,7 +131,6 @@ class Home extends React.Component {
           </SafeAreaView>
         </Grid>
 
-        {/* <BottomNavigator navigation={this.props.navigation} home={true} /> */}
       </Container>
     );
   }

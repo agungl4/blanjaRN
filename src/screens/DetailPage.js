@@ -77,6 +77,7 @@ class DetailPage extends Component {
 
     render() {
         const { product } = this.state
+        const id_productDetails = this.props.route.params.itemId
         return (
             <>
                 <Header transparent>
@@ -208,7 +209,7 @@ class DetailPage extends Component {
                                                             </View>
                                                         </ScrollView>
                                                     </SafeAreaView>
-                                                    <Review />
+                                                    <Review idProduct={id_productDetails}/>
                                                 </View>
                                             </Row>
                                         </ScrollView>

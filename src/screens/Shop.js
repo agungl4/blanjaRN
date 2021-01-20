@@ -25,7 +25,7 @@ class Shop extends Component {
                         <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>Categories</Title>
                     </Body>
                     <Right>
-                        <Button transparent>
+                        <Button transparent onPress={() => { this.props.navigation.navigate('Search') }}>
                             <Image source={require('../assets/icons/Search.png')} />
                         </Button>
                     </Right>

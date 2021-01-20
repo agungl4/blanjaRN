@@ -1,14 +1,39 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Left, Body, Text, Right, List, ListItem } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
-
-import Nav from '../../components/BottomNav'
 import CardOrder from '../../components/CardOrders'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
+import { connect } from 'react-redux'
+import { REACT_APP_BASE_URL } from "@env"
+import axios from 'axios'
 
-export default class Orders extends React.Component {
+class Orders extends React.Component {
+    state = {
+        cardOrder: [],
+    }
+    getMyOrder = () => {
+        axios.get(REACT_APP_BASE_URL + '/transactions/myTransaction/' + this.props.auth.id)
+            .then(({ data }) => {
+                this.setState({
+                    cardOrder: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
+    componentDidMount = () => {
+        this._unsubscribe = this.props.navigation.addListener('focus', () => {
+            this.getMyOrder()
+        });
+    }
+
+    componentWillUnmount() {
+        this._unsubscribe()
+    }
     render() {
+        const { cardOrder } = this.state
         return (
             <>
                 <Container>
@@ -32,17 +57,31 @@ export default class Orders extends React.Component {
                         </View>
                         <SafeAreaView>
                             <ScrollView style={{ height: 480 }}>
-                                <CardOrder navigation={this.props.navigation} />
-                                <CardOrder navigation={this.props.navigation} />
-                                <CardOrder navigation={this.props.navigation} />
-                                <CardOrder navigation={this.props.navigation} />
+                                {
+                                    cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status }) => {
+                                        return (
+                                            <>
+                                                <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} status={status} navigation={this.props.navigation} />
+                                            </>
+                                        )
+                                    })
+                                }
                             </ScrollView>
                         </SafeAreaView>
                     </Content>
-                   
+
                 </Container>
             </>
         )
     }
 }
+
+const mapStateToProps = ({ auth, address }) => {
+    return {
+        auth,
+        address
+    };
+};
+
+export default connect(mapStateToProps)(Orders)
 

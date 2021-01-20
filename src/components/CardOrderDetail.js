@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { REACT_APP_BASE_URL } from '@env'
 
 class CardBag extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={require('../assets/images/image.png')} style={styles.img} />
+                <Image source={{uri: REACT_APP_BASE_URL + this.props.img, width: 104, height: 120}} />
                 <View style={styles.infobag}>
                     <Text
-                        style={{ fontSize: 18, fontWeight: 'bold', marginBottom:5, marginTop:10 }}
+                        style={{ fontSize: 18, fontWeight: 'bold', marginBottom:5, marginTop:10,height:25 }}
                     >
-                        Product Name
+                        {this.props.name}
                         </Text>
                     <Text style={{color:'gray',marginBottom:10}}>OVS</Text>
                     <View style={{ flexDirection: 'row' }}>
                         <Text style={{ marginRight: 16 , color:'gray'}}>Color: 
-                        <Text style={{color:'black'}}>Gray</Text>
+                        <Text style={{color:'black'}}>{this.props.color}</Text>
                         </Text>
-                        <Text>Size: L</Text>
+                        <Text>Size: {this.props.size}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', marginTop: 10, justifyContent:'space-between' }}>
                         <Text style={{ color:'gray'}}>Unit : 
-                        <Text style={{color:'black'}}>1</Text>
+                        <Text style={{color:'black'}}>{this.props.qty}</Text>
                         </Text>
                         <View style={styles.price}>
-                            <Text style={{ fontFamily: 'Metropolis-Bold',fontWeight:'bold', fontSize: 20, marginLeft:80, marginTop:-10 }}>30$</Text>
+                            <Text style={{ fontFamily: 'Metropolis-Bold',fontWeight:'bold', fontSize: 20, marginTop:-10 }}>Rp. {this.props.qty*this.props.price}</Text>
                         </View>
                     </View>
                 </View>

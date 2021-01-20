@@ -19,7 +19,7 @@ class Signup extends React.Component {
 
 
     signup = () => {
-        if (this.state.fullname === '' || this.state.email === '' || this.state.password === '' ) {
+        if (this.state.fullname === '' || this.state.email === '' || this.state.password === '') {
             this.setState({
                 errorForm: 'Semua kolom harus diisi'
             })
@@ -29,7 +29,7 @@ class Signup extends React.Component {
                 fullname: this.state.fullname,
                 password: this.state.password,
             }
-            if(this.state.btnState) {
+            if (this.state.btnState) {
                 data = {
                     ...data,
                     level_id: 2,
@@ -64,7 +64,7 @@ class Signup extends React.Component {
         let btnText
         let formState
         if (!btnState) {
-            btnText = <Text style={{color:'#d9534f'}}> Customer </Text>
+            btnText = <Text style={{ color: '#d9534f' }}> Customer </Text>
             formState = <>
                 <Item floatingLabel>
                     <Label >Name</Label>
@@ -80,7 +80,7 @@ class Signup extends React.Component {
                 </Item>
             </>
         } else {
-            btnText = <Text style={{color:'#d9534f'}}> Seller </Text>
+            btnText = <Text style={{ color: '#d9534f' }}> Seller </Text>
             formState = <>
                 <Item floatingLabel>
                     <Label >Name</Label>
@@ -124,18 +124,17 @@ class Signup extends React.Component {
                         </Button>
                     </View>
                     <View style={{ marginTop: 15 }}>
+                        
                         {formState}
+
                         <TouchableOpacity style={{ flexDirection: 'row-reverse' }} onPress={() => {
                             this.props.navigation.navigate('Login');
                         }}>
                             <Text> Already have an account?</Text>
                         </TouchableOpacity>
-
-                        <TouchableOpacity onPress={this.signup}>
-                            <Button danger full rounded style={{ marginTop: 15 }}>
-                                <Text style={{ color: '#fff' }}> SIGN UP </Text>
-                            </Button>
-                        </TouchableOpacity>
+                        <Button danger full rounded style={{ marginTop: 15 }} onPress={this.signup}>
+                            <Text style={{ color: '#fff' }}> SIGN UP </Text>
+                        </Button>
                         <TouchableOpacity style={{ flexDirection: 'row-reverse', marginTop: 10, marginBottom: 25 }}
                             onPress={() => {
                                 this.props.navigation.navigate('Activation')
@@ -172,7 +171,7 @@ const styles = StyleSheet.create({
     },
     btnSelector: {
         width: 100,
-        borderRadius:8
+        borderRadius: 8
     },
     btnText: {
         color: '#fff',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, CheckBox } from "native-base";
+import { Container, Header, Title, Content, Button, Left, Body, Text, Right, CheckBox } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 import CardAdress from '../../components/CardAdress'
 import { orderItems } from '../../utils/redux/ActionCreators/cart'
@@ -56,14 +56,14 @@ class Checkout extends React.Component {
             const Order = {
                 trxId: `TRX00${this.props.cart.trxId}`,
                 payment: payment,
-                address: this.props.address.activeAddress
+                address: this.props.address.selectedAddress
             }
             if (this.props.dispatch(orderItems(Order))) {
                 const newTrx = {
                     user_id: this.props.auth.id,
                     TrxId: Order.trxId,
                     payment: payment,
-                    address: this.props.address.activeAddress,
+                    address: this.props.address.selectedAddress,
                     qty: this.props.cart.mybag.length,
                     total: this.props.cart.totalAmount + shippingPrice,
                     trackingNumber: `XXXXXXXXXXXXXXX-0${this.props.cart.trxId}`
@@ -103,8 +103,9 @@ class Checkout extends React.Component {
 
     render() {
         const { address } = this.state
+        console.log(this.props.address.selectedAddress)
         let cardAdress;
-        if (this.props.address.activeAddress != null) {
+        if (this.props.address.selectedAddress != null) {
             cardAdress =
                 <>
                     <CardAdress key={address.id} addressId={address.id} name={address.recipient_name} city={address.city} postal={address.postal} phone={address.phone} navigation={this.props.navigation} />

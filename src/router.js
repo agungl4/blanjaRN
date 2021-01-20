@@ -35,6 +35,8 @@ import AddProduct from './screens/Profile/AddProduct'
 import AddStock from './screens/Profile/AddStock'
 import EditStock from './screens/Profile/EditStock'
 import EditProduct from './screens/Profile/EditProduct'
+import Search from './screens/Search'
+import Review from './screens/Profile/ProductReview'
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -106,6 +108,7 @@ const ShopPage = () => {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Shop" component={Shop} />
+      <Stack.Screen name="Search" component={Search} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="Filter" component={Filter} />
     </Stack.Navigator>
@@ -135,6 +138,7 @@ const MainProfile = () => {
       <Stack.Screen name="EditStock" component={EditStock} />
       <Stack.Screen name="EditProduct" component={EditProduct} />
       <Stack.Screen name="DetailsOrders" component={DetailOrders} />
+      <Stack.Screen name="Review" component={Review} />
       <Stack.Screen name="Shipping" component={Shipping} />
       <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
       <Stack.Screen name="AddAddress" component={AddAddress} />

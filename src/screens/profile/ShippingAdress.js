@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input } from "native-base";
+import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input,Right } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -66,6 +66,13 @@ class Shipping extends React.Component {
                         <Body >
                             <Title style={{ color: 'black', fontWeight: 'bold' }}>My Shipping Address</Title>
                         </Body>
+                        <Right>
+                        <Button transparent
+                                onPress={this.getAddress}
+                            >
+                                <Image source={require('./../../assets/icons/refresh.png')} />
+                            </Button>
+                        </Right>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
                         <Item rounded style={{ marginTop: 20, backgroundColor: 'white' }}>
