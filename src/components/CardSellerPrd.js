@@ -2,11 +2,28 @@ import React, { Component } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Button } from 'native-base'
 import { REACT_APP_BASE_URL } from "@env"
+import axios from 'axios'
+import { connect } from 'react-redux'
 
 class CardBag extends Component {
     constructor(props) {
         super(props)
     }
+
+    deleteProduct = () => {
+        const config = {
+            headers: {
+              "x-access-token": "Bearer " + this.props.auth.token,
+            },
+          };
+        axios
+            .delete(REACT_APP_BASE_URL+ '/product/delete/' + this.props.id, config)
+            .then(({ result }) => {
+                alert('Successfully deleted!')
+            })
+            .catch(err => console.error(err));
+    }
+
     render() {
         const { id, name, price, category, size, color, image } = this.props
         return (
@@ -39,7 +56,9 @@ class CardBag extends Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: 'gray', marginBottom: 10 }}>{category}</Text>
-                            <Button full rounded danger style={{ width: 50, height: 20, marginTop: 5 }}>
+                            <Button full rounded danger style={{ width: 50, height: 20, marginTop: 5 }}
+                                onPress={this.deleteProduct}
+                            >
                                 <Text style={{ fontWeight: '700', fontSize: 12, color: '#FFF' }}>Delete</Text>
                             </Button>
                         </View>
@@ -64,7 +83,13 @@ class CardBag extends Component {
     }
 }
 
-export default CardBag;
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(CardBag);
 
 const styles = StyleSheet.create({
     container: {

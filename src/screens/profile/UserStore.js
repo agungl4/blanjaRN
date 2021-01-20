@@ -35,7 +35,7 @@ class UserStore extends React.Component {
                             <Image source={require('./../../assets/images/profile.jpg')} style={{ width: 80, height: 80, borderRadius: 40, marginLeft: 10, marginRight: 10, marginBottom: 50 }} />
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 24 }}>Store Name</Text>
-                                <Text style={{ color: 'gray' }}>owner name</Text>
+                                <Text style={{ color: 'gray' }}>{this.props.auth.name}</Text>
                             </View>
                         </View>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
@@ -59,7 +59,7 @@ class UserStore extends React.Component {
                         >
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add products</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Add products for sale</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
@@ -67,7 +67,7 @@ class UserStore extends React.Component {
                             <View style={{ paddingLeft: 10, marginTop: 5 }}
                             >
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add stock</Text>
-                                <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Add stock products</Text>
                             </View>
                         </TouchableOpacity>
                     </Content>
@@ -77,4 +77,10 @@ class UserStore extends React.Component {
     }
 }
 
-export default UserStore;
+const mapStateToProps = ({ auth }) => {
+    return {
+        auth
+    };
+};
+
+export default connect(mapStateToProps)(UserStore);

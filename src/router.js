@@ -145,7 +145,9 @@ const MainProfile = () => {
 
 const appRouter = () => {
   useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 3000);
   }, []);
 
   return (

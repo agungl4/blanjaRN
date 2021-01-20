@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
+import { Container, Header, Title, Content, Button, Left, Body, Right, Text, Item, Input, Label } from "native-base";
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
 import CardProduct from '../../components/CardListPrd'
 import { REACT_APP_BASE_URL } from "@env"
@@ -40,6 +40,13 @@ class ListProduct extends React.Component {
                         <Body >
                             <Title style={{ color: 'black', fontWeight: 'bold', marginLeft: 20 }}>My Product</Title>
                         </Body>
+                        <Right>
+                        <Button transparent
+                                onPress={this.getAllProducts}
+                            >
+                                <Image source={require('./../../assets/icons/refresh.png')} />
+                            </Button>
+                        </Right>
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
                     {

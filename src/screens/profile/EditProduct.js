@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker } from 'react-native'
-import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea, Body, Left, Title, Right } from 'native-base';
 import { IconBack } from '../../assets'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
@@ -18,7 +18,7 @@ class AddProduct extends React.Component {
             product_desc: '',
             product_img: [],
             taken_pic: {},
-            thumbnailImg:''
+            thumbnailImg: ''
         }
     }
 
@@ -62,10 +62,10 @@ class AddProduct extends React.Component {
         axios.get(REACT_APP_BASE_URL + `/product/productId/` + this.props.route.params.itemId)
             .then(({ data }) => {
                 this.setState({
-                    product_name: ''+data.data[0].product_name,
-                    category_id: ''+data.data[0].category_id,
-                    product_price: ''+data.data[0].product_price,
-                    product_desc: ''+data.data[0].product_desc,
+                    product_name: '' + data.data[0].product_name,
+                    category_id: '' + data.data[0].category_id,
+                    product_price: '' + data.data[0].product_price,
+                    product_desc: '' + data.data[0].product_desc,
                     // thumbnailImg:''+data.data[0].product_img
                 })
             }).catch((err) => {
@@ -125,7 +125,7 @@ class AddProduct extends React.Component {
             });
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         this.getData()
     }
 
@@ -135,14 +135,19 @@ class AddProduct extends React.Component {
         console.log(this.state)
         return (
             <Container style={styles.container}>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.goBack();
-                }}>
-                    <Image source={IconBack} />
-                </TouchableOpacity>
-                <View style={styles.rowTitle}>
-                    <Text style={styles.textTitle}>Edit Product</Text>
-                </View>
+                <Header transparent>
+                    <Left>
+                        <Button transparent
+                            onPress={() => { this.props.navigation.goBack() }}
+                        >
+                            <Image source={require('./../../assets/icons/back.png')} />
+                        </Button>
+                    </Left>
+                    <Body >
+                        <Title style={{ color: 'black', fontWeight: 'bold' }}>Edit Product</Title>
+                    </Body>
+                </Header>
+                <Content>
                 <ScrollView>
                     <View style={{ marginTop: 5 }}>
                         <Form>
@@ -222,6 +227,8 @@ class AddProduct extends React.Component {
                         </Button>
                     </View>
                 </ScrollView>
+                </Content>
+
             </Container>
         )
     }
@@ -238,10 +245,10 @@ export default connect(mapStateToProps)(AddProduct);
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 15,
-        marginTop: 25
     },
     rowTitle: {
-        marginTop: 34
+        marginTop: 14,
+        marginLeft: 5
     },
     textTitle: {
         fontSize: 34,

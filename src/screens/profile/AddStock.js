@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker } from 'react-native'
-import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea } from 'native-base';
+import { Container, Header, Content, Form, Item, Input, Button, Label, Title, Left, Body } from 'native-base';
 import { IconBack } from '../../assets'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
@@ -94,16 +94,24 @@ class AddStock extends React.Component {
         console.log(this.state)
         return (
             <Container style={styles.container}>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.goBack();
-                }}>
-                    <Image source={IconBack} />
-                </TouchableOpacity>
-                <View style={styles.rowTitle}>
-                    <Text style={styles.textTitle}>Add Product</Text>
-                </View>
-                <ScrollView>
-                    <View style={{ marginTop: 5 }}>
+                <Header transparent>
+                    <Left>
+                        <Button transparent
+                            onPress={() => { this.props.navigation.goBack() }}
+                        >
+                            <Image source={require('./../../assets/icons/back.png')} />
+                        </Button>
+                    </Left>
+                    <Body >
+                        <Title style={{ color: 'black', fontWeight: 'bold' }}>Add Stock Product</Title>
+                    </Body>
+                </Header>
+
+                <Content>
+                    <ScrollView>
+                        <View style={styles.rowTitle}>
+                            <Text style={styles.textTitle}>Add Stock</Text>
+                        </View>
                         <Form>
                             <Label >Choose Product :</Label>
                             {/* <Input name="product_name" value={product_name} /> */}
@@ -187,8 +195,8 @@ class AddStock extends React.Component {
                         >
                             <Text style={{ color: '#fff' }}> SUBMIT </Text>
                         </Button>
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </Content>
             </Container>
         )
     }
@@ -205,10 +213,10 @@ export default connect(mapStateToProps)(AddStock);
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 15,
-        marginTop: 25
     },
     rowTitle: {
-        marginTop: 34
+        marginVertical: 14,
+        marginLeft: 5
     },
     textTitle: {
         fontSize: 34,

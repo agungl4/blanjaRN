@@ -174,7 +174,7 @@ class DetailPage extends Component {
                                                     </View>
                                                     <View style={styles.wraptitle}>
                                                         <Text style={styles.title}>{product_name}</Text>
-                                                        <Text style={styles.title}>{product_price}</Text>
+                                                        <Text style={styles.subtitle}>{product_price}</Text>
                                                     </View>
                                                     <Text style={styles.PrdName}>{category_name}</Text>
                                                     <View>
@@ -267,12 +267,19 @@ const styles = StyleSheet.create({
     },
     title: {
         fontFamily: 'Metropolis-Light',
-        fontSize: 24,
+        fontSize: 20,
+        width: 230,
+        fontWeight: '700'
+    },
+    subtitle: {
+        fontFamily: 'Metropolis-Light',
+        fontSize: 20,
+        fontWeight: '700'
     },
     wraptitle: {
         flexDirection: 'row',
         marginTop: 22,
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
     },
     PrdName: {
         fontFamily: 'Metropolis-Light',

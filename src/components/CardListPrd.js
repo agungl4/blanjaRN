@@ -39,9 +39,9 @@ class CardListPrd extends Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: 'gray', marginBottom: 10 }}>{category}</Text>
-                            <Button full rounded danger style={{ width: 50, height: 20, marginTop: 5 }}>
+                            {/* <Button full rounded danger style={{ width: 50, height: 20, marginTop: 5 }}>
                                 <Text style={{ fontWeight: '700', fontSize: 12, color: '#FFF' }}>Delete</Text>
-                            </Button>
+                            </Button> */}
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 10 }}>
                             <Text style={{ color: 'gray' }}>Qty :

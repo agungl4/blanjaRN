@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker } from 'react-native'
-import { Container, Header, Content, Form, Item, Input, Button, Label, Textarea } from 'native-base';
-import { IconBack } from '../../assets'
+import { Container, Header, Title, Content, Form, Item, Input, Button, Label, Textarea, Left, Body, Right } from 'native-base';
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
 import ImagePicker from 'react-native-image-crop-picker';
@@ -109,83 +108,93 @@ class AddProduct extends React.Component {
         console.log(this.state)
         return (
             <Container style={styles.container}>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.goBack();
-                }}>
-                    <Image source={IconBack} />
-                </TouchableOpacity>
-                <View style={styles.rowTitle}>
-                    <Text style={styles.textTitle}>Add Product</Text>
-                </View>
-                <ScrollView>
-                    <View style={{ marginTop: 5 }}>
-                        <Form>
-                            <Item floatingLabel>
-                                <Label >Product Name</Label>
-                                <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
-                            </Item>
-                            <View style={styles.size}>
-                                <Picker
-                                    selectedValue={category_id}
-                                    onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
-                                >
-                                    <Picker.Item label="Category" value="0" style={{ backgroundColor: 'gray' }} />
-                                    <Picker.Item label="T-shirt" value="1" />
-                                    <Picker.Item label="Short" value="2" />
-                                    <Picker.Item label="Jacket" value="3" />
-                                    <Picker.Item label="Pants" value="4" />
-                                    <Picker.Item label="Shoes" value="5" />
-                                </Picker>
-                            </View>
-                            <Item floatingLabel>
-                                <Label >Price</Label>
-                                <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
-                            </Item>
-                            <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
-
-                            <View style={{ flexDirection: 'row' }}>
-                                {product_img && product_img.map((item) => {
-                                    return (
-                                        <Image
-                                            key={product_img.indexOf(item)}
-                                            source={{ uri: product_img.length !== 0 ? item.path : '' }}
-                                            style={styles.imageStyle}
-                                        />
-                                    );
-                                })}
-                            </View>
-
-                            <View style={{ flexDirection: 'row' }}>
-
-                                <Image
-
-                                    source={{ uri: this.state.taken_pic.path }}
-                                    style={styles.imageStyle}
-                                />
-
-                            </View>
-
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                style={styles.btnSection}
-                                onPress={this.chooseFile}>
-                                <Text style={styles.btnText}>Choose Image</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                style={styles.btnSection}
-                                onPress={this.takePicture}>
-                                <Text style={styles.btnText}>Take Picture</Text>
-                            </TouchableOpacity>
-                        </Form>
-
-
-                        <Button danger full rounded style={{ marginTop: 15 }} onPress={this.postProduct}>
-                            <Text style={{ color: '#fff' }}> SUBMIT </Text>
+                <Header transparent>
+                    <Left>
+                        <Button transparent
+                            onPress={() => { this.props.navigation.goBack() }}
+                        >
+                            <Image source={require('./../../assets/icons/back.png')} />
                         </Button>
-                    </View>
-                </ScrollView>
+                    </Left>
+                    <Body >
+                        <Title style={{ color: 'black', fontWeight: 'bold' }}>Add Product for Sale</Title>
+                    </Body>
+                </Header>
+
+                <Content>
+                    <ScrollView>
+                        <View style={styles.rowTitle}>
+                            <Text style={styles.textTitle}>Add Product</Text>
+                        </View>
+                        <View >
+                            <Form>
+                                <Item floatingLabel>
+                                    <Label >Product Name</Label>
+                                    <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
+                                </Item>
+                                <View style={styles.size}>
+                                    <Picker
+                                        selectedValue={category_id}
+                                        onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
+                                    >
+                                        <Picker.Item label="Category" value="0" style={{ color: 'gray' }} />
+                                        <Picker.Item label="T-shirt" value="1" />
+                                        <Picker.Item label="Short" value="2" />
+                                        <Picker.Item label="Jacket" value="3" />
+                                        <Picker.Item label="Pants" value="4" />
+                                        <Picker.Item label="Shoes" value="5" />
+                                    </Picker>
+                                </View>
+                                <Item floatingLabel>
+                                    <Label >Price</Label>
+                                    <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
+                                </Item>
+                                <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
+
+                                <View style={{ flexDirection: 'row' }}>
+                                    {product_img && product_img.map((item) => {
+                                        return (
+                                            <Image
+                                                key={product_img.indexOf(item)}
+                                                source={{ uri: product_img.length !== 0 ? item.path : '' }}
+                                                style={styles.imageStyle}
+                                            />
+                                        );
+                                    })}
+                                </View>
+
+                                <View style={{ flexDirection: 'row' }}>
+
+                                    <Image
+
+                                        source={{ uri: this.state.taken_pic.path }}
+                                        style={styles.imageStyle}
+                                    />
+
+                                </View>
+
+                                <TouchableOpacity
+                                    activeOpacity={0.5}
+                                    style={styles.btnSection}
+                                    onPress={this.chooseFile}>
+                                    <Text style={styles.btnText}>Choose Image</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity
+                                    activeOpacity={0.5}
+                                    style={styles.btnSection}
+                                    onPress={this.takePicture}>
+                                    <Text style={styles.btnText}>Take Picture</Text>
+                                </TouchableOpacity>
+                            </Form>
+
+
+                            <Button danger full rounded style={{ marginTop: 15 }} onPress={this.postProduct}>
+                                <Text style={{ color: '#fff' }}> SUBMIT </Text>
+                            </Button>
+                        </View>
+                    </ScrollView>
+                </Content>
             </Container>
         )
     }
@@ -202,10 +211,10 @@ export default connect(mapStateToProps)(AddProduct);
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 15,
-        marginTop: 25
     },
     rowTitle: {
-        marginTop: 34
+        marginTop: 14,
+        marginLeft:5
     },
     textTitle: {
         fontSize: 34,
@@ -242,7 +251,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         margin: 5,
-        borderColor: 'black',
+        // borderColor: 'black',
         borderRadius: 5,
         borderWidth: 1,
     },

@@ -18,6 +18,7 @@ class Shipping extends React.Component {
     getAddress = () => {
         axios.get(REACT_APP_BASE_URL + `/address/${this.props.auth.id}`)
             .then(({ data }) => {
+                console.log(data)
                 this.setState({
                     shippingAddress: data.data
                 })
