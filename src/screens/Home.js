@@ -46,6 +46,11 @@ class Home extends React.Component {
     })
   }
 
+  refresh = () =>{
+    this.getNewProducts()
+    this.getPopularProducts()
+  }
+
   componentDidMount = () => {
     this.getNewProducts()
     this.getPopularProducts()
@@ -61,14 +66,23 @@ class Home extends React.Component {
               <Text style={{ fontSize: 35, fontWeight: 'bold', color: '#fff' }}> Street Clothes</Text>
             </View>
 
-            <TouchableOpacity
+            <View>
+              <TouchableOpacity
                 onPress={() => {
-                    this.props.navigation.navigate('Notification')
+                  this.props.navigation.navigate('Notification')
                 }}
-                style={{ position: 'absolute', right: 20, top: 20 }}
-            >
-                    <Image source={require('../assets/icons/bell.png')} />
-            </TouchableOpacity>
+                style={{ position: 'absolute', right: 20, top: 40 }}
+              >
+                <Image source={require('../assets/icons/bell.png')} />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={this.refresh}
+                style={{ position: 'absolute', right: 20, top: 130 }}
+              >
+                <Image source={require('../assets/icons/refresh.png')} />
+              </TouchableOpacity>
+            </View>
 
 
           </ImageBackground>

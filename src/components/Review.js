@@ -142,7 +142,7 @@ class Review extends Component {
                     <Grid>
                         <Row>
                             <Col size={3}>
-                                <Text style={{ fontSize: 48 }}>{avgRating.toString().substr(0,4)}</Text>
+                                <Text style={{ fontSize: 45 }}>{avgRating.toString().substr(0,4)}</Text>
                                 <Text style={{ fontSize: 12, color: '#9B9B9B' }}>{totalReview} ratings</Text>
                             </Col>
                             <Col size={3} style={{ alignItems: 'flex-end', flexDirection: 'column' }}>

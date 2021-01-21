@@ -186,7 +186,7 @@ class DetailPage extends Component {
                                                     </Text>
 
                                                     {/* <ListBar nav={navigation} /> */}
-                                                    <View style={styles.text}>
+                                                    {/* <View style={styles.text}>
                                                         <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
                                                             You can also like this
                                                         </Text>
@@ -207,7 +207,7 @@ class DetailPage extends Component {
                                                                 <CardProduct navigation={this.props.navigation} />
                                                             </View>
                                                         </ScrollView>
-                                                    </SafeAreaView>
+                                                    </SafeAreaView> */}
                                                     <Review idProduct={id_productDetails}/>
                                                 </View>
                                             </Row>

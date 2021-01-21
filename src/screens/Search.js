@@ -13,20 +13,56 @@ class Search extends Component {
 
     state = {
         products: [],
-        searchForm: ''
+        searchForm: '',
+        pageInfo: {}
     }
 
     search = () => {
-        axios.get(REACT_APP_BASE_URL + '/search?name=' + this.state.searchForm)
+        axios.get(REACT_APP_BASE_URL + '/products?name=' + this.state.searchForm)
             .then(({ data }) => {
                 console.log(data)
                 this.setState({
                     products: data.data.products,
+                    pageInfo: data.data.pageInfo
                 })
             }).catch(err => {
                 console.log(err)
                 alert('barang tidak ditemukan')
             })
+    }
+
+    prevPage = () => {
+        const prevPage = this.state.pageInfo.previousPage
+        if (prevPage != null) {
+            axios.get(REACT_APP_BASE_URL + prevPage)
+                .then(({ data }) => {
+                    console.log(data)
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo
+                    })
+                }).catch(err => {
+                    console.log(err)
+                    alert('barang tidak ditemukan')
+                })
+        }
+    }
+
+    nextPage = () => {
+        const nextPage = this.state.pageInfo.nextpage
+        if (nextPage != null) {
+            axios.get(REACT_APP_BASE_URL + nextPage)
+                .then(({ data }) => {
+                    console.log(data)
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo
+                    })
+                }).catch(err => {
+                    console.log(err)
+                    alert('barang tidak ditemukan')
+                })
+        }
     }
 
     render() {
@@ -69,10 +105,21 @@ class Search extends Component {
                                         )
                                     })
                                 }
-
                             </View>
                         </ScrollView>
+
                     </Content>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                            <Button full bordered light style={styles.button} onPress={this.prevPage}>
+                                <Text style={styles.btnSub}>{`<<<`}</Text>
+                            </Button>
+                            <Button full bordered light style={styles.button}>
+                                <Text style={styles.btnSub}>{this.state.pageInfo.currentPage}</Text>
+                            </Button>
+                            <Button full bordered light style={styles.button} onPress={this.nextPage}>
+                                <Text style={styles.btnSub}>{`>>>`}</Text>
+                            </Button>
+                        </View>
                 </Container>
             </>
         );
@@ -89,17 +136,18 @@ const styles = StyleSheet.create({
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#DB3022",
+        // backgroundColor: "#DB3022",
         padding: 10,
         borderRadius: 8,
-        marginBottom: 10
+        marginBottom: 10,
+        width:70
     },
     btnTitle: {
-        color: '#fff',
+        color: '#d9534f',
         fontSize: 35,
     },
     btnSub: {
-        color: '#fff',
+        color: '#d9534f',
         fontSize: 18,
     },
     card: {
