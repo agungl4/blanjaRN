@@ -6,8 +6,11 @@ import { orderItems } from '../../utils/redux/ActionCreators/cart'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
-const shippingPrice = 15000;
+import PushNotification from 'react-native-push-notification';
+import { showNotification } from '../../notif';
 
+const shippingPrice = 15000;
+const channel = 'notif';
 class Checkout extends React.Component {
     state = {
         isCheckedMaster: false,
@@ -72,7 +75,7 @@ class Checkout extends React.Component {
                     .then((result) => {
                         axios.post(REACT_APP_BASE_URL + '/transactions/itemOrder', this.props.cart.mybag)
                             .then((res) => {
-                                alert('Transaksi Sukses')
+                                showNotification('Notification', 'Checkout Succes', channel);
                                 this.props.navigation.navigate('Success')
                             }).catch(({ response }) => {
                                 console.log(response.data)
@@ -95,6 +98,23 @@ class Checkout extends React.Component {
                     console.log(response.data)
                 })
         })
+
+        PushNotification.createChannel(
+            {
+                channelId: 'notif',
+                channelName: 'My Notification channel',
+                channelDescription: 'A channel to categories your notification',
+                soundName: 'default',
+                importance: 4,
+                vibrate: true,
+            },
+            (created) => console.log(`createchannel returned '${created}'`),
+        );
+        // code to run on component mount
+
+        PushNotification.getChannels((channel_ids) => {
+            console.log(channel_ids);
+        });
     }
 
     componentWillUnmount() {
