@@ -2,10 +2,16 @@ import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Left, Body, Text, View } from "native-base";
 import { Image } from 'react-native'
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {setEmptyBag} from '../../utils/redux/ActionCreators/cart'
+import {connect} from 'react-redux'
 
-export default class HeaderTransparent extends Component {
+class SuccessPage extends Component {
     constructor(props) {
         super(props)
+    }
+
+    componentDidMount = () =>{
+        this.props.dispatch(setEmptyBag())
     }
     render() {
         return (
@@ -30,3 +36,12 @@ export default class HeaderTransparent extends Component {
         );
     }
 }
+
+const mapStateToProps = ({ auth, cart }) => {
+    return {
+        auth,
+        cart
+    };
+};
+
+export default connect(mapStateToProps)(SuccessPage); 

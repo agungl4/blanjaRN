@@ -8,6 +8,7 @@ import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
 import PushNotification from 'react-native-push-notification';
 import { showNotification } from '../../notif';
+import { addNotification } from '../../utils/redux/ActionCreators/notification'
 
 const shippingPrice = 15000;
 const channel = 'notif';
@@ -75,7 +76,12 @@ class Checkout extends React.Component {
                     .then((result) => {
                         axios.post(REACT_APP_BASE_URL + '/transactions/itemOrder', this.props.cart.mybag)
                             .then((res) => {
-                                showNotification('Notification', 'Checkout Succes', channel);
+                                showNotification('Notification', 'Checkout Success', channel);
+                                const notifData = {
+                                    title: `Transaksi ${Order.trxId} berhasil diproses`,
+                                    content: `Hore pembelian kamu berhasil. Ayo belanja lebih banyak dan dapetin kupon cashbacknya`
+                                }
+                                this.props.dispatch(addNotification(notifData))
                                 this.props.navigation.navigate('Success')
                             }).catch(({ response }) => {
                                 console.log(response.data)
@@ -155,23 +161,26 @@ class Checkout extends React.Component {
                             {cardAdress}
 
                             <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Payment</Text>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
+                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around' }}>
                                 <Image source={require('../../assets/images/card.png')} />
                                 <Text style={{ marginTop: 30, width: 120 }}>Master Card</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedMaster} onPress={this.checkedMaster} />
                             </View>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('../../assets/images/card.png')} />
-                                <Text style={{ marginTop: 30, width: 120 }}>Post Indonesia</Text>
+                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around', marginLeft:15 }}>
+                                <TouchableOpacity style={{width:64, height:38,marginTop: 25, backgroundColor:'#fff', borderRadius:8}}>
+                                    <Image source={require('../../assets/images/post.png')} style={{ marginLeft:10,marginTop:5 }} />
+                                </TouchableOpacity>
+                                <Text style={{ marginTop: 30, width: 120, marginLeft:30 }}>Post Indonesia</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedPost} onPress={this.checkedPost} />
-                            </View><View style={{ flexDirection: 'row', marginRight: 10, height: 60, }}>
-                                <Image source={require('../../assets/images/card.png')} />
-                                <Text style={{ marginTop: 30, width: 120 }}>GoPay</Text>
+                            </View>
+                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around', marginLeft:15 }}>
+                                <TouchableOpacity style={{width:64, height:38, marginTop: 25, backgroundColor:'#fff', borderRadius:8}}>
+                                    <Image source={require('../../assets/images/gopay.png')}style={{ marginLeft:7,marginTop:12 }} />
+                                </TouchableOpacity>
+                                <Text style={{ marginTop: 30, width: 120, marginLeft:30 }}>GoPay</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
                             </View>
                         </View>
-
-
 
                         <View style={{ backgroundColor: 'white', height: 190, marginTop: 50, borderTopEndRadius: 10, borderTopLeftRadius: 10 }}>
                             <View style={{ flexDirection: 'row', margin: 10, justifyContent: 'space-between' }}>
@@ -198,11 +207,12 @@ class Checkout extends React.Component {
     }
 }
 
-const mapStateToProps = ({ auth, address, cart }) => {
+const mapStateToProps = ({ auth, address, cart, notification }) => {
     return {
         auth,
         address,
-        cart
+        cart,
+        notification
     };
 };
 
