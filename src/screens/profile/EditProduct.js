@@ -12,19 +12,48 @@ class AddProduct extends React.Component {
         super(props)
 
         this.state = {
-            product_name: '',
+            product_name: [],
             category_id: 0,
             product_price: '',
             product_desc: '',
             product_img: [],
             taken_pic: {},
-            thumbnailImg: ''
+            thumbnailImg: '',
+            size_id: 0,
+            color_id: 0,
+            condition_id: 0,
+            qty: '',
+            selectedProduct: 0,
         }
     }
 
     setCategory = (e) => {
         this.setState({
             category_id: e
+        })
+    }
+
+    setProduct = (e) => {
+        this.setState({
+            selectedProduct: e
+        })
+    }
+
+    setSize = (e) => {
+        this.setState({
+            size_id: e
+        })
+    }
+
+    setColor = (e) => {
+        this.setState({
+            color_id: e
+        })
+    }
+
+    setCondition = (e) => {
+        this.setState({
+            condition_id: e
         })
     }
 
@@ -66,6 +95,9 @@ class AddProduct extends React.Component {
                     category_id: '' + data.data[0].category_id,
                     product_price: '' + data.data[0].product_price,
                     product_desc: '' + data.data[0].product_desc,
+                    size_id: '' + data.data[0].size_id,
+                    color_id: '' + data.data[0].color_id,
+                    condition_id: '' + data.data[0].condition_id,
                     // thumbnailImg:''+data.data[0].product_img
                 })
             }).catch((err) => {
@@ -85,6 +117,9 @@ class AddProduct extends React.Component {
         data.append('category_id', this.state.category_id);
         data.append('product_price', this.state.product_price);
         data.append('product_desc', this.state.product_desc);
+        data.append('size_id', this.state.size_id);
+        data.append('color_id', this.state.color_id);
+        data.append('condition_id', this.state.condition_id);
         data.append('user_id', this.props.auth.id);
         if (this.state.product_img[0]) {
             for (let i = 0; i < this.state.product_img.length; i++) {
@@ -111,7 +146,6 @@ class AddProduct extends React.Component {
             })
         }
 
-
         console.log(data);
         axios
             .patch(REACT_APP_BASE_URL + `/product/updatePrd/` + this.props.route.params.itemId, data, config)
@@ -130,7 +164,7 @@ class AddProduct extends React.Component {
     }
 
     render() {
-        let { product_name, category_id, product_price, product_desc, product_img } = this.state
+        let { product_name, size_id, color_id, qty, condition_id, selectedProduct, category_id, product_price, product_desc, product_img } = this.state
         // thumbnailImg = thumbnailImg.split(',')
         console.log(this.state)
         return (
@@ -148,87 +182,137 @@ class AddProduct extends React.Component {
                     </Body>
                 </Header>
                 <Content>
-                <ScrollView>
-                    <View style={{ marginTop: 5 }}>
-                        <Form>
-                            <Item floatingLabel>
-                                <Label >Product Name</Label>
-                                <Input name="product_name" value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
-                            </Item>
-                            <View style={styles.size}>
-                                <Picker
-                                    selectedValue={category_id}
-                                    onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
-                                >
-                                    <Picker.Item label="Category" value="0" style={{ backgroundColor: 'gray' }} />
-                                    <Picker.Item label="T-shirt" value="1" />
-                                    <Picker.Item label="Short" value="2" />
-                                    <Picker.Item label="Jacket" value="3" />
-                                    <Picker.Item label="Pants" value="4" />
-                                    <Picker.Item label="Shoes" value="5" />
-                                </Picker>
-                            </View>
-                            <Item floatingLabel>
-                                <Label >Price</Label>
-                                <Input name="price" value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
-                            </Item>
-                            <Textarea rowSpan={5} bordered placeholder="Description" name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
+                    <ScrollView>
+                        <View >
+                            <Form>
+                                <Label>Product Name :</Label>
+                                <Item regular>
+                                    <Input name="product_name" style={styles.formFont} value={product_name} onChangeText={(text) => { this.setState({ product_name: text }) }} />
+                                </Item>
+                                <Label >Category :</Label>
+                                <View style={styles.size}>
+                                    <Picker
+                                        selectedValue={category_id}
+                                        onValueChange={(itemValue, itemIndex) => this.setCategory(itemValue)}
+                                        style={styles.formFont}
+                                    >
+                                        <Picker.Item label=" " value="0" />
+                                        <Picker.Item label="T-shirt" value="1" />
+                                        <Picker.Item label="Short" value="2" />
+                                        <Picker.Item label="Jacket" value="3" />
+                                        <Picker.Item label="Pants" value="4" />
+                                        <Picker.Item label="Shoes" value="5" />
+                                    </Picker>
+                                </View>
+                                <Label >Size :</Label>
+                                <View style={styles.size}>
+                                    <Picker
+                                        selectedValue={size_id}
+                                        onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
+                                        style={styles.formFont}
+                                    >
+                                        <Picker.Item label=" " value="0" style={{ backgroundColor: 'gray' }} />
+                                        <Picker.Item label="S" value="1" />
+                                        <Picker.Item label="M" value="2" />
+                                        <Picker.Item label="L" value="3" />
+                                        <Picker.Item label="28" value="4" />
+                                        <Picker.Item label="29" value="5" />
+                                        <Picker.Item label="30" value="6" />
+                                        <Picker.Item label="31" value="7" />
+                                        <Picker.Item label="32" value="8" />
+                                        <Picker.Item label="33" value="9" />
+                                        <Picker.Item label="34" value="10" />
+                                        <Picker.Item label="35" value="11" />
+                                        <Picker.Item label="36" value="12" />
+                                        <Picker.Item label="37" value="13" />
+                                        <Picker.Item label="38" value="14" />
+                                        <Picker.Item label="39" value="15" />
+                                        <Picker.Item label="40" value="16" />
+                                        <Picker.Item label="41" value="17" />
+                                        <Picker.Item label="42" value="18" />
+                                    </Picker>
+                                </View>
+                                <Label >Color :</Label>
+                                <View style={styles.size}>
+                                    <Picker
+                                        selectedValue={color_id}
+                                        onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
+                                        style={styles.formFont}
+                                    >
+                                        <Picker.Item label=" " value="0" />
+                                        <Picker.Item label="Red" value="1" />
+                                        <Picker.Item label="Green" value="2" />
+                                        <Picker.Item label="Blue" value="3" />
+                                        <Picker.Item label="Black" value="4" />
+                                    </Picker>
+                                </View>
+                                <Label >Conditions :</Label>
+                                <View style={styles.size}>
+                                    <Picker
+                                        selectedValue={this.state.condition_id}
+                                        onValueChange={(itemValue, itemIndex) => this.setCondition(itemValue)}
+                                        style={styles.formFont}
+                                    >
+                                        <Picker.Item label=" " value="0" />
+                                        <Picker.Item label="New" value="1" />
+                                        <Picker.Item label="Second" value="2" />
+                                    </Picker>
+                                </View>
 
-                            <View style={{ flexDirection: 'row' }}>
-                                {product_img && product_img.map((item) => {
-                                    return (
-                                        <Image
-                                            key={product_img.indexOf(item)}
-                                            source={{ uri: product_img.length !== 0 ? item.path : '' }}
-                                            style={styles.imageStyle}
-                                        />
-                                    );
-                                })}
-                            </View>
-                            {/* <View style={{ flexDirection: 'row' }}>
-                                {thumbnailImg && thumbnailImg.map((item) => {
-                                    return (
-                                        <Image
-                                            // key={thumbnailImg.indexOf(item)}
-                                            source={{ uri: REACT_APP_BASE_URL+item}}
-                                            style={styles.imageStyle}
-                                        />
-                                    );
-                                })}
-                            </View> */}
+                                <Label >Price :</Label>
+                                <Item regular>
+                                    <Input name="price" style={styles.formFont} value={product_price} onChangeText={(text) => { this.setState({ product_price: text }) }} />
+                                </Item>
+                                <Label >Quantity :</Label>
+                                <Item regular>
+                                    <Input name="price" style={styles.formFont} value={qty} onChangeText={(text) => { this.setState({ qty: text }) }} />
+                                </Item>
+                                <Label>Description</Label>
+                                <Textarea rowSpan={5} stackedLabel regular bordered name="description" value={product_desc} onChangeText={(text) => { this.setState({ product_desc: text }) }} />
+                                <Label >Product Image :</Label>
+                                <View style={{ flexDirection: 'row' }}>
+                                    {product_img && product_img.map((item) => {
+                                        return (
+                                            <Image
+                                                key={product_img.indexOf(item)}
+                                                source={{ uri: product_img.length !== 0 ? item.path : '' }}
+                                                style={styles.imageStyle}
+                                            />
+                                        );
+                                    })}
+                                </View>
 
-                            <View style={{ flexDirection: 'row' }}>
+                                <View style={{ flexDirection: 'row' }}>
+                                    <Image
+                                        source={{ uri: this.state.taken_pic.path }}
+                                        style={styles.imageStyle}
+                                    />
+                                </View>
+                                <View style={styles.btnWrap}>
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        style={styles.btnSection}
+                                        onPress={this.chooseFile}>
+                                        <Text style={styles.btnText}>Choose File</Text>
+                                        <Image source={require('../../assets/icons/folder.png')} />
+                                    </TouchableOpacity>
 
-                                <Image
-                                    source={{ uri: this.state.taken_pic.path }}
-                                    style={styles.imageStyle}
-                                />
+                                    <TouchableOpacity
+                                        activeOpacity={0.5}
+                                        style={styles.btnSection}
+                                        onPress={this.takePicture}>
+                                        <Text style={styles.btnText}>Take Picture</Text>
+                                        <Image source={require('../../assets/icons/camera.png')} />
+                                    </TouchableOpacity>
+                                </View>
+                            </Form>
 
-                            </View>
-
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                style={styles.btnSection}
-                                onPress={this.chooseFile}>
-                                <Text style={styles.btnText}>Choose Image</Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity
-                                activeOpacity={0.5}
-                                style={styles.btnSection}
-                                onPress={this.takePicture}>
-                                <Text style={styles.btnText}>Take Picture</Text>
-                            </TouchableOpacity>
-                        </Form>
-
-
-                        <Button danger full rounded style={{ marginTop: 15 }} onPress={this.editProduct}>
-                            <Text style={{ color: '#fff' }}> SUBMIT </Text>
-                        </Button>
-                    </View>
-                </ScrollView>
+                            <Button danger full rounded style={{ marginTop: 15 }} onPress={this.editProduct}>
+                                <Text style={{ color: '#fff' }}> SUBMIT </Text>
+                            </Button>
+                        </View>
+                    </ScrollView>
                 </Content>
-
             </Container>
         )
     }
@@ -255,7 +339,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     btnSection: {
-        width: 225,
+        width: 125,
         height: 50,
         backgroundColor: '#DCDCDC',
         alignItems: 'center',
@@ -275,9 +359,10 @@ const styles = StyleSheet.create({
         // paddingVertical: 10,
         backgroundColor: '#fff',
         borderRadius: 8,
-        borderColor: '#9B9B9B',
+        borderColor: '#ebebeb',
         paddingHorizontal: 5,
-        paddingBottom: 15
+        paddingBottom: 15,
+        borderWidth: 1,
     },
     imageStyle: {
         width: 200,
@@ -289,4 +374,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 1,
     },
+    btnWrap: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    formFont: {
+        height: 40,
+        fontSize: 16
+    }
 })

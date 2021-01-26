@@ -77,6 +77,7 @@ class DetailPage extends Component {
     render() {
         const { product } = this.state
         const id_productDetails = this.props.route.params.itemId
+
         return (
             <>
                 <Header transparent>
@@ -98,7 +99,7 @@ class DetailPage extends Component {
                 </Header>
 
                 {
-                    product && product.map(({ product_id, product_name, product_price, product_desc, category_name, product_img }) => {
+                    product && product.map(({ product_id, product_name, product_price, product_desc, category_name, product_img, rating }) => {
                         return (
                             <Container>
                                 <Grid>
@@ -208,7 +209,7 @@ class DetailPage extends Component {
                                                             </View>
                                                         </ScrollView>
                                                     </SafeAreaView> */}
-                                                    <Review idProduct={id_productDetails}/>
+                                                    <Review idProduct={id_productDetails} rating={rating}/>
                                                 </View>
                                             </Row>
                                         </ScrollView>

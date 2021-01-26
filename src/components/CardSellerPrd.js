@@ -17,7 +17,7 @@ class CardBag extends Component {
             },
           };
         axios
-            .delete(REACT_APP_BASE_URL+ '/product/delete/' + this.props.id, config)
+            .delete(REACT_APP_BASE_URL+ '/product/deletePrd/' + this.props.id, config)
             .then(({ result }) => {
                 alert('Successfully deleted!')
             })
@@ -30,7 +30,7 @@ class CardBag extends Component {
             <TouchableOpacity
                 onPress={() => {
                     this.props.navigation.navigate('DetailPage', {
-                        itemId: this.props.product_id,
+                        itemId: this.props.id,
                     })
                 }}
             >
@@ -45,7 +45,7 @@ class CardBag extends Component {
                             </Text>
                             <Button full rounded success style={{ width: 50, height: 20, marginTop: 5 }}
                                 onPress={() => {
-                                    this.props.navigation.navigate('EditStock', {
+                                    this.props.navigation.navigate('EditProduct', {
                                         itemId: this.props.id,
                                     })
                                 }}
