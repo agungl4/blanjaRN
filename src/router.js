@@ -37,11 +37,19 @@ import EditStock from './screens/Profile/EditStock'
 import EditProduct from './screens/Profile/EditProduct'
 import Search from './screens/Search'
 import Review from './screens/Profile/ProductReview'
+import Chat from './screens/Profile/Chat'
+
+//redux
+import { useSelector } from 'react-redux';
+
+//context
+import { SocketProvider } from './utils/context/SocketProvider';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const MyTabs = () => {
+  const level = useSelector((state) => state.auth.level);
   return (
     <Tab.Navigator
       headerMode="none"
@@ -72,7 +80,7 @@ const MyTabs = () => {
           },
         }}
       />
-      <Tab.Screen
+      {level === 1 && <Tab.Screen
         name="MyBag"
         component={MyBag}
         options={{
@@ -80,7 +88,8 @@ const MyTabs = () => {
             return <Icon name="shopping-bag" size={25} color={color} />;
           },
         }}
-      />
+      />}
+
       <Tab.Screen
         name="Favorite"
         component={Login}
@@ -142,8 +151,10 @@ const MainProfile = () => {
       <Stack.Screen name="Shipping" component={Shipping} />
       <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
       <Stack.Screen name="AddAddress" component={AddAddress} />
+      <Stack.Screen name="Chat" component={Chat} />
       <Stack.Screen name="Setting" component={Setting} />
     </Stack.Navigator>
+
   );
 };
 
@@ -153,22 +164,23 @@ const appRouter = () => {
       SplashScreen.hide();
     }, 3000);
   }, []);
-
+  const user_id = useSelector((state) => state.auth.id);
   return (
     <>
-      {/* <NavigationContainer> */}
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Tab" component={MyTabs} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup} />
-        <Stack.Screen name="Forgot" component={Forgot} />
-        <Stack.Screen name="Activation" component={Activation} />
-        <Stack.Screen name="ResetPassword" component={ResetPassword} />
-        <Stack.Screen name="Otp" component={Otp} />
-        <Stack.Screen name="Notification" component={Notification} />
-        <Stack.Screen name="DetailPage" component={DetailPage} />
-      </Stack.Navigator>
-      {/* </NavigationContainer> */}
+      <SocketProvider id={user_id}>
+        <Stack.Navigator headerMode="none">
+          <Stack.Screen name="Tab" component={MyTabs} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Signup" component={Signup} />
+          <Stack.Screen name="Forgot" component={Forgot} />
+          <Stack.Screen name="Activation" component={Activation} />
+          <Stack.Screen name="ResetPassword" component={ResetPassword} />
+          <Stack.Screen name="Otp" component={Otp} />
+          <Stack.Screen name="Notification" component={Notification} />
+          <Stack.Screen name="DetailPage" component={DetailPage} />
+          <Stack.Screen name="Chat" component={Chat} />
+        </Stack.Navigator>
+      </SocketProvider>
     </>
   );
 };

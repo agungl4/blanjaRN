@@ -51,11 +51,11 @@ class ListProduct extends React.Component {
                     </Header>
                     <Content style={{ backgroundColor: '#f0f0f0', margin: 10 }}>
                     {
-                      products && products.map(({ id, product_id, product_name, product_price, category_name,size_name,color_name, product_img }) => {
+                      products && products.map(({ id, product_id, product_name, product_price, category_name,size_name,color_name, product_img, condition_name }) => {
                         let img = product_img.split(',')[0];
                         // console.log(img);
                         return (
-                          <CardProduct id={id} product_id={product_id} name={product_name} price={product_price} category={category_name} size={size_name} color={color_name} image={img} navigation={this.props.navigation} />
+                          <CardProduct id={id} product_id={product_id} name={product_name} price={product_price} category={category_name} size={size_name} color={color_name} image={img} condition={condition_name} navigation={this.props.navigation} />
                         )
                       })
                     }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { addQty, minQty, removeItems } from '../utils/redux/ActionCreators/cart'
 import { connect } from 'react-redux'
 import { REACT_APP_BASE_URL } from '@env'
@@ -16,8 +16,26 @@ class CardBag extends Component {
         if (this.props.qty != 1) {
             this.props.dispatch(minQty(data))
         } else {
-            this.props.dispatch(removeItems(data))
+            Alert.alert(
+                'Remove Item',
+                'Hapus dari keranjang?',
+                [
+                    { text: 'NO', style: 'cancel' },
+                    { text: 'YES', onPress: () => this.removeItems() },
+
+                ])
+
         }
+    }
+
+    removeItems = () => {
+        const data = {
+            product_id: this.props.productId,
+            color: this.props.color,
+            size: this.props.size,
+            price: this.props.price
+        }
+        this.props.dispatch(removeItems(data))
     }
 
     Plus = () => {
@@ -28,7 +46,7 @@ class CardBag extends Component {
             price: this.props.price
         }
         console.log(data)
-        if(this.props.qty !=10) {
+        if (this.props.qty != 10) {
             this.props.dispatch(addQty(data))
         }
     }
@@ -43,7 +61,7 @@ class CardBag extends Component {
                         <Text style={{ marginRight: 16 }}>Color: {color}</Text>
                         <Text>Size: {size}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row',justifyContent:'space-around', marginTop: 14 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 14 }}>
                         <TouchableOpacity onPress={this.Minus}>
                             <View style={styles.btn}>
                                 <Image source={require('../assets/icons/min.png')} style={{ marginTop: 13 }} />

@@ -28,7 +28,6 @@ class Login extends React.Component {
 
             axios.post(REACT_APP_BASE_URL + '/auth/login', data)
                 .then(({ data }) => {
-                    alert(data.message)
                     console.log(data.result)
                     this.setState({
                         errorForm: ''

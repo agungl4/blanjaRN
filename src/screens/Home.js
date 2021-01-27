@@ -108,11 +108,11 @@ class Home extends React.Component {
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
                     {
-                      productNew && productNew.map(({ id, product_name, product_price, category_name, product_img }) => {
+                      productNew && productNew.map(({ id, product_name, product_price, category_name, product_img, rating, dibeli }) => {
                         let img = product_img.split(',')[0];
                         // console.log(img);
                         return (
-                          <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                          <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} rating={rating} dibeli={dibeli} navigation={this.props.navigation} />
                         )
                       })
                     }
@@ -130,10 +130,10 @@ class Home extends React.Component {
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
                     {
-                      products && products.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                      products && products.map(({ id, product_name, product_price, category_name, product_img,rating, dibeli }) => {
                         let img = product_img.split(',')[0];
                         return (
-                          <CardProduct id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                          <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} rating={rating} dibeli={dibeli} navigation={this.props.navigation} />
                         )
                       })
                     }

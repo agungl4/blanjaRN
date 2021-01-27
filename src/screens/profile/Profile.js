@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right } from "native-base";
-import { Image, View, TouchableOpacity } from 'react-native'
+import { Image, View, TouchableOpacity, Alert, StyleSheet, Modal, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import { setLoginfalse, removeEmail, removeId, removeName, removeToken } from './../../utils/redux/ActionCreators/auth'
 import { REACT_APP_BASE_URL } from "@env"
@@ -8,6 +8,24 @@ import { REACT_APP_BASE_URL } from "@env"
 class Profile extends React.Component {
     constructor(props) {
         super(props)
+    }
+    state = {
+        modalVisible: false
+    };
+
+    setModalVisible = (visible) => {
+        this.setState({ modalVisible: visible });
+    }
+
+    popConfirm = () => {
+        Alert.alert(
+            'Logout?',
+            'Anda akan keluar dari sesi saat ini',
+            [
+                { text: 'NO', style: 'cancel' },
+                { text: 'YES', onPress: () => this.Logout() },
+
+            ])
     }
 
     Logout = () => {
@@ -33,6 +51,7 @@ class Profile extends React.Component {
 
     render() {
         const { auth } = this.props
+        const { modalVisible } = this.state;
         let storePage;
         if (auth.level == 2) {
             storePage = <>
@@ -52,7 +71,7 @@ class Profile extends React.Component {
                 >
                     <View style={{ paddingLeft: 10, marginTop: 5 }}>
                         <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>Already 12 orders</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your order here</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
@@ -60,7 +79,7 @@ class Profile extends React.Component {
                     <View style={{ paddingLeft: 10, marginTop: 5 }}
                     >
                         <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>3 Shipping Adress</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your shipping address here</Text>
                     </View>
                 </TouchableOpacity>
             </>
@@ -96,6 +115,16 @@ class Profile extends React.Component {
                         {storePage}
 
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                            onPress={() => { this.props.navigation.navigate('Chat') }}
+                        >
+
+                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>chat with selller</Text>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('Setting') }}
                         >
 
@@ -106,11 +135,48 @@ class Profile extends React.Component {
                         </TouchableOpacity>
                     </Content>
                     <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
-                        onPress={this.Logout}
+                        onPress={ this.popConfirm
+                        //     () => {
+                        //     this.setModalVisible(!modalVisible);
+                        // }
+                    }
                     >
                         <Text>Logout</Text>
                     </Button>
                 </Container>
+
+                {/* <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        Alert.alert("Modal has been closed.");
+                    }}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <Text> Apakah anda yakin ingin keluar? </Text>
+                            <View style={{ flexDirection: 'row', justifyContent:'space-around'}}>
+                                <Button bordered danger
+                                    style={{ ...styles.openButton, backgroundColor: "#fff" }}
+                                    onPress={() => {
+                                        this.setModalVisible(!modalVisible);
+                                    }}
+                                >
+                                    <Text style={{color: '"#d9534f"'}}>Cancel</Text>
+                                </Button>
+
+                                <Button
+                                    style={{ ...styles.openButton, backgroundColor: "#d9534f" }}
+                                    onPress={this.Logout}
+                                >
+                                    <Text >Logout</Text>
+                                </Button>
+                            </View>
+                        </View>
+                    </View>
+                </Modal> */}
+
             </>
         )
     }
@@ -123,3 +189,42 @@ const mapStateToProps = ({ auth }) => {
 };
 
 export default connect(mapStateToProps)(Profile);
+
+const styles = StyleSheet.create({
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 20,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    openButton: {
+        
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    }
+});

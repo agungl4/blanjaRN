@@ -58,7 +58,7 @@ class Checkout extends React.Component {
         }
         if (payment != 0) {
             const Order = {
-                trxId: `TRX00${this.props.cart.trxId}`,
+                trxId: `TRX${this.props.cart.trxId}`,
                 payment: payment,
                 address: this.props.address.selectedAddress
             }

@@ -150,8 +150,7 @@ class AddProduct extends React.Component {
         axios
             .patch(REACT_APP_BASE_URL + `/product/updatePrd/` + this.props.route.params.itemId, data, config)
             .then((data) => {
-                console.log(data.data);
-                alert('produk berhasil dirubah')
+                this.props.navigation.push('SellingProduct') 
             })
             .catch((err) => {
                 console.log('error disini');

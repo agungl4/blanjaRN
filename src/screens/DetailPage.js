@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker } from 'react-native';
-import CardProduct from '../components/CardProduct'
 import Review from '../components/Review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Row, Grid } from 'react-native-easy-grid'
@@ -8,6 +7,7 @@ import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
 import { addItems } from '../utils/redux/ActionCreators/cart'
 import { connect } from 'react-redux'
+import CardProduct from '../components/CardForYou'
 
 class DetailPage extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class DetailPage extends Component {
         selectedSize: 0,
         selectedColor: 0,
         product: [],
+        foryou: [],
     };
 
     setSize = (e) => {
@@ -45,8 +46,25 @@ class DetailPage extends Component {
             });
     }
 
+    toPrice = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    getForYou = () => {
+        axios.get(REACT_APP_BASE_URL + '/products?sortBy=rating&orderBy=desc')
+            .then(({ data }) => {
+                // console.log(data)
+                this.setState({
+                    foryou: data.data.products,
+                })
+            }).catch((error) => {
+                // console.log(error.response)
+            })
+    }
+
     componentDidMount = () => {
         this.getSingleProduct();
+        this.getForYou()
     }
 
     addToCart = () => {
@@ -73,9 +91,12 @@ class DetailPage extends Component {
             }
         }
     }
+    toPrice = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
 
     render() {
-        const { product } = this.state
+        const { product, foryou } = this.state
         const id_productDetails = this.props.route.params.itemId
 
         return (
@@ -99,7 +120,7 @@ class DetailPage extends Component {
                 </Header>
 
                 {
-                    product && product.map(({ product_id, product_name, product_price, product_desc, category_name, product_img, rating }) => {
+                    product && product.map(({ id, sellerId, product_name, product_price, product_desc, category_name, product_img, rating }) => {
                         return (
                             <Container>
                                 <Grid>
@@ -167,15 +188,19 @@ class DetailPage extends Component {
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
-                                                        <TouchableOpacity>
+                                                        <TouchableOpacity onPress={() => {
+                                                            this.props.navigation.navigate('Chat', {
+                                                                sellerId: sellerId
+                                                            })  
+                                                        }}>
                                                             <View style={styles.love}>
-                                                                <Image source={require('./../assets/icons/fav.png')} />
+                                                                <Image source={require('./../assets/icons/messenger.png')} />
                                                             </View>
                                                         </TouchableOpacity>
                                                     </View>
                                                     <View style={styles.wraptitle}>
                                                         <Text style={styles.title}>{product_name}</Text>
-                                                        <Text style={styles.subtitle}>{product_price}</Text>
+                                                        <Text style={styles.subtitle}>Rp. {this.toPrice(product_price)}</Text>
                                                     </View>
                                                     <Text style={styles.PrdName}>{category_name}</Text>
                                                     <View>
@@ -187,7 +212,7 @@ class DetailPage extends Component {
                                                     </Text>
 
                                                     {/* <ListBar nav={navigation} /> */}
-                                                    {/* <View style={styles.text}>
+                                                    <View style={styles.text}>
                                                         <Text style={{ fontFamily: 'Metropolis', fontSize: 18 }}>
                                                             You can also like this
                                                         </Text>
@@ -197,19 +222,26 @@ class DetailPage extends Component {
                                                                 fontSize: 11,
                                                                 color: '#9B9B9B',
                                                             }}>
-                                                            3 items
+                                                            {foryou.length} items
                                                         </Text>
                                                     </View>
                                                     <SafeAreaView>
                                                         <ScrollView horizontal={true}>
-                                                            <View style={styles.card}>
-                                                                <CardProduct navigation={this.props.navigation} />
-                                                                <CardProduct navigation={this.props.navigation} />
-                                                                <CardProduct navigation={this.props.navigation} />
+                                                            <View style={{ flexDirection: 'row' }}>
+                                                                {
+                                                                    foryou && foryou.map(({ id, product_name, product_price, product_img, category_name, color_name, size_name, rating, dibeli }) => {
+                                                                        let img = product_img.split(',')[0]
+                                                                        return (
+                                                                            <>
+                                                                                <CardProduct navigation={this.props.navigation} key={id} product_name={product_name} product_price={product_price} product_img={img} keyId={id} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} />
+                                                                            </>
+                                                                        )
+                                                                    })
+                                                                }
                                                             </View>
                                                         </ScrollView>
-                                                    </SafeAreaView> */}
-                                                    <Review idProduct={id_productDetails} rating={rating}/>
+                                                    </SafeAreaView>
+                                                    <Review idProduct={id_productDetails} rating={rating} />
                                                 </View>
                                             </Row>
                                         </ScrollView>
@@ -313,6 +345,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 13,
         borderRadius: 18,
+        bottom: 10
     },
     size: {
         width: 160,
@@ -322,6 +355,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#9B9B9B',
-        paddingHorizontal: 5,
+        right: 3
     },
 });

@@ -125,7 +125,7 @@ class AddProduct extends React.Component {
             .post(REACT_APP_BASE_URL + `/product/add-product`, data, config)
             .then((data) => {
                 console.log(data.data);
-                alert('produk berhasil ditambahkan')
+                this.props.navigation.push('SellingProduct')  
             })
             .catch((err) => {
                 console.log('error disini');
