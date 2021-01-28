@@ -131,6 +131,7 @@ const MyBag = () => {
       <Stack.Screen name="MyBag" component={Bag} />
       <Stack.Screen name="Checkout" component={Checkout} />
       <Stack.Screen name="Success" component={Success} />
+      <Stack.Screen name="Shipping" component={Shipping} />
     </Stack.Navigator>
   );
 };

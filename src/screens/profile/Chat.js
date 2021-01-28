@@ -13,7 +13,7 @@ const Chat = ({ route,navigation }) => {
   const [chatMessage, setChatMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
 
-  const user_id = useSelector((state) => state.auth.id);
+  const user_id = useSelector((state) => state.auth.name);
   // const recipient = user_id == 3 ? 18 : 3
 
   useEffect(() => {
@@ -61,12 +61,12 @@ const Chat = ({ route,navigation }) => {
               let balloonText
               if (user_id != sender) {
                 balloonText = <View style={styles.popText} key={index}>
-                  <Text>User {sender}</Text>
+                  <Text style={{fontSize:14, fontWeight:'700', textDecorationLine: 'underline'}}>{sender} :</Text>
                   <Text>{chatMessage}</Text>
                 </View>
               } else {
                 balloonText = <View style={styles.popTextSender} key={index}>
-                  <Text>You {sender}</Text>
+                  <Text style={{fontSize:14, fontWeight:'700', textDecorationLine: 'underline'}}>You :</Text>
                   <Text>{chatMessage}</Text>
                 </View>
               }

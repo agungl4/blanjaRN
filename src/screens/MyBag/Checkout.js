@@ -134,7 +134,7 @@ class Checkout extends React.Component {
         if (this.props.address.selectedAddress != null) {
             cardAdress =
                 <>
-                    <CardAdress key={address.id} addressId={address.id} name={address.recipient_name} city={address.city} postal={address.postal} phone={address.phone} navigation={this.props.navigation} />
+                    <CardAdress key={address.id} addressId={address.id} type={address.address_type} name={address.recipient_name} city={address.city} postal={address.postal} phone={address.phone} navigation={this.props.navigation} />
                 </>
         } else {
             cardAdress = <Text>Belum ada alamat terpilih</Text>
@@ -157,6 +157,12 @@ class Checkout extends React.Component {
                     <Content style={{ backgroundColor: '#f0f0f0' }}>
                         <View style={{ margin: 10 }}>
                             <Text style={{ marginTop: 20, marginLeft: 5, fontWeight: 'bold', fontSize: 18 }}>Shipping Address</Text>
+                            <TouchableOpacity
+                                onPress={() => { this.props.navigation.navigate('Shipping') }}
+                                style={{borderWidth:1,width:95,height:30,justifyContent:'center', alignItems:'center', backgroundColor:'#ebebeb', borderRadius:4, marginHorizontal:120, marginVertical:15}}
+                            >
+                                <Text style={{ fontSize: 12 }}>Change Address</Text>
+                            </TouchableOpacity>
 
                             {cardAdress}
 
