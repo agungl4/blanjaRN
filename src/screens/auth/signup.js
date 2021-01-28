@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, ToastAndroid } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Body, Left, Right } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { IconBack } from '../../assets'
@@ -49,11 +49,11 @@ class Signup extends React.Component {
                         errorForm: ''
                     })
                     console.log(data)
-                    alert('Register Berhasil')
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                     this.props.navigation.navigate('Activation')
                 }).catch((error) => {
                     console.log(error.response.data.msg)
-                    alert(error.response.data.msg)
+                    ToastAndroid.show(response.data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                 })
         }
     }

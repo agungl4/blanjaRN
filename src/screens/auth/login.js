@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Title, Body, Right, Left } from 'native-base';
 import { IconBack } from '../../assets'
 import { setLogintrue, setName, setEmail, setId, setToken, setLevelUser } from './../../utils/redux/ActionCreators/auth'
@@ -39,10 +39,11 @@ class Login extends React.Component {
                     this.props.dispatch(setId(data.result.user_id))
                     this.props.dispatch(setToken(data.result.token))
                     this.props.dispatch(setLevelUser(data.result.level))
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                     this.props.navigation.navigate('Home')
                 }).catch(({ response }) => {
                     console.log(response.data)
-                    alert(response.data.msg)
+                    ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
                 })
         }
 

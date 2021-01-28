@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker } from 'react-native';
+import { Image, Dimensions, StyleSheet, Text, View, ScrollView, TouchableOpacity, SafeAreaView, Picker, ToastAndroid, Alert } from 'react-native';
 import Review from '../components/Review'
 import { Left, Body, Right, Title, Button, Container, Header } from 'native-base'
 import { Row, Grid } from 'react-native-easy-grid'
@@ -42,7 +42,7 @@ class DetailPage extends Component {
                 })
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err.response.data)
             });
     }
 
@@ -72,7 +72,13 @@ class DetailPage extends Component {
             alert('Anda harus login terlebih dahulu')
         } else {
             if (this.state.selectedColor == 0 || this.state.selectedSize == 0) {
-                alert('Harap pilih warna dan ukuran')
+                Alert.alert(
+                    'Kesalahan',
+                    'Harap memilih warna dan ukuran',
+                    [
+                        { text: 'OK', style: 'cancel' },
+
+                    ])
             } else {
                 const Items = {
                     user_id: this.props.auth.id,
@@ -86,7 +92,7 @@ class DetailPage extends Component {
                 }
                 console.log(Items)
                 this.props.dispatch(addItems(Items))
-                alert('Berhasil menambahkan ke keranjang')
+                ToastAndroid.show("Berhasil menambah item ke keranjang.", ToastAndroid.SHORT);
                 this.props.navigation.navigate('MyBag')
             }
         }
@@ -191,7 +197,7 @@ class DetailPage extends Component {
                                                         <TouchableOpacity onPress={() => {
                                                             this.props.navigation.navigate('Chat', {
                                                                 sellerId: sellerId
-                                                            })  
+                                                            })
                                                         }}>
                                                             <View style={styles.love}>
                                                                 <Image source={require('./../assets/icons/messenger.png')} />

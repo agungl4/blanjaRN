@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker } from 'react-native'
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Picker, ToastAndroid } from 'react-native'
 import { Container, Header, Title, Content, Form, Item, Input, Button, Label, Textarea, Left, Body, Right } from 'native-base';
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
@@ -125,6 +125,7 @@ class AddProduct extends React.Component {
             .post(REACT_APP_BASE_URL + `/product/add-product`, data, config)
             .then((data) => {
                 console.log(data.data);
+                ToastAndroid.show('Produk berhasil ditambahkan', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                 this.props.navigation.push('SellingProduct')  
             })
             .catch((err) => {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Right, CheckBox } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
 import CardAdress from '../../components/CardAdress'
 import { orderItems } from '../../utils/redux/ActionCreators/cart'
 import { connect } from 'react-redux'
@@ -53,8 +53,6 @@ class Checkout extends React.Component {
             payment = 2
         } else if (this.state.isCheckedGopay) {
             payment = 3
-        } else {
-            alert('Harap pilih pembayaran')
         }
         if (payment != 0) {
             const Order = {
@@ -90,6 +88,8 @@ class Checkout extends React.Component {
                         console.log(error.response.data)
                     })
             }
+        } else {
+            ToastAndroid.show('Harap lengkapi alamat dan pembayaran', ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
     }
 
@@ -166,18 +166,18 @@ class Checkout extends React.Component {
                                 <Text style={{ marginTop: 30, width: 120 }}>Master Card</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedMaster} onPress={this.checkedMaster} />
                             </View>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around', marginLeft:15 }}>
-                                <TouchableOpacity style={{width:64, height:38,marginTop: 25, backgroundColor:'#fff', borderRadius:8}}>
-                                    <Image source={require('../../assets/images/post.png')} style={{ marginLeft:10,marginTop:5 }} />
+                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around', marginLeft: 15 }}>
+                                <TouchableOpacity style={{ width: 64, height: 38, marginTop: 25, backgroundColor: '#fff', borderRadius: 8 }}>
+                                    <Image source={require('../../assets/images/post.png')} style={{ marginLeft: 10, marginTop: 5 }} />
                                 </TouchableOpacity>
-                                <Text style={{ marginTop: 30, width: 120, marginLeft:30 }}>Post Indonesia</Text>
+                                <Text style={{ marginTop: 30, width: 120, marginLeft: 30 }}>Post Indonesia</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedPost} onPress={this.checkedPost} />
                             </View>
-                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around', marginLeft:15 }}>
-                                <TouchableOpacity style={{width:64, height:38, marginTop: 25, backgroundColor:'#fff', borderRadius:8}}>
-                                    <Image source={require('../../assets/images/gopay.png')}style={{ marginLeft:7,marginTop:12 }} />
+                            <View style={{ flexDirection: 'row', marginRight: 10, height: 60, justifyContent: 'space-around', marginLeft: 15 }}>
+                                <TouchableOpacity style={{ width: 64, height: 38, marginTop: 25, backgroundColor: '#fff', borderRadius: 8 }}>
+                                    <Image source={require('../../assets/images/gopay.png')} style={{ marginLeft: 7, marginTop: 12 }} />
                                 </TouchableOpacity>
-                                <Text style={{ marginTop: 30, width: 120, marginLeft:30 }}>GoPay</Text>
+                                <Text style={{ marginTop: 30, width: 120, marginLeft: 30 }}>GoPay</Text>
                                 <CheckBox style={{ marginLeft: 70, marginTop: 30 }} checked={this.state.isCheckedGopay} onPress={this.checkedGopay} />
                             </View>
                         </View>

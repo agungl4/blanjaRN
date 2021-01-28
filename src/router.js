@@ -38,6 +38,7 @@ import EditProduct from './screens/Profile/EditProduct'
 import Search from './screens/Search'
 import Review from './screens/Profile/ProductReview'
 import Chat from './screens/Profile/Chat'
+import OrderedItem from './screens/Profile/OrderedItem'
 
 //redux
 import { useSelector } from 'react-redux';
@@ -139,6 +140,7 @@ const MainProfile = () => {
     <Stack.Navigator initialRouteName="MainProfile" headerMode="none">
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Orders" component={Order} />
+      <Stack.Screen name="OrderedItem" component={OrderedItem} />
       <Stack.Screen name="Store" component={UserStore} />
       <Stack.Screen name="SellingProduct" component={SellingProduct} />
       <Stack.Screen name="ListProduct" component={ListProduct} />

@@ -13,6 +13,9 @@ class cardAddress extends React.Component {
                 <View style={styles.order} >
                     <View style={{ margin: 10, }}>
                         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Text style={{ fontWeight: '200', fontSize: 18, color: 'green' }}>
+                                {this.props.type}
+                            </Text>
                             <Text style={{ fontWeight: '200', fontSize: 18 }}>
                                 {this.props.name}
                             </Text>

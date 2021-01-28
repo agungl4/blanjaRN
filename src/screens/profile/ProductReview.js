@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Left, Body, Textarea, View, Form, Text, Label } from "native-base";
-import { Image, Picker } from 'react-native'
+import { Image, Picker, ToastAndroid, Alert,TouchableOpacity } from 'react-native'
 import { REACT_APP_BASE_URL } from '@env'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import axios from 'axios'
 
 class writeReview extends Component {
     state = {
         listProduct: [],
         selectedProduct: 0,
-        star: 0,
+        star: 1,
         review: ''
     }
 
@@ -37,23 +37,29 @@ class writeReview extends Component {
         })
     }
 
-    submitReview = () =>{
-        if(this.state.selectedProduct != 0){
+    submitReview = () => {
+        if (this.state.selectedProduct != 0) {
             const reviewData = {
-                user_id:this.props.auth.id,
-                product_id:this.state.selectedProduct,
-                rating:this.state.star,
-                review:this.state.review
+                user_id: this.props.auth.id,
+                product_id: this.state.selectedProduct,
+                rating: this.state.star,
+                review: this.state.review
             }
-            axios.post(REACT_APP_BASE_URL+'/user/addReview', reviewData)
-            .then(({data}) =>{
-                alert(data.message)
-                this.props.navigation.goBack()
-            }).catch(({response}) =>{
-                console.log(response.data)
-            })
-        }else{
-            alert('Silahkan pilih produk terlebih dahulu')
+            axios.post(REACT_APP_BASE_URL + '/user/addReview', reviewData)
+                .then(({ data }) => {
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+                    this.props.navigation.goBack()
+                }).catch(({ response }) => {
+                    console.log(response.data)
+                })
+        } else {
+            Alert.alert(
+                'Kesalahan',
+                'Pilih produk yang ingin direview',
+                [
+                    { text: 'OK', style: 'cancel' },
+
+                ])
         }
     }
 
@@ -63,6 +69,154 @@ class writeReview extends Component {
 
     render() {
         const { listProduct, selectedProduct, star } = this.state
+        let rating;
+        if (star == 1) {
+            rating =
+                <>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(1)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(2)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(3)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(4)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(5)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                </>
+        } else if (star == 2) {
+            rating =
+                <>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(1)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(2)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(3)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(4)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(5)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                </>
+        } else if (star == 3) {
+            rating =
+                <>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(1)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(2)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(3)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(4)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(5)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                </>
+        } else if (star == 4) {
+            rating =
+                <>
+
+                    <TouchableOpacity
+                        onPress={() => this.setRating(1)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(2)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(3)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(4)}
+                    >
+                        <Image source={require('../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(5)}
+                    >
+                        <Image source={require('./../../assets/icons/emptystar.png')} />
+                    </TouchableOpacity>
+                </>
+        } else if (star == 5) {
+            rating =
+                <>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(1)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(2)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(3)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(4)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => this.setRating(5)}
+                    >
+                        <Image source={require('./../../assets/icons/fillstar.png')} />
+                    </TouchableOpacity>
+                </>
+        }
         return (
             <Container >
                 <Header transparent>
@@ -78,9 +232,9 @@ class writeReview extends Component {
                     </Body>
                 </Header>
                 <Content padder style={{ backgroundColor: '#f0f0f0' }}>
-        <Text style={{alignSelf:'center', fontWeight:'bold', fontSize:20, marginBottom:20}}>Beri ulasan untuk transaksi {this.props.route.params.trxId}</Text>
+                    <Text style={{ alignSelf: 'center', fontWeight: 'bold', fontSize: 20, marginBottom: 20 }}>Beri ulasan untuk transaksi {this.props.route.params.trxId}</Text>
                     <Label>Pilih Produk</Label>
-                    <View style={{ borderWidth:1, borderColor:'red', borderRadius:5 , marginBottom:20}}>
+                    <View style={{ borderWidth: 1, borderColor: 'red', borderRadius: 5, marginBottom: 20 }}>
                         <Picker
                             selectedValue={selectedProduct}
                             onValueChange={(itemValue, itemIndex) => this.setProduct(itemValue)}
@@ -94,24 +248,16 @@ class writeReview extends Component {
                         </Picker>
                     </View>
                     <Label>Beri rating</Label>
-                    <View style={{ borderWidth:1, borderColor:'red', borderRadius:5 , marginBottom:20}}>
-                        <Picker
-                            selectedValue={star}
-                            onValueChange={(itemValue, itemIndex) => this.setRating(itemValue)}
-                        >
-                            <Picker.Item label="Beri Bintang" value='0' />
-                            <Picker.Item label="Bintang 1" value='1' />
-                            <Picker.Item label="Bintang 2" value='2' />
-                            <Picker.Item label="Bintang 3" value='3' />
-                            <Picker.Item label="Bintang 4" value='4' />
-                            <Picker.Item label="Bintang 5" value='5' />
-                        </Picker>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Text></Text>
+                        {rating}
+                        <Text></Text>
                     </View>
                     <Form>
                         <Label>Review</Label>
-                        <Textarea rowSpan={5} bordered placeholder='Write review here...' onChangeText={(text) => { this.setState({ review: text }) }}/>
+                        <Textarea rowSpan={5} bordered placeholder='Write review here...' onChangeText={(text) => { this.setState({ review: text }) }} />
                     </Form>
-                    <Button full rounded danger style={{marginTop:15}}
+                    <Button full rounded danger style={{ marginTop: 15 }}
                         onPress={this.submitReview}
                     >
                         <Text>

@@ -13,8 +13,8 @@ class ShopCategory extends Component {
 
     state = {
         products: [],
-        productNew: [],
         modalVisible: false,
+        modalSortVisible: false,
         isRed: false,
         isGreen: false,
         isBlue: false,
@@ -24,6 +24,8 @@ class ShopCategory extends Component {
         catSelected: 0,
         selectedBrand: 0,
         axiosData: '',
+        itemNotFound: '',
+        pageInfo: [],
     }
 
     checkedRed = () => {
@@ -109,6 +111,10 @@ class ShopCategory extends Component {
         this.setState({ modalVisible: visible });
     }
 
+    setModalSortVisible = (visible) => {
+        this.setState({ modalSortVisible: visible });
+    }
+
     Discard = () => {
         this.setState({
             isRed: false,
@@ -139,61 +145,176 @@ class ShopCategory extends Component {
             axiosData: axiosData
         })
         let modifiedUrl = ''
-        if(this.state.baseUrl != '/products?'){
+        if (this.state.baseUrl != '/products?') {
             modifiedUrl = '&'
         }
         axios.get(REACT_APP_BASE_URL + `${this.state.baseUrl}${modifiedUrl}` + axiosData)
-        .then(({data}) => {
-            this.setState({
-                productNew: data.data.products,
-                modalVisible: false
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    modalVisible: false
+                })
             })
-        })
-        .catch(err => {
-            console.log(err.response.data)
-            this.setState({
-                productNew: [],
-                modalVisible: false
+            .catch(err => {
+                console.log(err.response.data)
+                this.setState({
+                    products: [],
+                    modalVisible: false
+                })
             })
-        })
+    }
+
+    nextPage = () => {
+        const nextPage = this.state.pageInfo.nextpage
+        if (nextPage != null) {
+            axios.get(REACT_APP_BASE_URL + nextPage)
+                .then(({ data }) => {
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
+    refresh = () => {
+        axios.get(REACT_APP_BASE_URL + this.state.baseUrl)
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+
+    prevPage = () => {
+        const prevPage = this.state.pageInfo.previousPage
+        if (prevPage != null) {
+            axios.get(REACT_APP_BASE_URL + prevPage)
+                .then(({ data }) => {
+                    this.setState({
+                        products: data.data.products,
+                        pageInfo: data.data.pageInfo,
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
+        }
+    }
+
+    nameAsc = () => {
+        let modifiedUrl = ''
+        if (this.state.baseUrl != '/products?') {
+            modifiedUrl = '&'
+        }
+        this.setModalSortVisible(false)
+        axios.get(REACT_APP_BASE_URL + this.state.baseUrl + modifiedUrl + 'sortBy=product_name&orderBy=asc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+
+    nameDesc = () => {
+        let modifiedUrl = ''
+        if (this.state.baseUrl != '/products?') {
+            modifiedUrl = '&'
+        }
+        this.setModalSortVisible(false)
+        axios.get(REACT_APP_BASE_URL + this.state.baseUrl + modifiedUrl + 'sortBy=product_name&orderBy=desc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+
+    priceAsc = () => {
+        let modifiedUrl = ''
+        if (this.state.baseUrl != '/products?') {
+            modifiedUrl = '&'
+        }
+        this.setModalSortVisible(false)
+        axios.get(REACT_APP_BASE_URL + this.state.baseUrl + modifiedUrl + 'sortBy=product_price&orderBy=asc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+
+    priceDesc = () => {
+        let modifiedUrl = ''
+        if (this.state.baseUrl != '/products?') {
+            modifiedUrl = '&'
+        }
+        this.setModalSortVisible(false)
+        axios.get(REACT_APP_BASE_URL + this.state.baseUrl + modifiedUrl + 'sortBy=product_price&orderBy=desc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
+    }
+
+    rating = () => {
+        let modifiedUrl = ''
+        if (this.state.baseUrl != '/products?') {
+            modifiedUrl = '&'
+        }
+        this.setModalSortVisible(false)
+        axios.get(REACT_APP_BASE_URL + this.state.baseUrl + modifiedUrl + 'sortBy=rating&orderBy=desc')
+            .then(({ data }) => {
+                this.setState({
+                    products: data.data.products,
+                    pageInfo: data.data.pageInfo,
+                })
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     componentDidMount = () => {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
-            if (this.props.route.params.url) {
-                axios.get(REACT_APP_BASE_URL + '/search?' + this.props.route.params.url)
+            if (this.props.route.params.ctgId == 'new') {
+                axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
                     .then(({ data }) => {
-                        console.log(data)
+                        // console.log(data.data.products)
                         this.setState({
-                            productNew: data.data.products,
+                            products: data.data.products,
+                            baseUrl: '/products?'
                         })
                     }).catch(err => {
                         console.log(err)
                     })
             } else {
-                if (this.props.route.params.ctgId == 'new') {
-                    axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
-                        .then(({ data }) => {
-                            // console.log(data.data.products)
-                            this.setState({
-                                productNew: data.data.products,
-                                baseUrl: '/products?'
-                            })
-                        }).catch(err => {
-                            console.log(err)
+                axios.get(REACT_APP_BASE_URL + '/products?category=' + this.props.route.params.ctgId)
+                    .then(({ data }) => {
+                        // console.log(data.data.products)
+                        this.setState({
+                            products: data.data.products,
+                            baseUrl: '/products?category=' + this.props.route.params.ctgId
                         })
-                } else {
-                    axios.get(REACT_APP_BASE_URL + '/products?category=' + this.props.route.params.ctgId)
-                        .then(({ data }) => {
-                            // console.log(data.data.products)
-                            this.setState({
-                                productNew: data.data.products,
-                                baseUrl: '/products?category=' + this.props.route.params.ctgId
-                            })
-                        }).catch(err => {
-                            console.log(err)
-                        })
-                }
+                    }).catch(err => {
+                        console.log(err)
+                    })
             }
         });
     }
@@ -203,7 +324,7 @@ class ShopCategory extends Component {
     }
 
     render() {
-        const { productNew, modalVisible, products } = this.state;
+        const { modalVisible, products, pageInfo, modalSortVisible } = this.state;
         let sizeS = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 1 }) }} style={styles.btnSize}><Text>S</Text></Button>
         let sizeM = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 2 }) }} style={styles.btnSize}><Text>M</Text></Button>
         let sizeL = <Button bordered danger small onPress={() => { this.setState({ sizeSelected: 3 }) }} style={styles.btnSize}><Text>L</Text></Button>
@@ -226,8 +347,10 @@ class ShopCategory extends Component {
                         <Title style={{ color: 'black', marginLeft: 35, fontWeight: 'bold' }}>{this.props.route.params.ctgName}</Title>
                     </Body>
                     <Right>
-                        <Button transparent>
-                            <Image source={require('../assets/icons/Search.png')} />
+                        <Button transparent
+                            onPress={this.refresh}
+                        >
+                            <Image source={require('../assets/icons/refresh.png')} />
                         </Button>
                     </Right>
                 </Header>
@@ -245,7 +368,11 @@ class ShopCategory extends Component {
                                 </TouchableOpacity>
                             </Col>
                             <Col>
-                                <TouchableOpacity>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setModalSortVisible(true)
+                                    }}
+                                >
                                     <Text style={styles.txtFilter}> Sort </Text>
                                 </TouchableOpacity>
                             </Col>
@@ -255,17 +382,32 @@ class ShopCategory extends Component {
                     <ScrollView>
                         <View style={styles.grid} >
                             {
-                                productNew && productNew.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                                products && products.map(({ product_id, product_name, product_price, category_name, color_name, size_name, rating, dibeli, product_img }) => {
                                     let img = product_img.split(',')[0];
                                     // console.log(img);
                                     return (
-                                        <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                                        <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} image={img} navigation={this.props.navigation} />
                                     )
                                 })
                             }
 
                         </View>
                     </ScrollView>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        <Button full bordered light style={styles.btnPage}
+                            onPress={this.prevPage}
+                        >
+                            <Text>{`<<<`}</Text>
+                        </Button>
+                        <Button full bordered light style={styles.btnPage}>
+                            <Text>{pageInfo.currentPage}</Text>
+                        </Button>
+                        <Button full bordered light style={styles.btnPage}
+                            onPress={this.nextPage}
+                        >
+                            <Text>{`>>>`}</Text>
+                        </Button>
+                    </View>
                 </Container>
 
 
@@ -311,7 +453,51 @@ class ShopCategory extends Component {
                         </View>
                     </View>
                 </Modal>
-
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={modalSortVisible}
+                >
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalSortView}>
+                            <View style={{ width: '100%' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <Text style={{ color: 'white' }}>Close [x]</Text>
+                                    <Text style={{ fontSize: 18, textAlign: 'center' }}>Sort By</Text>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.setModalSortVisible(false)
+                                        }}
+                                    >
+                                        <Text>Close [x]</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <Button transparent style={styles.btnModal}
+                                    onPress={this.nameDesc}
+                                >
+                                    <Text style={{ fontSize: 18 }}>Sort By Name: Z-A</Text>
+                                </Button>
+                                <Button transparent style={styles.btnModal}
+                                    onPress={this.nameAsc}
+                                >
+                                    <Text style={{ fontSize: 18 }}>Sort By Name: A-Z</Text>
+                                </Button><Button transparent style={styles.btnModal}
+                                    onPress={this.priceAsc}
+                                >
+                                    <Text style={{ fontSize: 18 }}>Sort By Price: Low to High</Text>
+                                </Button><Button transparent style={styles.btnModal}
+                                    onPress={this.priceDesc}
+                                >
+                                    <Text style={{ fontSize: 18 }}>Sort By Price: High to Low</Text>
+                                </Button><Button transparent style={styles.btnModal}
+                                    onPress={this.rating}
+                                >
+                                    <Text style={{ fontSize: 18 }}>Sort By Rating</Text>
+                                </Button>
+                            </View>
+                        </View>
+                    </View>
+                </Modal>
             </>
         );
     }
@@ -390,6 +576,22 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5
     },
+    modalSortView: {
+        margin: 20,
+        height: 300,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 25,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
     openButton: {
         backgroundColor: "#F194FF",
         borderRadius: 20,
@@ -409,13 +611,27 @@ const styles = StyleSheet.create({
         width: 80
     },
     btnSize: {
-        width:30,
-        justifyContent:'center',
+        width: 30,
+        justifyContent: 'center',
         color: '#d9534f'
     },
     btnColor: {
-        borderRadius: 30, 
-        width: 30, 
+        borderRadius: 30,
+        width: 30,
         height: 30
-    }
+    },
+    btnModal: {
+        backgroundColor: 'white',
+        alignItems: 'center',
+        width: 330,
+
+    },
+    btnPage: {
+        alignItems: "center",
+        // backgroundColor: "#DB3022",
+        padding: 10,
+        borderRadius: 8,
+        marginBottom: 10,
+        width: 70
+    },
 });

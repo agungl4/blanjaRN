@@ -74,11 +74,11 @@ class Search extends Component {
         if (products.length) {
             result = <View style={styles.grid} >
                 {
-                    products && products.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                    products && products.map(({ product_id, product_name, product_price, category_name,color_name, size_name, rating, dibeli, product_img }) => {
                         let img = product_img.split(',')[0];
                         // console.log(img);
                         return (
-                            <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                            <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} image={img} navigation={this.props.navigation} />
                         )
                     })
                 }

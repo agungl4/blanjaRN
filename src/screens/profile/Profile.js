@@ -4,14 +4,40 @@ import { Image, View, TouchableOpacity, Alert, StyleSheet, Modal, TouchableHighl
 import { connect } from 'react-redux'
 import { setLoginfalse, removeEmail, removeId, removeName, removeToken } from './../../utils/redux/ActionCreators/auth'
 import { REACT_APP_BASE_URL } from "@env"
+import axios from 'axios'
 
 class Profile extends React.Component {
     constructor(props) {
         super(props)
     }
     state = {
-        modalVisible: false
+        modalVisible: false,
+        order: [],
+        address: [],
     };
+
+    getMyOrder = () => {
+        axios.get(REACT_APP_BASE_URL + '/transactions/myTransaction/' + this.props.auth.id)
+            .then(({ data }) => {
+                this.setState({
+                    order: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
+    getAddress = () => {
+        axios.get(REACT_APP_BASE_URL + `/address/${this.props.auth.id}`)
+            .then(({ data }) => {
+                console.log(data)
+                this.setState({
+                    address: data.data
+                })
+            }).catch(({ response }) => {
+                console.log(response)
+            })
+    }
 
     setModalVisible = (visible) => {
         this.setState({ modalVisible: visible });
@@ -41,6 +67,12 @@ class Profile extends React.Component {
         this._unsubscribe = this.props.navigation.addListener('focus', () => {
             if (!this.props.auth.isLogin) {
                 this.props.navigation.navigate('Login')
+            } else {
+                this.setState({
+                    loading: false
+                })
+                this.getAddress()
+                this.getMyOrder()
             }
         });
     }
@@ -63,6 +95,14 @@ class Profile extends React.Component {
                         <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
                     </View>
                 </TouchableOpacity>
+                <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                    onPress={() => { this.props.navigation.navigate('OrderedItem') }}
+                >
+                    <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                        <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Orders</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your Orders</Text>
+                    </View>
+                </TouchableOpacity>
             </>
         } else {
             storePage = <>
@@ -71,7 +111,7 @@ class Profile extends React.Component {
                 >
                     <View style={{ paddingLeft: 10, marginTop: 5 }}>
                         <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>My Orders</Text>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your order here</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>You have {this.state.order.length} order</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
@@ -79,7 +119,7 @@ class Profile extends React.Component {
                     <View style={{ paddingLeft: 10, marginTop: 5 }}
                     >
                         <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Shipping Adress</Text>
-                        <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your shipping address here</Text>
+                        <Text style={{ color: 'gray', marginBottom: 10 }}>{this.state.address.length} Shipping Adress</Text>
                     </View>
                 </TouchableOpacity>
             </>
@@ -135,11 +175,11 @@ class Profile extends React.Component {
                         </TouchableOpacity>
                     </Content>
                     <Button full rounded danger style={{ marginHorizontal: 10, marginBottom: 15 }}
-                        onPress={ this.popConfirm
-                        //     () => {
-                        //     this.setModalVisible(!modalVisible);
-                        // }
-                    }
+                        onPress={this.popConfirm
+                            //     () => {
+                            //     this.setModalVisible(!modalVisible);
+                            // }
+                        }
                     >
                         <Text>Logout</Text>
                     </Button>
@@ -213,7 +253,7 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     openButton: {
-        
+
         borderRadius: 20,
         padding: 10,
         elevation: 2

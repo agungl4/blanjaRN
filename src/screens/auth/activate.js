@@ -5,7 +5,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Image
+    Image,
+    ToastAndroid
 } from 'react-native';
 import axios from 'axios';
 import { REACT_APP_BASE_URL } from "@env"
@@ -30,11 +31,13 @@ class Register extends React.Component {
         } else {
             axios.get(REACT_APP_BASE_URL + `/auth/activate/${this.state.email}/${this.state.otp}`)
                 .then(({ data }) => {
-                    alert(data.message)
+                    // alert(data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT);
                     console.log(data)
                     this.props.navigation.navigate('Login')
                 }).catch(({ response }) => {
-                    alert(response.data.message)
+                    // alert(response.data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT);
                     console.log(response.data)
                 })
         }

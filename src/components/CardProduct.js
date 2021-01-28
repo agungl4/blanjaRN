@@ -26,13 +26,13 @@ class CardProduct extends Component {
                     })
                 }}
             >
-                <Card style={{ height: 280, marginRight: 10, width: 158 }}>
+                <Card style={{ height: 280, marginRight: 10, width: 153 }}>
                     <CardItem cardBody>
                         <View >
                             <Image source={{ uri: REACT_APP_BASE_URL + image, maxWidth: 150, height: 180 }} />
                             {/* <Image source={'https://b74bad6ddfe3.ngrok.io'+ image.split(',')[0]} /> */}
                             <Text style={{ color: 'gray', marginTop: 5 }}> {category} </Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 15 }}> {name} </Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 15,height:22 }}> {name} </Text>
                             <Text style={{ fontWeight: 'bold', fontSize: 15 }}> Rp. {this.toPrice(price)} </Text>
                             <View style={{ flexDirection: 'row' }}>
                                 <View style={{ flexDirection: 'row', marginRight: 5 }}>
