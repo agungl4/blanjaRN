@@ -62,7 +62,7 @@
 
 -  [`ReactNative`](https://reactjs.org/)
 
--  [`Blanja Backend`](https://github.com/Baruak-da-Familia/blanja-api.git)
+-  [`Blanja Backend`](https://github.com/agungl4/blanja-REST-revamped.git)
 
   
 
