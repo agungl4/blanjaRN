@@ -109,15 +109,15 @@ REACT_APP_BASE_URL = "http://localhost:8000"
 
 <div  align="center">
 
-<img  width="100%"  src="./src/assets/screenshots/1.png">
+<img  width="100%"  src="./src/assets/screenshots/1.PNG">
 
-<img  width="100%"  src="./src/assets/screenshots/2.png">
+<img  width="100%"  src="./src/assets/screenshots/2.PNG">
 
-<img  width="100%"  src="./src/assets/screenshots/4.png">
+<img  width="100%"  src="./src/assets/screenshots/4.PNG">
 
-<img  width="100%"  src="./src/assets/screenshots/5.png">
+<img  width="100%"  src="./src/assets/screenshots/5.PNG">
 
-<img  width="100%"  src="./src/assets/screenshots/6.png">
+<img  width="100%"  src="./src/assets/screenshots/6.PNG">
 
 </div>
 
