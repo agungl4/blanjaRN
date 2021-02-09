@@ -147,7 +147,7 @@ RESTful API for this mobile application, clone this for development.
 
   
 
-<a  href="https://github.com/agungl4/blanjaRN.git">
+<a  href="https://github.com/agungl4/blanja-REST-revamped.git">
 
 <img  src="https://img.shields.io/badge/Blanja%20Backend-Repository-blue.svg?style=popout&logo=github"/>
 
