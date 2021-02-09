@@ -131,7 +131,7 @@ This is Blanja Mobile App build version, download here.
 
   
 
-<a  href="http://54.175.146.137:3000/">
+<a  href="https://drive.google.com/file/d/1ARLZM0IZZ8Ur7XV_eE4Qg8TTjUL_4Wjg/view?usp=sharing">
 
 <img  src="https://img.shields.io/badge/Blanja%20Web-Link%20Demo-blue.svg?style=popout&logo=android"/>
 
