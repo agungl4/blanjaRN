@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Title, Body, Right, Left } from 'native-base';
 import { IconBack } from '../../assets'
 import { setLogintrue, setName, setEmail, setId, setToken, setLevelUser } from './../../utils/redux/ActionCreators/auth'
@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from '@env'
 
+const regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 class Login extends React.Component {
     state = {
         isLogin: false,
@@ -21,30 +22,34 @@ class Login extends React.Component {
                 errorForm: 'Semua kolom harus diisi!'
             })
         } else {
-            const data = {
-                email: this.state.email,
-                password: this.state.password
-            }
+            if (regexEmail.test(this.state.email)) {
+                const data = {
+                    email: this.state.email,
+                    password: this.state.password
+                }
 
-            axios.post(REACT_APP_BASE_URL + '/auth/login', data)
-                .then(({ data }) => {
-                    alert(data.message)
-                    console.log(data.result)
-                    this.setState({
-                        errorForm: ''
+                axios.post(REACT_APP_BASE_URL + '/auth/login', data)
+                    .then(({ data }) => {
+                        console.log(data.result)
+                        this.setState({
+                            errorForm: ''
+                        })
+
+                        this.props.dispatch(setLogintrue())
+                        this.props.dispatch(setName(data.result.name))
+                        this.props.dispatch(setEmail(data.result.email))
+                        this.props.dispatch(setId(data.result.user_id))
+                        this.props.dispatch(setToken(data.result.token))
+                        this.props.dispatch(setLevelUser(data.result.level))
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        this.props.navigation.navigate('Home')
+                    }).catch(({ response }) => {
+                        console.log(response.data)
+                        ToastAndroid.show(response.data.msg, ToastAndroid.SHORT);
                     })
-
-                    this.props.dispatch(setLogintrue())
-                    this.props.dispatch(setName(data.result.name))
-                    this.props.dispatch(setEmail(data.result.email))
-                    this.props.dispatch(setId(data.result.user_id))
-                    this.props.dispatch(setToken(data.result.token))
-                    this.props.dispatch(setLevelUser(data.result.level))
-                    this.props.navigation.navigate('Home')
-                }).catch(({ response }) => {
-                    console.log(response.data)
-                    alert(response.data.msg)
-                })
+            } else {
+                ToastAndroid.show('Format email tidak valid', ToastAndroid.SHORT)
+            }
         }
 
     }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Left, Body, Text, View, Item, Label, Input } from "native-base";
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, ToastAndroid } from 'react-native'
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { connect } from 'react-redux'
 import axios from 'axios'
@@ -22,6 +22,10 @@ class AddAddress extends Component {
     }
 
     addAddress = () => {
+        const regexPhone = /^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$/g
+        if(!(this.state.phone.length >=11) || !(this.state.phone.length <= 15) || !regexPhone.test(this.state.phone)){
+            ToastAndroid.show('Format pengisian no. HP salah', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+        }
         if (this.state.address_type !== '') {
             const addressData = {
                 address_type: this.state.address_type,
@@ -34,7 +38,7 @@ class AddAddress extends Component {
             }
             axios.post(REACT_APP_BASE_URL + `/address/new`, addressData)
                 .then(({ data }) => {
-                    alert(data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                     this.props.navigation.navigate('Shipping')
                 }).catch(({ response }) => {
                     console.log(response.data)

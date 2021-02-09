@@ -6,12 +6,18 @@ import { REACT_APP_BASE_URL } from '@env'
 import axios from 'axios'
 
 class Review extends Component {
+    // constructor(props){
+    //     super(props)
+    //     co
+    // }
     state = {
         review: [],
         isEmpty: true
     }
 
     componentDidMount = () => {
+
+        console.log(this.props)
         // console.log(BASE_URL + '/user/getReview/' + this.props.idProduct)
         axios.get(REACT_APP_BASE_URL + '/user/getReview/' + this.props.idProduct)
             .then(({ data }) => {
@@ -49,7 +55,7 @@ class Review extends Component {
             totalRating +=rating
         })
 
-        const avgRating = totalRating / review.length
+        // const avgRating = totalRating / review.length
 
         // console.log(isEmpty, review)
         let reviewItems;
@@ -142,7 +148,7 @@ class Review extends Component {
                     <Grid>
                         <Row>
                             <Col size={3}>
-                                <Text style={{ fontSize: 45 }}>{avgRating.toString().substr(0,4)}</Text>
+                                <Text style={{ fontSize: 45 }}>{this.props.rating}</Text>
                                 <Text style={{ fontSize: 12, color: '#9B9B9B' }}>{totalReview} ratings</Text>
                             </Col>
                             <Col size={3} style={{ alignItems: 'flex-end', flexDirection: 'column' }}>

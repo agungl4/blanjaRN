@@ -46,14 +46,14 @@ class UserStore extends React.Component {
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your selling products here</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                        {/* <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('ListProduct') }}
                         >
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>List product</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Manage your store products here</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                         <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('AddProduct') }}
                         >
@@ -62,14 +62,14 @@ class UserStore extends React.Component {
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Add products for sale</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                        {/* <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('AddStock') }}>
                             <View style={{ paddingLeft: 10, marginTop: 5 }}
                             >
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Add stock</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>Add stock products</Text>
                             </View>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </Content>
                 </Container>
             </>

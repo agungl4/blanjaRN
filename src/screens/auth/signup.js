@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, ToastAndroid } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label, Body, Left, Right } from 'native-base';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { IconBack } from '../../assets'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
-
+const regexEmail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 class Signup extends React.Component {
     state = {
         isRegister: false,
@@ -24,37 +24,41 @@ class Signup extends React.Component {
                 errorForm: 'Semua kolom harus diisi'
             })
         } else {
-            let data = {
-                email: this.state.email,
-                fullname: this.state.fullname,
-                password: this.state.password,
-            }
-            if (this.state.btnState) {
-                data = {
-                    ...data,
-                    level_id: 2,
-                    store: this.state.store
+            if (regexEmail.test(this.state.email)) {
+                let data = {
+                    email: this.state.email,
+                    fullname: this.state.fullname,
+                    password: this.state.password,
                 }
-            } else {
-                data = {
-                    ...data,
-                    level_id: 1,
-                    store: ''
+                if (this.state.btnState) {
+                    data = {
+                        ...data,
+                        level_id: 2,
+                        store: this.state.store
+                    }
+                } else {
+                    data = {
+                        ...data,
+                        level_id: 1,
+                        store: ''
+                    }
                 }
-            }
-            console.log(data)
-            axios.post(REACT_APP_BASE_URL + '/auth/signup', data)
-                .then(({ data }) => {
-                    this.setState({
-                        errorForm: ''
+                console.log(data)
+                axios.post(REACT_APP_BASE_URL + '/auth/signup', data)
+                    .then(({ data }) => {
+                        this.setState({
+                            errorForm: ''
+                        })
+                        console.log(data)
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
+                        this.props.navigation.navigate('Activation')
+                    }).catch((error) => {
+                        console.log(error.response.data.msg)
+                        ToastAndroid.show(response.data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                     })
-                    console.log(data)
-                    alert('Register Berhasil')
-                    this.props.navigation.navigate('Activation')
-                }).catch((error) => {
-                    console.log(error.response.data.msg)
-                    alert(error.response.data.msg)
-                })
+            } else {
+                ToastAndroid.show('Format email tidak valid', ToastAndroid.SHORT)
+            }
         }
     }
 
@@ -118,13 +122,18 @@ class Signup extends React.Component {
                     <View style={styles.rowTitle}>
                         <Text style={styles.textTitle}>Signup</Text>
                     </View>
+                    <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'center', }}>
+                        <View></View>
+                        <View><Text > Register as </Text></View>
+                        <View></View>
+                    </View>
                     <View style={styles.btnWrap}>
                         <Button bordered danger full style={styles.btnSelector} onPress={() => { this.setState({ btnState: !btnState }) }}>
                             {btnText}
                         </Button>
                     </View>
                     <View style={{ marginTop: 15 }}>
-                        
+
                         {formState}
 
                         <TouchableOpacity style={{ flexDirection: 'row-reverse' }} onPress={() => {
@@ -167,7 +176,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 25
+        marginTop: 5
     },
     btnSelector: {
         width: 100,

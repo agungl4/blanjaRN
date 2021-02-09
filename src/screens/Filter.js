@@ -128,7 +128,6 @@ export default class Filters extends React.Component {
         this.props.navigation.navigate('Categories', {
             url: axiosData
         })
-
     }
 
     render() {

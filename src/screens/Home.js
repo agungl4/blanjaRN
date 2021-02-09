@@ -36,7 +36,7 @@ class Home extends React.Component {
   }
 
   getPopularProducts = () => {
-    axios.get(REACT_APP_BASE_URL + '/products?sortBy=created_at').then(({ data }) => {
+    axios.get(REACT_APP_BASE_URL + '/products?sortBy=rating&orderBy=desc').then(({ data }) => {
       // console.log(data)
       this.setState({
         products: data.data.products,
@@ -46,7 +46,7 @@ class Home extends React.Component {
     })
   }
 
-  refresh = () =>{
+  refresh = () => {
     this.getNewProducts()
     this.getPopularProducts()
   }
@@ -60,37 +60,37 @@ class Home extends React.Component {
     // console.log(REACT_APP_BASE_URL)
     return (
       <Container>
-        <View style={{ height: 180 }}>
-          <ImageBackground style={{ width: '100%', height: '100%' }} source={require('../assets/images/header.png')}>
-            <View style={{ position: 'absolute', left: 0, bottom: 0, marginBottom: 15, marginLeft: 10 }}>
-              <Text style={{ fontSize: 35, fontWeight: 'bold', color: '#fff' }}> Street Clothes</Text>
+        <SafeAreaView>
+          <ScrollView vertical={true}>
+            <View style={{ height: 180 }}>
+              <ImageBackground style={{ width: '100%', height: '100%' }} source={require('../assets/images/header.png')}>
+                <View style={{ position: 'absolute', left: 0, bottom: 0, marginBottom: 15, marginLeft: 10 }}>
+                  <Text style={{ fontSize: 35, fontWeight: 'bold', color: '#fff' }}> Street Clothes</Text>
+                </View>
+
+                <View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      this.props.navigation.navigate('Notification')
+                    }}
+                    style={{ position: 'absolute', right: 20, top: 40 }}
+                  >
+                    <Image source={require('../assets/icons/bell.png')} />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={this.refresh}
+                    style={{ position: 'absolute', right: 20, top: 130 }}
+                  >
+                    <Image source={require('../assets/icons/refresh.png')} />
+                  </TouchableOpacity>
+                </View>
+
+
+              </ImageBackground>
             </View>
 
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.navigation.navigate('Notification')
-                }}
-                style={{ position: 'absolute', right: 20, top: 40 }}
-              >
-                <Image source={require('../assets/icons/bell.png')} />
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                onPress={this.refresh}
-                style={{ position: 'absolute', right: 20, top: 130 }}
-              >
-                <Image source={require('../assets/icons/refresh.png')} />
-              </TouchableOpacity>
-            </View>
-
-
-          </ImageBackground>
-        </View>
-
-        <Grid>
-          <SafeAreaView>
-            <ScrollView vertical={true}>
+            <Grid>
               <View>
                 <Text style={styles.title}>New</Text>
                 <TouchableOpacity onPress={() => {
@@ -108,11 +108,11 @@ class Home extends React.Component {
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
                     {
-                      productNew && productNew.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                      productNew && productNew.map(({ id, product_name, product_price, category_name, product_img, rating, dibeli }) => {
                         let img = product_img.split(',')[0];
                         // console.log(img);
                         return (
-                          <CardProduct id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                          <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} rating={rating} dibeli={dibeli} navigation={this.props.navigation} />
                         )
                       })
                     }
@@ -130,10 +130,10 @@ class Home extends React.Component {
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
                     {
-                      products && products.map(({ product_id, product_name, product_price, category_name, product_img }) => {
+                      products && products.map(({ id, product_name, product_price, category_name, product_img,rating, dibeli }) => {
                         let img = product_img.split(',')[0];
                         return (
-                          <CardProduct id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
+                          <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} rating={rating} dibeli={dibeli} navigation={this.props.navigation} />
                         )
                       })
                     }
@@ -141,10 +141,9 @@ class Home extends React.Component {
                   </ScrollView>
                 </SafeAreaView>
               </Row>
-            </ScrollView>
-          </SafeAreaView>
-        </Grid>
-
+            </Grid>
+          </ScrollView>
+        </SafeAreaView>
       </Container>
     );
   }

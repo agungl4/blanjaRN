@@ -3,6 +3,17 @@ import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 
 export default class cardOrder extends React.Component {
     render() {
+        const { idStatus } = this.props
+        let strStatus;
+        if (idStatus == 1) {
+            strStatus = <Text style={{ color: 'black', fontSize: 14, fontWeight: 'bold', width: 70, marginTop: 10, }}>{this.props.status}</Text>
+        } else if (idStatus == 2) {
+            strStatus = <Text style={{ color: 'orange', fontSize: 14, fontWeight: 'bold', width: 80, marginTop: 10, }}>{this.props.status}</Text>
+        } else if (idStatus == 3) {
+            strStatus = <Text style={{ color: 'orange', fontSize: 14, fontWeight: 'bold', width: 70, marginTop: 10, }}>{this.props.status}</Text>
+        } else if (idStatus == 4) {
+            strStatus = <Text style={{ color: 'green', fontSize: 14, fontWeight: 'bold', width: 70, marginTop: 10, }}>{this.props.status}</Text>
+        }
         return (
             <>
                 <TouchableOpacity style={styles.order}
@@ -33,7 +44,7 @@ export default class cardOrder extends React.Component {
                                 Total Amount :
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> Rp. {this.props.total}</Text>
                             </Text>
-                            <Text style={{ color: '#2AA952', fontSize: 14, fontWeight: 'bold', marginTop: 50}}>{this.props.status}</Text>
+                            {strStatus}
                         </View>
                     </View>
                 </TouchableOpacity>

@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
 import CardOrder from '../../components/CardOrderDetail'
 import { connect } from 'react-redux'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
 
-export default class DetailOrders extends React.Component {
+class DetailOrders extends React.Component {
     state = {
         orderDetails: []
     }
 
-    componentDidMount = () => {
-        console.log(REACT_APP_BASE_URL + '/transactions/getOrderDetail/' + this.props.route.params.trxId)
+    changeStatus = (e) => {
+        axios.patch(REACT_APP_BASE_URL + `/transactions/changeStatus/${e}/${this.state.orderDetails.TrxId}`)
+            .then(({ data }) => {
+                ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+                this.getDataTransaksi()
+            }).catch(({ response }) => {
+                console.log(response.data)
+            })
+    }
+
+    getDataTransaksi = () => {
         axios.get(REACT_APP_BASE_URL + '/transactions/getOrderDetail/' + this.props.route.params.trxId)
             .then(({ data }) => {
                 this.setState({
@@ -22,9 +31,75 @@ export default class DetailOrders extends React.Component {
                 console.log(response.data)
             })
     }
+
+    componentDidMount = () => {
+        this.getDataTransaksi()
+    }
     render() {
         const { TrxId, created_at, trackingNumber, status, qty, address, city, postal, payment, total, cardOrder } = this.state.orderDetails
         const newDate = `${created_at}`
+        let statusDelivery;
+        let btnAction;
+        if (status == 1) {
+            //order masuk
+            statusDelivery = <Text style={{ color: 'black', fontWeight: 'bold' }}>Status : ORDER CREATED</Text>
+            if (this.props.auth.level == 2) {
+                btnAction =
+
+                    <Button full rounded danger
+                        onPress={() => { this.changeStatus(2) }}
+                    >
+                        <Text>Terima Pesanan</Text>
+                    </Button>
+            }
+        } else if (status == 2) {
+            //diproses
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>Status : ON PROCCESS</Text>
+            if (this.props.auth.level == 2) {
+                btnAction =
+                    <Button full rounded danger
+                        // onPress={() => { this.changeStatus(3) }}
+                        onPress={() => { this.changeStatus(3) }}
+                    >
+                        <Text>Kirim Pesanan</Text>
+                    </Button>
+            }
+
+        } else if (status == 3) {
+            //dikirim
+            statusDelivery = <Text style={{ color: 'orange', fontWeight: 'bold' }}>Status : ON DELIVERY</Text>
+            if (this.props.auth.level == 1) {
+                btnAction =
+                    <Button full danger rounded
+                        onPress={() => { this.changeStatus(4) }}
+                    >
+                        <Text>Konfirmasi Barang</Text>
+                    </Button>
+            }
+        } else if (status == 4) {
+            statusDelivery = <Text style={{ color: 'green', fontWeight: 'bold' }}>Status : ORDER FINISHED</Text>
+            if (this.props.auth.level == 1) {
+                btnAction =
+                    <>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <Button full rounded bordered dark style={styles.btn}
+                                onPress={() => { this.props.navigation.navigate('Home') }}
+                            >
+                                <Text>Reorder</Text>
+                            </Button>
+                            <Button full rounded danger style={styles.btn}
+                                onPress={() => {
+                                    this.props.navigation.navigate('Review', {
+                                        trxId: TrxId
+                                    })
+                                }}
+                            >
+                                <Text>Beri Ulasan</Text>
+                            </Button>
+                        </View>
+                    </>
+            }
+        }
         return (
             <>
                 <Container>
@@ -53,7 +128,7 @@ export default class DetailOrders extends React.Component {
                             Tracking Number :
                                         <Text style={{ fontWeight: 'bold', color: 'black' }}> {trackingNumber}</Text>
                         </Text>
-                        <Text style={{ color: 'green', fontWeight: 'bold' }}>{status}</Text>
+                        {statusDelivery}
                         <Text style={{ fontWeight: 'bold', marginBottom: 15, marginTop: 10 }}>{qty} Items</Text>
                         {
                             cardOrder && cardOrder.map(({ product_name, price, product_img, color, size, qty }) => {
@@ -87,20 +162,7 @@ export default class DetailOrders extends React.Component {
                             <Text style={{ color: 'gray', width: 125 }}>Total Amount  </Text>
                             <Text style={{ width: 215, fontWeight: 'bold' }}>Rp. {total}</Text>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 15 }}>
-                            <Button full rounded bordered dark style={styles.btn}
-                                onPress={() => { this.props.navigation.navigate('Home') }}
-                            >
-                                <Text>Reorder</Text>
-                            </Button>
-                            <Button full rounded danger style={styles.btn} onPress={() => {
-                                this.props.navigation.navigate('Review', {
-                                    trxId: TrxId
-                                })
-                            }}>
-                                <Text>Leave Feedback</Text>
-                            </Button>
-                        </View>
+                        {btnAction}
                     </Content>
 
                 </Container>
@@ -108,6 +170,15 @@ export default class DetailOrders extends React.Component {
         )
     }
 }
+
+const mapStateToProps = ({ auth, bag }) => {
+    return {
+        auth,
+        bag
+    };
+};
+
+export default connect(mapStateToProps)(DetailOrders)
 
 const styles = StyleSheet.create({
     btn: {
