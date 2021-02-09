@@ -11,6 +11,7 @@ import axios from 'axios'
 class Orders extends React.Component {
     state = {
         cardOrder: [],
+        emptyOrder: ''
     }
     getMyOrder = () => {
         axios.get(REACT_APP_BASE_URL + '/transactions/myTransaction/' + this.props.auth.id)
@@ -19,6 +20,9 @@ class Orders extends React.Component {
                     cardOrder: data.data
                 })
             }).catch(({ response }) => {
+                this.setState({
+                    emptyOrder: 'Belum ada transaksi...'
+                })
                 console.log(response.data)
             })
     }
@@ -34,6 +38,24 @@ class Orders extends React.Component {
     }
     render() {
         const { cardOrder } = this.state
+        let orderedItem
+        if (cardOrder.length > 0) {
+            orderedItem = <>
+                {
+                    cardOrder.length > 0 && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status, status_id }) => {
+                        return (
+                            <>
+                                <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} idStatus={status_id} status={status} navigation={this.props.navigation} />
+                            </>
+                        )
+                    })
+                }
+            </>
+        } else {
+            orderedItem = <>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{this.state.emptyOrder}</Text>
+            </>
+        }
         return (
             <>
                 <Container>
@@ -58,13 +80,7 @@ class Orders extends React.Component {
                         <SafeAreaView>
                             <ScrollView style={{ height: 480 }}>
                                 {
-                                    cardOrder && cardOrder.map(({ trxId, trackingNumber, qty, total, created_at, status }) => {
-                                        return (
-                                            <>
-                                                <CardOrder trxId={trxId} trackingNumber={trackingNumber} qty={qty} total={total} created_at={created_at} status={status} navigation={this.props.navigation} />
-                                            </>
-                                        )
-                                    })
+                                    orderedItem
                                 }
                             </ScrollView>
                         </SafeAreaView>

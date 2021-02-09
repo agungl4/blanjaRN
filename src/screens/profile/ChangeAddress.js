@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input, Label } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
 
 export default class ChangeAddress extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
     }
     state = {
@@ -18,7 +18,10 @@ export default class ChangeAddress extends React.Component {
         errorForm: ''
     }
     updateAddress = () => {
-        if (this.state.address_type !== '') {
+        const regexPhone = /^(^\+62|62|^08)(\d{3,4}-?){2}\d{3,4}$/g
+        if (!(this.state.phone.length >= 11) || !(this.state.phone.length <= 15) || !regexPhone.test(this.state.phone)) {
+            ToastAndroid.show('Format pengisian no. HP salah', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
+        } else if (this.state.address_type !== '') {
             const addressData = {
                 address_type: this.state.address_type,
                 recipient_name: this.state.recipient_name,
@@ -29,7 +32,7 @@ export default class ChangeAddress extends React.Component {
             }
             axios.patch(REACT_APP_BASE_URL + `/address/update/${this.props.route.params.addressId}`, addressData)
                 .then(({ data }) => {
-                    alert(data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.BOTTOM);
                     this.props.navigation.navigate('Shipping')
                 }).catch(({ response }) => {
                     console.log(response.data)
@@ -43,19 +46,19 @@ export default class ChangeAddress extends React.Component {
 
     componentDidMount = () => {
         // console.log(BASE_URL+`/address/get/${this.props.route.params.addressId}`)
-        axios.get(REACT_APP_BASE_URL+`/address/get/${this.props.route.params.addressId}`)
-        .then(({data}) =>{
-            this.setState({
-                address_type:data.data.address_type,
-                recipient_name:data.data.recipient_name,
-                address:data.data.address,
-                city:data.data.city,
-                postal:data.data.postal,
-                phone:data.data.phone,
+        axios.get(REACT_APP_BASE_URL + `/address/get/${this.props.route.params.addressId}`)
+            .then(({ data }) => {
+                this.setState({
+                    address_type: data.data.address_type,
+                    recipient_name: data.data.recipient_name,
+                    address: data.data.address,
+                    city: data.data.city,
+                    postal: data.data.postal,
+                    phone: data.data.phone,
+                })
+            }).catch(({ response }) => {
+                console.log(response.data)
             })
-        }).catch(({response}) =>{
-            console.log(response.data)
-        })
     }
 
     render() {

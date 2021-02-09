@@ -27,7 +27,10 @@ class Search extends Component {
                 })
             }).catch(err => {
                 console.log(err)
-                alert('barang tidak ditemukan')
+                this.setState({
+                    products: [],
+                    pageInfo: []
+                })
             })
     }
 
@@ -67,49 +70,54 @@ class Search extends Component {
 
     render() {
         const { products, searchForm } = this.state
-        console.log(this.state)
-        return (
-            <>
-                <Container style={styles.container}>
-                    <Header transparent>
-                        <Left>
-                            <Button transparent
-                                onPress={() => { this.props.navigation.goBack() }}
-                            >
-                                <Image source={require('../assets/icons/back.png')} />
-                            </Button>
-                        </Left>
-                        <Body >
-                            <Title style={{ color: 'black', marginLeft: 35, width: 160, fontWeight: 'bold' }}>Search Products</Title>
-                        </Body>
-                        <Right>
-                        </Right>
-                    </Header>
+        let result
+        if (products.length) {
+            result = <View style={styles.grid} >
+                {
+                    products && products.map(({ product_id, product_name, product_price, category_name,color_name, size_name, rating, dibeli, product_img }) => {
+                        let img = product_img.split(',')[0];
+                        // console.log(img);
+                        return (
+                            <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} color={color_name} size={size_name} rating={rating} dibeli={dibeli} image={img} navigation={this.props.navigation} />
+                        )
+                    })
+                }
+            </View>
+        } else {
+            result = <Text>Pencarian kosong</Text>
+        }
+            return (
+                <>
+                    <Container style={styles.container}>
+                        <Header transparent>
+                            <Left>
+                                <Button transparent
+                                    onPress={() => { this.props.navigation.goBack() }}
+                                >
+                                    <Image source={require('../assets/icons/back.png')} />
+                                </Button>
+                            </Left>
+                            <Body >
+                                <Title style={{ color: 'black', marginLeft: 35, width: 160, fontWeight: 'bold' }}>Search Products</Title>
+                            </Body>
+                            <Right>
+                            </Right>
+                        </Header>
 
-                    <Content>
-                        <Item rounded>
-                            <Input placeholder='Search' value={searchForm} onChangeText={(text) => { this.setState({ searchForm: text }) }} />
-                            <TouchableOpacity onPress={this.search}>
-                                <Icon name='search' size={25} />
-                            </TouchableOpacity>
-                        </Item>
+                        <Content>
+                            <Item rounded>
+                                <Input placeholder='Search' value={searchForm} onChangeText={(text) => { this.setState({ searchForm: text }) }} />
+                                <TouchableOpacity onPress={this.search}>
+                                    <Icon name='search' size={25} />
+                                </TouchableOpacity>
+                            </Item>
 
-                        <ScrollView>
-                            <View style={styles.grid} >
-                                {
-                                    products && products.map(({ product_id, product_name, product_price, category_name, product_img }) => {
-                                        let img = product_img.split(',')[0];
-                                        // console.log(img);
-                                        return (
-                                            <CardCategory id={product_id} name={product_name} price={product_price} category={category_name} image={img} navigation={this.props.navigation} />
-                                        )
-                                    })
-                                }
-                            </View>
-                        </ScrollView>
+                            <ScrollView>
+                                {result}
+                            </ScrollView>
 
-                    </Content>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                        </Content>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                             <Button full bordered light style={styles.button} onPress={this.prevPage}>
                                 <Text style={styles.btnSub}>{`<<<`}</Text>
                             </Button>
@@ -120,9 +128,9 @@ class Search extends Component {
                                 <Text style={styles.btnSub}>{`>>>`}</Text>
                             </Button>
                         </View>
-                </Container>
-            </>
-        );
+                    </Container>
+                </>
+            );
     }
 }
 
@@ -140,7 +148,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 8,
         marginBottom: 10,
-        width:70
+        width: 70
     },
     btnTitle: {
         color: '#d9534f',

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Container, Header, Content, Form, Item, Input, Button, Label } from 'native-base';
 import { IconBack } from '../../assets'
 import { connect } from 'react-redux'
@@ -26,13 +26,14 @@ class Forgot extends React.Component {
                         errorForm: ''
                     })
 
-                    alert(data.message)
-
+                    // alert(data.message)
+                    ToastAndroid.show(data.message, ToastAndroid.SHORT);
                     this.props.dispatch(setEmail(this.state.email))
                     this.props.navigation.navigate('Otp')
                 }).catch(({ response }) => {
                     console.log(response.data)
-                    alert(response.data.message)
+                    // alert(response.data.message)
+                    ToastAndroid.show(response.data.message, ToastAndroid.SHORT);
                 })
         } else {
             this.setState({

@@ -1,14 +1,34 @@
 import React, { Component } from "react";
 import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Left, Body, Text, View } from "native-base";
 import { Image } from 'react-native'
+import CardNotif from '../components/CardNotif'
+import { connect } from 'react-redux'
 
-import Nav from '../components/BottomNav'
 
-export default class HeaderTransparent extends Component {
+class HeaderTransparent extends Component {
   constructor(props) {
     super(props)
   }
   render() {
+    const { notify } = this.props.notification
+    console.log(notify)
+    let listNotification;
+    if (notify.length > 0) {
+      listNotification =
+        <>
+          {
+            notify && notify.map(({ title, content }) => <CardNotif title={title} content={content} />)
+          }
+        </>
+    } else {
+      listNotification =
+        <>
+          <View style={{ marginTop: '60%', alignItems: 'center' }}>
+            <Image source={require('../assets/icons/no_notification.png')} />
+            <Text>No Notification</Text>
+          </View>
+        </>
+    }
     return (
       <Container >
         <Header transparent>
@@ -23,14 +43,16 @@ export default class HeaderTransparent extends Component {
             <Title style={{ color: 'black', marginLeft: 25, fontWeight: 'bold' }}>Notification</Title>
           </Body>
         </Header>
-        <Content style={{ backgroundColor: '#f0f0f0' }}>
-          <View style={{ marginTop:'60%', alignItems: 'center' }}>
-            <Image source={require('../assets/icons/no_notification.png')} />
-            <Text>No Notification</Text>
-          </View>
-        </Content>
-        <Nav navigation={this.props.navigation} />
+        {listNotification}
       </Container>
     );
   }
 }
+
+const mapStateToProps = ({ notification }) => {
+  return {
+    notification
+  };
+};
+
+export default connect(mapStateToProps)(HeaderTransparent);

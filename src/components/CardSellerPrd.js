@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import { Button } from 'native-base'
 import { REACT_APP_BASE_URL } from "@env"
 import axios from 'axios'
@@ -10,27 +10,44 @@ class CardBag extends Component {
         super(props)
     }
 
+    popConfirm = () => {
+        Alert.alert(
+            'Hapus produk?',
+            'Data yang dihapus tidak dapat dikembalikan',
+            [
+                { text: 'NO', style: 'cancel' },
+                { text: 'YES', onPress: () => this.deleteProduct() },
+
+            ])
+    }
+
     deleteProduct = () => {
         const config = {
             headers: {
-              "x-access-token": "Bearer " + this.props.auth.token,
+                "x-access-token": "Bearer " + this.props.auth.token,
             },
-          };
+        };
         axios
-            .delete(REACT_APP_BASE_URL+ '/product/delete/' + this.props.id, config)
+            .delete(REACT_APP_BASE_URL + '/product/deletePrd/' + this.props.id, config)
             .then(({ result }) => {
-                alert('Successfully deleted!')
+                this.props.navigation.push('SellingProduct')
             })
             .catch(err => console.error(err));
     }
 
     render() {
-        const { id, name, price, category, size, color, image } = this.props
+        const { id, name, price, category, size, color, image, condition } = this.props
+        let conditionItems;
+        if (condition.toLowerCase() == 'new') {
+            conditionItems = <Text style={{ color: 'red', fontWeight:'700' }}>{condition}</Text>
+        } else {
+            conditionItems = <Text style={{ color: 'gray', fontWeight:'700'  }}>{condition}</Text>
+        }
         return (
             <TouchableOpacity
                 onPress={() => {
                     this.props.navigation.navigate('DetailPage', {
-                        itemId: this.props.product_id,
+                        itemId: this.props.id,
                     })
                 }}
             >
@@ -45,7 +62,7 @@ class CardBag extends Component {
                             </Text>
                             <Button full rounded success style={{ width: 50, height: 20, marginTop: 5 }}
                                 onPress={() => {
-                                    this.props.navigation.navigate('EditStock', {
+                                    this.props.navigation.navigate('EditProduct', {
                                         itemId: this.props.id,
                                     })
                                 }}
@@ -57,16 +74,16 @@ class CardBag extends Component {
                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                             <Text style={{ color: 'gray', marginBottom: 10 }}>{category}</Text>
                             <Button full rounded danger style={{ width: 50, height: 20, marginTop: 5 }}
-                                onPress={this.deleteProduct}
+                                onPress={this.popConfirm}
                             >
                                 <Text style={{ fontWeight: '700', fontSize: 12, color: '#FFF' }}>Delete</Text>
                             </Button>
                         </View>
                         <View style={{ flexDirection: 'row' }}>
                             <Text style={{ marginRight: 16, color: 'gray' }}>Color:
-                        <Text style={{ color: 'black' }}>{color}</Text>
+                                <Text style={{ color: 'black' }}>{color}</Text>
                             </Text>
-                            <Text>Size: {size}</Text>
+                            <Text>Size: {size} | {conditionItems}</Text>
                         </View>
                         <View style={{ flexDirection: 'row', marginTop: 10 }}>
                             <Text style={{ color: 'gray' }}>Qty :

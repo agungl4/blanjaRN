@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Header, Title, Content, Button, Left, Body, Text, Item, Input,Right } from "native-base";
-import { Image, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Image, View, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 import { connect } from 'react-redux'
@@ -44,7 +44,7 @@ class Shipping extends React.Component {
         })
     }
     setActiveAddress = () => {
-        alert('Adress ' + this.state.selectedAddress + ' terpilih')
+        ToastAndroid.show('Address ' + this.state.selectedAddress + ' terpilih', ToastAndroid.SHORT, ToastAndroid.BOTTOM);
         this.props.dispatch(setAddress(this.state.selectedAddress))
     }
 
@@ -90,13 +90,14 @@ class Shipping extends React.Component {
                                     onPress={() => { this.setAddress(id) }}
                                 >
                                     {
-                                        shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone }) => {
+                                        shippingAddress && shippingAddress.map(({ id, recipient_name, city, postal, phone,address_type }) => {
+                                            const color= this.state.selectedAddress == id? '#dedede' : 'white'
                                             return (
                                                 <>
                                                     <TouchableOpacity
                                                         onPress={() => { this.setAddress(id) }}
                                                     >
-                                                        <CardAdress key={id} addressId={id} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
+                                                        <CardAdress key={id} addressId={id} type={address_type} color={color} name={recipient_name} city={city} postal={postal} phone={phone} navigation={this.props.navigation} />
                                                     </TouchableOpacity>
                                                 </>
                                             )

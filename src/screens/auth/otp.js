@@ -5,7 +5,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Image
+    Image,
+    ToastAndroid
 } from 'react-native';
 import axios from 'axios';
 import { REACT_APP_BASE_URL } from "@env"
@@ -22,10 +23,10 @@ class Otp extends React.Component {
         if(this.state.otp !== ''){
             axios.get(REACT_APP_BASE_URL+'/auth/otp/'+this.props.auth.email+'/'+this.state.otp)
             .then(({data}) =>{
-                alert(data.message)
+                ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                 this.props.navigation.navigate('ResetPassword')
             }).catch(({response}) =>{
-                alert(response.data.message)
+                ToastAndroid.show(response.data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                 console.log(response.data)
             })
         }else{

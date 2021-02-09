@@ -6,7 +6,8 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Image
+    Image,
+    ToastAndroid
 } from 'react-native';
 
 import axios from 'axios';
@@ -37,11 +38,11 @@ class ResetPassword extends React.Component {
                 axios.patch(REACT_APP_BASE_URL + '/auth/reset', resetData)
                     .then(({ data }) => {
                         console.log(data)
-                        alert(data.message)
+                        ToastAndroid.show(data.message, ToastAndroid.SHORT, ToastAndroid.CENTER);
                         this.props.dispatch(removeEmail())
                         this.props.navigation.navigate('Login')
                     }).catch(({ response }) => {
-                        alert('Gagal!')
+                        ToastAndroid.show('Gagal!', ToastAndroid.SHORT, ToastAndroid.CENTER);
                     })
             }
         }
