@@ -126,7 +126,7 @@ class DetailPage extends Component {
                 </Header>
 
                 {
-                    product && product.map(({ id, sellerId,fullname, product_name, product_price, product_desc, category_name, product_img, rating }) => {
+                    product && product.map(({ id, sellerId, fullname, product_name, product_price, product_desc, category_name, product_img, rating }) => {
                         return (
                             <Container>
                                 <Grid>
@@ -195,8 +195,10 @@ class DetailPage extends Component {
                                                             </View>
                                                         </TouchableOpacity>
                                                         <TouchableOpacity onPress={() => {
-                                                            this.props.navigation.navigate('Chat', {
-                                                                sellerId: fullname
+                                                            // this.props.navigation.navigate('Chat', {
+                                                            //     sellerId: fullname
+                                                            this.props.navigation.navigate('ChatRoom', {
+                                                                room_id: `S${product[0].sellerId}B${this.props.auth.id}`
                                                             })
                                                         }}>
                                                             <View style={styles.love}>

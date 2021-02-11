@@ -154,13 +154,22 @@ class Profile extends React.Component {
 
                         {storePage}
 
-                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                        {/* <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
                             onPress={() => { this.props.navigation.navigate('Chat') }}
                         >
 
                             <View style={{ paddingLeft: 10, marginTop: 5 }}>
                                 <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat</Text>
                                 <Text style={{ color: 'gray', marginBottom: 10 }}>chat with selller</Text>
+                            </View>
+                        </TouchableOpacity> */}
+                        <TouchableOpacity style={{ borderBottomColor: 'gray', borderBottomWidth: 0.2, marginLeft: 10, marginRight: 40 }}
+                            onPress={() => { this.props.navigation.navigate('ListChat') }}
+                        >
+
+                            <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                                <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 5 }}>Chat Room</Text>
+                                <Text style={{ color: 'gray', marginBottom: 10 }}>Chat Feature ( BETA )</Text>
                             </View>
                         </TouchableOpacity>
 

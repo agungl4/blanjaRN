@@ -39,6 +39,8 @@ import Search from './screens/Search'
 import Review from './screens/Profile/ProductReview'
 import Chat from './screens/Profile/Chat'
 import OrderedItem from './screens/Profile/OrderedItem'
+import ListChat from './screens/Profile/ListChat'
+import ChatRoom from './screens/Profile/ChatRoom'
 
 //redux
 import { useSelector } from 'react-redux';
@@ -154,7 +156,6 @@ const MainProfile = () => {
       <Stack.Screen name="Shipping" component={Shipping} />
       <Stack.Screen name="ChangeAddress" component={ChangeAddress} />
       <Stack.Screen name="AddAddress" component={AddAddress} />
-      <Stack.Screen name="Chat" component={Chat} />
       <Stack.Screen name="Setting" component={Setting} />
     </Stack.Navigator>
 
@@ -181,7 +182,9 @@ const appRouter = () => {
           <Stack.Screen name="Otp" component={Otp} />
           <Stack.Screen name="Notification" component={Notification} />
           <Stack.Screen name="DetailPage" component={DetailPage} />
-          <Stack.Screen name="Chat" component={Chat} />
+          {/* <Stack.Screen name="Chat" component={Chat} /> */}
+          <Stack.Screen name="ListChat" component={ListChat} />
+          <Stack.Screen name="ChatRoom" component={ChatRoom} />
         </Stack.Navigator>
       </SocketProvider>
     </>
