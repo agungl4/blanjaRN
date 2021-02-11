@@ -13,7 +13,6 @@ import CardProduct from '../components/CardProduct'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
 
-// const REACT_APP_BASE_URL = "https://cae76b1ad0d4.ngrok.io"
 class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -26,7 +25,6 @@ class Home extends React.Component {
   getNewProducts = () => {
     axios.get(REACT_APP_BASE_URL + '/products?sortBy=updated_at&orderBy=desc')
       .then(({ data }) => {
-        // console.log(data.data.products)
         this.setState({
           productNew: data.data.products,
         })
@@ -36,14 +34,14 @@ class Home extends React.Component {
   }
 
   getPopularProducts = () => {
-    axios.get(REACT_APP_BASE_URL + '/products?sortBy=rating&orderBy=desc').then(({ data }) => {
-      // console.log(data)
-      this.setState({
-        products: data.data.products,
+    axios.get(REACT_APP_BASE_URL + '/products?sortBy=rating&orderBy=desc')
+      .then(({ data }) => {
+        this.setState({
+          products: data.data.products,
+        })
+      }).catch(err => {
+        console.log(err)
       })
-    }).catch(err => {
-      console.log(err)
-    })
   }
 
   refresh = () => {
@@ -57,7 +55,6 @@ class Home extends React.Component {
   }
   render() {
     const { products, productNew, pageInfo } = this.state;
-    // console.log(REACT_APP_BASE_URL)
     return (
       <Container>
         <SafeAreaView>
@@ -110,13 +107,11 @@ class Home extends React.Component {
                     {
                       productNew && productNew.map(({ id, product_name, product_price, category_name, product_img, rating, dibeli }) => {
                         let img = product_img.split(',')[0];
-                        // console.log(img);
                         return (
                           <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} rating={rating} dibeli={dibeli} navigation={this.props.navigation} />
                         )
                       })
                     }
-                    {/* <CardProduct navigation={this.props.navigation} /> */}
                   </ScrollView>
                 </SafeAreaView>
               </Row>
@@ -130,14 +125,13 @@ class Home extends React.Component {
                 <SafeAreaView>
                   <ScrollView horizontal={true}>
                     {
-                      products && products.map(({ id, product_name, product_price, category_name, product_img,rating, dibeli }) => {
+                      products && products.map(({ id, product_name, product_price, category_name, product_img, rating, dibeli }) => {
                         let img = product_img.split(',')[0];
                         return (
                           <CardProduct id={id} name={product_name} price={product_price} category={category_name} image={img} rating={rating} dibeli={dibeli} navigation={this.props.navigation} />
                         )
                       })
                     }
-                    {/* <CardProduct navigation={this.props.navigation}  /> */}
                   </ScrollView>
                 </SafeAreaView>
               </Row>

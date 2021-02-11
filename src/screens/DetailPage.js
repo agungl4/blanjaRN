@@ -126,7 +126,7 @@ class DetailPage extends Component {
                 </Header>
 
                 {
-                    product && product.map(({ id, sellerId, fullname, product_name, product_price, product_desc, category_name, product_img, rating }) => {
+                    product && product.map(({ id, sellerId, fullname, product_name, product_price, product_desc,size_name, color_name, category_name, product_img, rating }) => {
                         return (
                             <Container>
                                 <Grid>
@@ -159,7 +159,8 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setSize(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
-                                                                    <Picker.Item label="S" value="S" />
+                                                                    <Picker.Item label={size_name} value={size_name} />
+                                                                    {/* <Picker.Item label="S" value="S" />
                                                                     <Picker.Item label="M" value="M" />
                                                                     <Picker.Item label="L" value="L" />
                                                                     <Picker.Item label="28" value="28" />
@@ -176,7 +177,7 @@ class DetailPage extends Component {
                                                                     <Picker.Item label="39" value="39" />
                                                                     <Picker.Item label="40" value="40" />
                                                                     <Picker.Item label="41" value="41" />
-                                                                    <Picker.Item label="42" value="42" />
+                                                                    <Picker.Item label="42" value="42" /> */}
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
@@ -187,10 +188,11 @@ class DetailPage extends Component {
                                                                     onValueChange={(itemValue, itemIndex) => this.setColor(itemValue)}
                                                                 >
                                                                     <Picker.Item label="Color" value="0" />
-                                                                    <Picker.Item label="Red" value="Red" />
+                                                                    <Picker.Item label={color_name} value={color_name} />
+                                                                    {/* <Picker.Item label="Red" value="Red" />
                                                                     <Picker.Item label="Green" value="Green" />
                                                                     <Picker.Item label="Blue" value="Blue" />
-                                                                    <Picker.Item label="Black" value="Black" />
+                                                                    <Picker.Item label="Black" value="Black" /> */}
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
