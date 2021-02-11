@@ -133,7 +133,7 @@ This is Blanja Mobile App build version, download here.
 
 <a  href="https://drive.google.com/file/d/1ARLZM0IZZ8Ur7XV_eE4Qg8TTjUL_4Wjg/view?usp=sharing">
 
-<img  src="https://img.shields.io/badge/Blanja%20Web-Link%20Demo-blue.svg?style=popout&logo=android"/>
+<img  src="https://img.shields.io/badge/Blanja%20apk-Link%20Demo-blue.svg?style=popout&logo=android"/>
 
 </a>
 
