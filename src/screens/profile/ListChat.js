@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Image } from 'react-native'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
-
+import List from '../../components/ListChat'
 const ListChat = ({ navigation }) => {
     const auth = useSelector((state) => state.auth)
     const [chatList, setChatList] = useState([])
@@ -53,24 +53,17 @@ const ListChat = ({ navigation }) => {
                     </Body>
                 </Header>
                 <Content>
+                    <View style={{ flexDirection: 'row', marginTop: 10 }}>
+                        <Image source={require('../../assets/images/profile.jpg')} style={{ width: 80, height: 80, borderRadius: 40, marginLeft: 10, marginRight: 10, marginBottom: 50 }} />
+                        <View style={{ paddingLeft: 10, marginTop: 5 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{auth.name}</Text>
+                            <Text style={{ color: 'gray' }}>{auth.email}</Text>
+                        </View>
+                    </View>
+                    <Text style={{ fontSize: 24, marginLeft: 20, marginBottom: 10 }}>Chat List</Text>
                     {
                         chatList.map(({ chatroom }) => {
-                            return (
-                                <>
-                                    <View>
-                                        <Button full rounded danger
-                                            onPress={() => {
-                                                navigation.navigate('ChatRoom', {
-                                                    room_id: chatroom
-                                                })
-                                            }}
-                                            style={{marginVertical:10, marginHorizontal:10}}
-                                        >
-                                            <Text>{chatroom}</Text>
-                                        </Button>
-                                    </View>
-                                </>
-                            )
+                            return <List chatroom={chatroom} navigation={navigation} />
                         })
                     }
                 </Content>

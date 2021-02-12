@@ -76,11 +76,19 @@ class Checkout extends React.Component {
                             .then((res) => {
                                 showNotification('Notification', 'Checkout Success', channel);
                                 const notifData = {
+                                    user_id: this.props.auth.id,
+                                    level: this.props.auth.level,
                                     title: `Transaksi ${Order.trxId} berhasil diproses`,
-                                    content: `Hore pembelian kamu berhasil. Ayo belanja lebih banyak dan dapetin kupon cashbacknya`
+                                    message: `Hore pembelian kamu berhasil. Ayo belanja lebih banyak dan dapetin kupon cashbacknya`
                                 }
-                                this.props.dispatch(addNotification(notifData))
-                                this.props.navigation.navigate('Success')
+                                axios.post(REACT_APP_BASE_URL + '/notif/add', notifData)
+                                .then(({ data }) => {
+                                    this.props.navigation.navigate('Success')
+                                }).catch(({ response }) => {
+                                    console.log(response.data)
+                                })
+                                // this.props.dispatch(addNotification(notifData))
+                                // this.props.navigation.navigate('Success')
                             }).catch(({ response }) => {
                                 console.log(response.data)
                             })

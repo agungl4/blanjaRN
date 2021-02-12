@@ -81,7 +81,7 @@ class AddAddress extends Component {
                         <Label style={{ marginLeft: 10 }}>Recipient name</Label>
                         <Input name="email" value={recipient_name} onChangeText={(text) => { this.setState({ recipient_name: text }) }} />
                     </Item>
-                    <View style={{ height: 195, width: 340, backgroundColor: 'white', borderRadius: 10, marginTop: 20 }}>
+                    <View style={{ height: 195, width: 360, backgroundColor: 'white', borderRadius: 10, marginTop: 20 }}>
                         <Item floatingLabel style={{ marginTop: 10, marginLeft: 15, marginRight: 15 }}>
                             <Label style={{ fontSize: 14 }}>Address</Label>
                             <Input name="email" value={address} onChangeText={(text) => { this.setState({ address: text }) }} />
@@ -95,7 +95,7 @@ class AddAddress extends Component {
                             <Input name="email" value={postal} onChangeText={(text) => { this.setState({ postal: text }) }} />
                         </Item>
                     </View>
-                    <View style={{ height: 75, width: 340, backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}>
+                    <View style={{ height: 75, width: 360, backgroundColor: 'white', borderRadius: 10, marginTop: 20, marginBottom: 20 }}>
                         <Item floatingLabel style={{ marginTop: 10, marginLeft: 15, marginRight: 15 }}>
                             <Label style={{ fontSize: 14, color: 'gray' }}>Recipient Telephone Number</Label>
                             <Input name="email" value={phone} onChangeText={(text) => { this.setState({ phone: text }) }} />

@@ -3,21 +3,47 @@ import { Container, Header, Title, Content, Button, Footer, FooterTab, Icon, Lef
 import { Image } from 'react-native'
 import CardNotif from '../components/CardNotif'
 import { connect } from 'react-redux'
-
+import { REACT_APP_BASE_URL } from '@env'
+import axios from 'axios'
 
 class HeaderTransparent extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      notify: []
+    }
   }
+
+  componentDidMount = () => {
+    if (this.props.auth.level == 2) {
+      axios.get(REACT_APP_BASE_URL + '/notif/seller/' + this.props.auth.id)
+        .then(({ data }) => {
+          this.setState({
+            notify: data.data
+          })
+        }).catch(({ response }) => {
+          console.log(response.data)
+        })
+    } else if (this.props.auth.level == 1) {
+      axios.get(REACT_APP_BASE_URL + '/notif/buyer/' + this.props.auth.id)
+        .then(({ data }) => {
+          this.setState({
+            notify: data.data
+          })
+        }).catch(({ response }) => {
+          console.log(response.data)
+        })
+    }
+  }
+
   render() {
-    const { notify } = this.props.notification
-    console.log(notify)
+    const { notify } = this.state
     let listNotification;
     if (notify.length > 0) {
       listNotification =
         <>
           {
-            notify && notify.map(({ title, content }) => <CardNotif title={title} content={content} />)
+            notify && notify.map(({ title, message }) => <CardNotif title={title} content={message} />)
           }
         </>
     } else {
@@ -49,9 +75,10 @@ class HeaderTransparent extends Component {
   }
 }
 
-const mapStateToProps = ({ notification }) => {
+const mapStateToProps = ({ notification, auth }) => {
   return {
-    notification
+    notification,
+    auth
   };
 };
 

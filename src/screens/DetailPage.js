@@ -93,7 +93,7 @@ class DetailPage extends Component {
                 console.log(Items)
                 this.props.dispatch(addItems(Items))
                 ToastAndroid.show("Berhasil menambah item ke keranjang.", ToastAndroid.SHORT);
-                this.props.navigation.navigate('MyBag')
+                // this.props.navigation.navigate('MyBag')
             }
         }
     }
@@ -104,7 +104,26 @@ class DetailPage extends Component {
     render() {
         const { product, foryou } = this.state
         const id_productDetails = this.props.route.params.itemId
-
+        let btnAddCart;
+        let btnChat;
+        if (this.props.auth.level == 1) {
+            btnAddCart =
+                <Button danger full rounded style={{ marginTop: 15 }} onPress={this.addToCart}>
+                    <Text style={{ color: '#fff' }}> Add to Cart </Text>
+                </Button>
+            btnChat =
+                <TouchableOpacity onPress={() => {
+                    // this.props.navigation.navigate('Chat', {
+                    //     sellerId: fullname
+                    this.props.navigation.navigate('ChatRoom', {
+                        room_id: `S${product[0].sellerId}B${this.props.auth.id}`
+                    })
+                }}>
+                    <View style={styles.love}>
+                        <Image source={require('./../assets/icons/messenger.png')} />
+                    </View>
+                </TouchableOpacity>
+        } 
         return (
             <>
                 <Header transparent>
@@ -126,7 +145,7 @@ class DetailPage extends Component {
                 </Header>
 
                 {
-                    product && product.map(({ id, sellerId, fullname, product_name, product_price, product_desc,size_name, color_name, category_name, product_img, rating }) => {
+                    product && product.map(({ id, sellerId, fullname, product_name, product_price, product_desc, size_name, color_name, category_name, product_img, rating }) => {
                         return (
                             <Container>
                                 <Grid>
@@ -160,24 +179,6 @@ class DetailPage extends Component {
                                                                 >
                                                                     <Picker.Item label="Size" value="0" style={{ backgroundColor: 'gray' }} />
                                                                     <Picker.Item label={size_name} value={size_name} />
-                                                                    {/* <Picker.Item label="S" value="S" />
-                                                                    <Picker.Item label="M" value="M" />
-                                                                    <Picker.Item label="L" value="L" />
-                                                                    <Picker.Item label="28" value="28" />
-                                                                    <Picker.Item label="29" value="29" />
-                                                                    <Picker.Item label="30" value="30" />
-                                                                    <Picker.Item label="31" value="31" />
-                                                                    <Picker.Item label="32" value="32" />
-                                                                    <Picker.Item label="33" value="33" />
-                                                                    <Picker.Item label="34" value="34" />
-                                                                    <Picker.Item label="35" value="35" />
-                                                                    <Picker.Item label="36" value="36" />
-                                                                    <Picker.Item label="37" value="37" />
-                                                                    <Picker.Item label="38" value="38" />
-                                                                    <Picker.Item label="39" value="39" />
-                                                                    <Picker.Item label="40" value="40" />
-                                                                    <Picker.Item label="41" value="41" />
-                                                                    <Picker.Item label="42" value="42" /> */}
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
@@ -189,24 +190,12 @@ class DetailPage extends Component {
                                                                 >
                                                                     <Picker.Item label="Color" value="0" />
                                                                     <Picker.Item label={color_name} value={color_name} />
-                                                                    {/* <Picker.Item label="Red" value="Red" />
-                                                                    <Picker.Item label="Green" value="Green" />
-                                                                    <Picker.Item label="Blue" value="Blue" />
-                                                                    <Picker.Item label="Black" value="Black" /> */}
                                                                 </Picker>
                                                             </View>
                                                         </TouchableOpacity>
-                                                        <TouchableOpacity onPress={() => {
-                                                            // this.props.navigation.navigate('Chat', {
-                                                            //     sellerId: fullname
-                                                            this.props.navigation.navigate('ChatRoom', {
-                                                                room_id: `S${product[0].sellerId}B${this.props.auth.id}`
-                                                            })
-                                                        }}>
-                                                            <View style={styles.love}>
-                                                                <Image source={require('./../assets/icons/messenger.png')} />
-                                                            </View>
-                                                        </TouchableOpacity>
+
+                                                        {btnChat}
+
                                                     </View>
                                                     <View style={styles.wraptitle}>
                                                         <Text style={styles.title}>{product_name}</Text>
@@ -258,10 +247,8 @@ class DetailPage extends Component {
                                     </SafeAreaView>
                                 </Grid>
 
+                                {btnAddCart}
 
-                                <Button danger full rounded style={{ marginTop: 15 }} onPress={this.addToCart}>
-                                    <Text style={{ color: '#fff' }}> Add to Cart </Text>
-                                </Button>
                             </Container>
                         )
                     })

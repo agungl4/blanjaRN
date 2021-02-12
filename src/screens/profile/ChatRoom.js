@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Header, Body, Left, Content, View, Text, Button } from 'native-base'
-import { TextInput, ToastAndroid, ScrollView } from 'react-native'
+import { TextInput, ToastAndroid, ScrollView, Dimensions } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
@@ -10,6 +10,7 @@ let number = 0
 
 const ChatRoom = ({ navigation, route }) => {
     useEffect(() => {
+        getName()
         getNewMessage()
         console.log('did mount')
     }, [])
@@ -29,6 +30,7 @@ const ChatRoom = ({ navigation, route }) => {
     const splitRoom = room_id.split("S")[1].split("B")
     const [chat, setChat] = useState([])
     const [message, setMessage] = useState('')
+    const [name, setName] = useState('')
     const seller = splitRoom[0]
     const buyer = splitRoom[1]
     const sender = auth.id
@@ -39,24 +41,46 @@ const ChatRoom = ({ navigation, route }) => {
         },
     };
 
-    const sendMessage = () => {
-        const Msg = {
-            seller: seller,
-            buyer: buyer,
-            chatroom: room_id,
-            sender: sender,
-            message: message
+    const getName = () => {
+        if (sender != buyer) {
+            axios.get(REACT_APP_BASE_URL + '/user/name/' + buyer)
+                .then(({ data }) => {
+                    setName(data.data.fullname)
+                }).catch(({ response }) => {
+                    console.log(response)
+                })
+        } else {
+            axios.get(REACT_APP_BASE_URL + '/user/name/' + seller)
+                .then(({ data }) => {
+                    setName(data.data.fullname)
+                }).catch(({ response }) => {
+                    console.log(response)
+                })
         }
-        console.log(Msg)
-        axios.post(REACT_APP_BASE_URL + '/chat/addMessage', Msg)
-            .then(({ data }) => {
-                ToastAndroid.show('Message Sent', ToastAndroid.SHORT, ToastAndroid.CENTER);
-                setMessage('')
-                console.log('sent')
-                number = number + 1
-            }).catch(({ response }) => {
-                console.log(response.data)
-            })
+    }
+
+    const sendMessage = () => {
+        if(message != ''){
+            const Msg = {
+                seller: seller,
+                buyer: buyer,
+                chatRoom: room_id,
+                sender: sender,
+                message: message
+            }
+            console.log(Msg)
+            axios.post(REACT_APP_BASE_URL + '/chat/addMessage', Msg, config)
+                .then(({ data }) => {
+                    ToastAndroid.show('Message Sent', ToastAndroid.SHORT, ToastAndroid.CENTER);
+                    setMessage('')
+                    console.log('sent')
+                    number = number + 1
+                }).catch(({ response }) => {
+                    console.log(response.data)
+                })
+        }else{
+            ToastAndroid.show('Message cannot be empty', ToastAndroid.SHORT, ToastAndroid.CENTER);
+        }
     }
 
     const getNewMessage = () => {
@@ -80,7 +104,7 @@ const ChatRoom = ({ navigation, route }) => {
                         </Button>
                     </Left>
                     <Body>
-                        <Text>Chatroom {room_id}</Text>
+                        <Text>Chatroom {name}</Text>
                     </Body>
                 </Header>
                 <Content style={{ backgroundColor: '#ebebeb' }}>
@@ -138,7 +162,8 @@ const ChatRoom = ({ navigation, route }) => {
 }
 
 export default ChatRoom
-
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
     form: {
         backgroundColor: '#fff',
@@ -158,7 +183,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         width: 75,
         alignItems: 'center',
-        left: 280
+        marginLeft: windowWidth * 0.76,
     },
     popText: {
         backgroundColor: '#fff',
@@ -166,7 +191,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         width: 160,
-        height: 80,
+        // height: 80,
         // marginVertical: 5,
         marginLeft: 5,
         paddingLeft: 5,
@@ -178,7 +203,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         width: 160,
-        height: 80,
+        // height: 80,
         // marginVertical: 5,
         marginRight: 5,
         paddingLeft: 5,
