@@ -60,6 +60,7 @@ class Profile extends React.Component {
         this.props.dispatch(removeName())
         this.props.dispatch(removeId())
         this.props.dispatch(removeToken())
+        this.props.dispatch(removeLevelUser())
         this.props.navigation.navigate('Login')
     }
 
