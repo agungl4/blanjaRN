@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Header, Body, Left, Content, View, Text, Button } from 'native-base'
-import { TextInput, ToastAndroid, ScrollView, Dimensions } from 'react-native'
+import { TextInput, ToastAndroid, FlatList, Dimensions } from 'react-native'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { REACT_APP_BASE_URL } from "@env"
@@ -60,7 +60,7 @@ const ChatRoom = ({ navigation, route }) => {
     }
 
     const sendMessage = () => {
-        if(message != ''){
+        if (message != '') {
             const Msg = {
                 seller: seller,
                 buyer: buyer,
@@ -78,7 +78,7 @@ const ChatRoom = ({ navigation, route }) => {
                 }).catch(({ response }) => {
                     console.log(response.data)
                 })
-        }else{
+        } else {
             ToastAndroid.show('Message cannot be empty', ToastAndroid.SHORT, ToastAndroid.CENTER);
         }
     }
@@ -107,40 +107,68 @@ const ChatRoom = ({ navigation, route }) => {
                         <Text>Chatroom {name}</Text>
                     </Body>
                 </Header>
-                <Content style={{ backgroundColor: '#ebebeb' }}>
-                    {
+                <View style={{ flex: 1, backgroundColor: '#ebebeb' }}>
+                    <FlatList
+                        data={chat}
+                        inverted
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={({ item }) => (
+                            item.sender_id == auth.id ? (
+                                <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                    <View style={styles.popTextSender}>
+                                        <Text style={{ fontSize: 14, fontWeight: '700' }}>You : </Text>
+                                        <Text style={{ fontSize: 18 }}>{item.message}</Text>
+                                        <Text style={{ fontSize: 10, fontWeight: '100' }}>{item.created_at.split(' ')[0]} | {item.created_at.split(' ')[1].substr(0, 5)}</Text>
+                                    </View>
+                                </View>
+                            ) : (
+                                    <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <View style={styles.popText}>
+                                            <Text style={{ fontSize: 14, fontWeight: '700' }}>{item.sender_name} : </Text>
+                                            <Text style={{ fontSize: 18 }}>{item.message}</Text>
+                                            <Text style={{ fontSize: 10, fontWeight: '100' }}>{item.created_at.split(' ')[0]} | {item.created_at.split(' ')[1].substr(0, 5)}</Text>
+                                        </View>
+                                    </View>
+                                )
+                        )}
+                    />
+                    {/* {
                         chat.map(({ sender_id, sender_name, message, created_at }) => {
                             let chatMsg;
                             if (sender_id == auth.id) {
                                 chatMsg =
                                     <>
-                                        <View style={styles.popTextSender}>
-                                            <Text style={{ fontSize: 14, fontWeight: '700' }}>You : </Text>
-                                            <Text style={{ fontSize: 18 }}>{message}</Text>
-                                            <Text style={{ fontSize: 12, fontWeight: '100' }}>Sent at {created_at.split(' ')[1].substr(0, 5)}</Text>
+                                        <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <View style={styles.popTextSender}>
+                                                <Text style={{ fontSize: 14, fontWeight: '700' }}>You : </Text>
+                                                <Text style={{ fontSize: 18 }}>{message}</Text>
+                                                <Text style={{ fontSize: 10, fontWeight: '100' }}>{created_at.split(' ')[0]} | {created_at.split(' ')[1].substr(0, 5)}</Text>
+                                            </View>
                                         </View>
                                     </>
                             } else {
                                 chatMsg =
                                     <>
-                                        <View style={styles.popText}>
-                                            <Text style={{ fontSize: 14, fontWeight: '700' }}>{sender_name} : </Text>
-                                            <Text style={{ fontSize: 18 }}>{message}</Text>
-                                            <Text style={{ fontSize: 12, fontWeight: '100' }}>Sent at {created_at.split(' ')[1].substr(0, 5)}</Text>
+                                        <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <View style={styles.popText}>
+                                                <Text style={{ fontSize: 14, fontWeight: '700' }}>{sender_name} : </Text>
+                                                <Text style={{ fontSize: 18 }}>{message}</Text>
+                                                <Text style={{ fontSize: 10, fontWeight: '100' }}>{created_at.split(' ')[0]} | {created_at.split(' ')[1].substr(0, 5)}</Text>
+                                            </View>
                                         </View>
-                                        <Button transparent></Button>
+
                                     </>
                             }
                             return (
                                 <>
-                                    <View style={{ marginVertical: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                        {chatMsg}
-                                    </View>
+
+                                    {chatMsg}
+
                                 </>
                             )
                         })
-                    }
-                </Content>
+                    } */}
+                </View>
                 <View>
                     <TextInput
                         multiline={true}
